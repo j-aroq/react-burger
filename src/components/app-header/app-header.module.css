@@ -1,5 +1,5 @@
 .app_header {
-  background-color: #1C1C21;
+  background-color: var(--color-header);
   padding-left: calc((100vw - 1320px)/2);
   padding-right: calc((100vw - 1320px)/2);
 }

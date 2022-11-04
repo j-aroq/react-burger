@@ -14,7 +14,8 @@
 }
 
 .burger_ingredients_types {
-  max-height: 716px;
+  /* max-height: 716px; */
+  height: calc(100vh - 324px);
   overflow-y: auto;
 }
 
@@ -27,12 +28,12 @@
 }
 
 .burger_ingredients_types::-webkit-scrollbar {
-  background-color: #2F2F37;
+  background-color: var(--color-scrollbar);
   width: 8px;
 }
 
 .burger_ingredients_types::-webkit-scrollbar-thumb {
-  background-color: #8585AD;
+  background-color: var(--color-scrollbar-thumb);
 }
 
 .counter {

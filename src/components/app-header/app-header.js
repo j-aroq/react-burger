@@ -2,7 +2,7 @@ import React from 'react';
 import appHeaderStyles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon,  ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
-class AppHeader extends React.Component {
+export class AppHeader extends React.Component {
     render() {
       return (
         <header className={`${appHeaderStyles.app_header} pt-4 pb-4 mb-10`}>  
@@ -27,5 +27,4 @@ class AppHeader extends React.Component {
       );
     }
   }
-
-  export default AppHeader;
+  

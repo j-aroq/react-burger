@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import ingredientsDataArr from '../../utils/data';
+import {ingredientsDataArr} from '../../utils/data';
+import {ingredientType} from '../../utils/type';
 import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 function IngredientPrice(props) {
@@ -14,10 +15,10 @@ function IngredientPrice(props) {
 }
 
 IngredientPrice.propTypes = {
-  price: PropTypes.number
+  topricetal: PropTypes.number
 }; 
 
-const Ingredients = ({ ingredientData}) => {
+const Ingredient = ({ ingredientData}) => {
     return (
       <div className={burgerIngredientsStyles.ingredient}>
         <Counter className={burgerIngredientsStyles.counter} count={1} size="default" />
@@ -28,29 +29,27 @@ const Ingredients = ({ ingredientData}) => {
     );
   };  
 
-IngredientPrice.propTypes = {
-  name: PropTypes.string,
-  image: PropTypes.string,
-  price: PropTypes.number
+Ingredient.propTypes = {
+  ingredientData: ingredientType
 }; 
 
      
-class BurgerIngredients extends React.Component {
+export class BurgerIngredients extends React.Component {
   render() {
     return (
       <section className={`${burgerIngredientsStyles.burger_ingredients} mr-10`}> 
         <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-        <div className={burgerIngredientsStyles.flex}>
+        <nav className={burgerIngredientsStyles.flex}>
           <Tab>Булки</Tab>
           <Tab>Соусы</Tab>
           <Tab>Начинки</Tab>
-        </div>
+        </nav>
         <div className={burgerIngredientsStyles.burger_ingredients_types}>
           <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
           <div className={burgerIngredientsStyles.ingredient_type_block}>
             {ingredientsDataArr.map((element) => { 
               if (element.type === "bun") {
-                return (<Ingredients ingredientData={element} />);
+                return (<Ingredient ingredientData={element}  key={element._id} />);
               }
             })}
           </div>
@@ -58,7 +57,7 @@ class BurgerIngredients extends React.Component {
           <div className={burgerIngredientsStyles.ingredient_type_block}>
             {ingredientsDataArr.map((element) => { 
               if (element.type === "sauce") {
-                return (<Ingredients ingredientData={element} />);
+                return (<Ingredient ingredientData={element}  key={element._id} />);
               }
             })}
           </div>
@@ -66,7 +65,7 @@ class BurgerIngredients extends React.Component {
           <div className={burgerIngredientsStyles.ingredient_type_block}>
             {ingredientsDataArr.map((element) => { 
               if (element.type === "main") {
-                return (<Ingredients ingredientData={element} />);
+                return (<Ingredient ingredientData={element}  key={element._id} />);
               }
             })}
           </div>
@@ -75,5 +74,3 @@ class BurgerIngredients extends React.Component {
     );
   }
 }
-
-export default BurgerIngredients;
