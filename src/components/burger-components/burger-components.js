@@ -28,13 +28,15 @@ const BurgerComponent = ({ componentData, bunType, isLocked, bunTypeName}) => {
   return (
     <div className={burgerComponentsStyles.component}>
       {isDragIcon()}
-      <ConstructorElement
-        type={bunType}
-        isLocked={isLocked}
-        text={componentData.name + bunTypeName} 
-        price={componentData.price}
-        thumbnail={componentData.image}
-      />      
+      <div className={burgerComponentsStyles.component_width}>
+        <ConstructorElement
+          type={bunType}
+          isLocked={isLocked}
+          text={componentData.name + bunTypeName} 
+          price={componentData.price}
+          thumbnail={componentData.image}
+        />
+      </div>      
     </div>
   );
 }; 
