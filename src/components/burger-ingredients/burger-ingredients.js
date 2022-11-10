@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import {ingredientsDataArr} from '../../utils/data';
 import {ingredientType} from '../../utils/type';
 import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -34,7 +33,7 @@ Ingredient.propTypes = {
 }; 
 
      
-export function BurgerIngredients() {
+export function BurgerIngredients(props) {
   return (
     <section className={`${burgerIngredientsStyles.burger_ingredients} mr-10`}> 
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -46,7 +45,7 @@ export function BurgerIngredients() {
       <div className={burgerIngredientsStyles.burger_ingredients_types}>
         <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
         <div className={burgerIngredientsStyles.ingredient_type_block}>
-          {ingredientsDataArr.map((element) => { 
+          {props.ingredientsData.map((element) => { 
             if (element.type === "bun") {
               return (<Ingredient ingredientData={element}  key={element._id} />);
             }
@@ -54,7 +53,7 @@ export function BurgerIngredients() {
         </div>
         <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
         <div className={burgerIngredientsStyles.ingredient_type_block}>
-          {ingredientsDataArr.map((element) => { 
+          {props.ingredientsData.map((element) => { 
             if (element.type === "sauce") {
               return (<Ingredient ingredientData={element}  key={element._id} />);
             }
@@ -62,7 +61,7 @@ export function BurgerIngredients() {
         </div>
         <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
         <div className={burgerIngredientsStyles.ingredient_type_block}>
-          {ingredientsDataArr.map((element) => { 
+          {props.ingredientsData.map((element) => { 
             if (element.type === "main") {
               return (<Ingredient ingredientData={element}  key={element._id} />);
             }
