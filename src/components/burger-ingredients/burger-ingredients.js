@@ -18,7 +18,7 @@ IngredientPrice.propTypes = {
   topricetal: PropTypes.number
 }; 
 
-const Ingredient = ({ ingredientData}) => {
+function Ingredient({ingredientData}) {
     return (
       <div className={burgerIngredientsStyles.ingredient}>
         <Counter className={burgerIngredientsStyles.counter} count={1} size="default" />
@@ -34,43 +34,41 @@ Ingredient.propTypes = {
 }; 
 
      
-export class BurgerIngredients extends React.Component {
-  render() {
-    return (
-      <section className={`${burgerIngredientsStyles.burger_ingredients} mr-10`}> 
-        <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-        <nav className={burgerIngredientsStyles.flex}>
-          <Tab>Булки</Tab>
-          <Tab>Соусы</Tab>
-          <Tab>Начинки</Tab>
-        </nav>
-        <div className={burgerIngredientsStyles.burger_ingredients_types}>
-          <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
-          <div className={burgerIngredientsStyles.ingredient_type_block}>
-            {ingredientsDataArr.map((element) => { 
-              if (element.type === "bun") {
-                return (<Ingredient ingredientData={element}  key={element._id} />);
-              }
-            })}
-          </div>
-          <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
-          <div className={burgerIngredientsStyles.ingredient_type_block}>
-            {ingredientsDataArr.map((element) => { 
-              if (element.type === "sauce") {
-                return (<Ingredient ingredientData={element}  key={element._id} />);
-              }
-            })}
-          </div>
-          <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
-          <div className={burgerIngredientsStyles.ingredient_type_block}>
-            {ingredientsDataArr.map((element) => { 
-              if (element.type === "main") {
-                return (<Ingredient ingredientData={element}  key={element._id} />);
-              }
-            })}
-          </div>
+export function BurgerIngredients() {
+  return (
+    <section className={`${burgerIngredientsStyles.burger_ingredients} mr-10`}> 
+      <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
+      <nav className={burgerIngredientsStyles.flex}>
+        <Tab>Булки</Tab>
+        <Tab>Соусы</Tab>
+        <Tab>Начинки</Tab>
+      </nav>
+      <div className={burgerIngredientsStyles.burger_ingredients_types}>
+        <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
+        <div className={burgerIngredientsStyles.ingredient_type_block}>
+          {ingredientsDataArr.map((element) => { 
+            if (element.type === "bun") {
+              return (<Ingredient ingredientData={element}  key={element._id} />);
+            }
+          })}
         </div>
-      </section>
-    );
-  }
+        <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
+        <div className={burgerIngredientsStyles.ingredient_type_block}>
+          {ingredientsDataArr.map((element) => { 
+            if (element.type === "sauce") {
+              return (<Ingredient ingredientData={element}  key={element._id} />);
+            }
+          })}
+        </div>
+        <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
+        <div className={burgerIngredientsStyles.ingredient_type_block}>
+          {ingredientsDataArr.map((element) => { 
+            if (element.type === "main") {
+              return (<Ingredient ingredientData={element}  key={element._id} />);
+            }
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }
