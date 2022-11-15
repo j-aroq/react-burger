@@ -4,7 +4,6 @@ import {loadIngredients} from '../../utils/api';
 import {AppHeader} from '../app-header/app-header';
 import {BurgerIngredients} from '../burger-ingredients/burger-ingredients';
 import {BurgerConstructor} from '../burger-components/burger-components';
-// import {OrderDetails} from '../order-details/order-details';
 
 export function App() {
   const [ingredients, setIngredients] = React.useState([]);

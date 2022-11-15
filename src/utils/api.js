@@ -15,4 +15,7 @@ export function loadIngredients(setIngredients) {
         setIngredients(result);
       }
     )
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    })
 }

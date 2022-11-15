@@ -1,4 +1,5 @@
 import ingredientDetailsStyles from './ingredient-details.module.css';
+import PropTypes from 'prop-types';
 import {ingredientType} from '../../utils/type';
 
 function IngredientEnergyValue(props) {
