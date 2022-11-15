@@ -16,7 +16,7 @@ function IngredientPriceMedium(props) {
 }
 
 IngredientPriceMedium.propTypes = {
-  total: PropTypes.number
+  total: PropTypes.number.isRequired
 }; 
 
 const BurgerComponent = ({ componentData, bunType, isLocked, bunTypeName}) => {
@@ -42,10 +42,10 @@ const BurgerComponent = ({ componentData, bunType, isLocked, bunTypeName}) => {
 }; 
 
 BurgerComponent.propTypes = {
-  componentData: ingredientType,
-  bunType: PropTypes.string,
-  bunTypeName: PropTypes.string,
-  isLocked: PropTypes.bool,
+  componentData: ingredientType.isRequired,
+  bunType: PropTypes.string.isRequired,
+  bunTypeName: PropTypes.string.isRequired,
+  isLocked: PropTypes.bool.isRequired,
 }; 
 
 export function BurgerConstructor(props) {
@@ -87,4 +87,8 @@ export function BurgerConstructor(props) {
       </Modal>
    </div>
   )
+}
+
+BurgerConstructor.propTypes = {
+  ingredientsData: PropTypes.array.isRequired  
 }

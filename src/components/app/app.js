@@ -15,7 +15,6 @@ export function App() {
   if (ingredients.length === 0) { 
     return null
   };
-
   return (
     <div className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />

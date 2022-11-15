@@ -10,11 +10,7 @@ const checkResponse = (res) => {
 export function loadIngredients(setIngredients) {
   return fetch(urlAPI)
     .then(checkResponse)
-    .then(
-      (result) => {
-        setIngredients(result);
-      }
-    )
+    .then(setIngredients)
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
     })

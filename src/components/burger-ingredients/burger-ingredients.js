@@ -16,7 +16,7 @@ function IngredientPrice(props) {
 }
 
 IngredientPrice.propTypes = {
-  price: PropTypes.number
+  price: PropTypes.number.isRequired
 }; 
 
 function Ingredient({ingredientData}) {
@@ -38,7 +38,7 @@ function Ingredient({ingredientData}) {
 };  
 
 Ingredient.propTypes = {
-  ingredientData: ingredientType
+  ingredientData: ingredientType.isRequired
 }; 
 
      

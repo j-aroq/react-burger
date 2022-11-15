@@ -27,9 +27,6 @@ export function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-  props: ingredientType,
-  calories: PropTypes.number,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number
-}; 
+  item: ingredientType.isRequired,
+};
+ 
