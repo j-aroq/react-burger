@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import {ingredientType} from '../../utils/type';
+import {Modal} from '../modal/modal';
+import {IngredientDetails} from '../ingredient-details/ingredient-details';
 import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 function IngredientPrice(props) {
@@ -14,19 +16,26 @@ function IngredientPrice(props) {
 }
 
 IngredientPrice.propTypes = {
-  topricetal: PropTypes.number
+  price: PropTypes.number
 }; 
 
 function Ingredient({ingredientData}) {
-    return (
-      <div className={burgerIngredientsStyles.ingredient}>
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <div>
+      <div className={burgerIngredientsStyles.ingredient} onClick={() => setIsOpen(true)}>
         <Counter className={burgerIngredientsStyles.counter} count={1} size="default" />
         <img src={ingredientData.image} alt={ingredientData.name}></img>
         <IngredientPrice price={ingredientData.price} />
         <p className="text text_type_main-default mb-6">{ingredientData.name}</p>
       </div>
-    );
-  };  
+      <Modal handleClose={() => setIsOpen(false)} isOpen={isOpen} title={"Детали ингредиента"}>
+        <IngredientDetails item={ingredientData} />
+      </Modal>
+    </div>
+  );
+};  
 
 Ingredient.propTypes = {
   ingredientData: ingredientType

@@ -25,6 +25,7 @@
   justify-items: center;
   max-width: 272px;
   position: relative;
+  cursor: pointer;
 }
 
 .burger_ingredients_types::-webkit-scrollbar {

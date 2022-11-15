@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import burgerComponentsStyles from './burger-components.module.css';
 import {ingredientType} from '../../utils/type';
+import {Modal} from '../modal/modal';
+import {OrderDetails} from '../order-details/order-details';
 import {DragIcon, Button, CurrencyIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 
 function IngredientPriceMedium(props) {
@@ -47,6 +49,8 @@ BurgerComponent.propTypes = {
 }; 
 
 export function BurgerConstructor(props) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   const bun = props.ingredientsData.find(function (element) { 
     return element.type === "bun";
   });
@@ -61,21 +65,26 @@ export function BurgerConstructor(props) {
   }
   
   return (
-    <section className={`${burgerComponentsStyles.components} mt-25 ml-4`}>
-    <BurgerComponent componentData={bun} bunType={"top"} isLocked={true} bunTypeName={" (верх)"} />
-      <div className={`${burgerComponentsStyles.components_between_buns} pr-2`}> 
-        {props.ingredientsData.map((element) => { 
-          if (element.type !== "bun") {
-            totalSum += element.price;
-            return (<BurgerComponent componentData={findComponentByID(element._id)} bunType={""} isLocked={false} bunTypeName={""} key={element._id} />);
-          }
-        })}
-      </div>
-      <BurgerComponent componentData={bun} bunType={"bottom"} isLocked={true} bunTypeName={" (низ)"} />
-      <div className={`${burgerComponentsStyles.components_total} mt-10`}>
-        <IngredientPriceMedium total={totalSum + bun.price * 2} />
-        <Button type="primary" size="large" htmlType="button">Оформить заказ</Button>
-      </div>
-    </section>
+    <div>
+      <section className={`${burgerComponentsStyles.components} mt-25 ml-4`}>
+        <BurgerComponent componentData={bun} bunType={"top"} isLocked={true} bunTypeName={" (верх)"} />
+        <div className={`${burgerComponentsStyles.components_between_buns} pr-2`}> 
+          {props.ingredientsData.map((element) => { 
+            if (element.type !== "bun") {
+              totalSum += element.price;
+              return (<BurgerComponent componentData={findComponentByID(element._id)} bunType={""} isLocked={false} bunTypeName={""} key={element._id} />);
+            }
+          })}
+        </div>
+        <BurgerComponent componentData={bun} bunType={"bottom"} isLocked={true} bunTypeName={" (низ)"} />
+        <div className={`${burgerComponentsStyles.components_total} mt-10`}>
+          <IngredientPriceMedium total={totalSum + bun.price * 2} />
+          <Button type="primary" size="large" htmlType="button" onClick={() => setIsOpen(true)}>Оформить заказ</Button>
+        </div>
+      </section>
+      <Modal handleClose={() => setIsOpen(false)} isOpen={isOpen} title={""}>
+        <OrderDetails />
+      </Modal>
+   </div>
   )
 }

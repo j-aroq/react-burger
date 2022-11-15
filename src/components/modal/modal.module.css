@@ -1,0 +1,18 @@
+.modal_window {
+  width: 640px;
+  background-color: #1C1C21;
+  border-radius: 40px;
+  margin-left: calc((100vw - 720px)/2);
+  margin-top: 180px;
+}
+
+.modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close_button {
+  background-color: transparent;
+  border: none;
+}

@@ -4,7 +4,7 @@ import {loadIngredients} from '../../utils/api';
 import {AppHeader} from '../app-header/app-header';
 import {BurgerIngredients} from '../burger-ingredients/burger-ingredients';
 import {BurgerConstructor} from '../burger-components/burger-components';
-
+// import {OrderDetails} from '../order-details/order-details';
 
 export function App() {
   const [ingredients, setIngredients] = React.useState([]);
@@ -18,7 +18,7 @@ export function App() {
   };
 
   return (
-    <div className="pt-10 pr-10 pb-10 pl-10">
+    <div id="react-modals" className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />
       <main className={appStyles.main}>
         <BurgerIngredients ingredientsData={ingredients.data} />

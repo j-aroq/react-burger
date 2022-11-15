@@ -1,0 +1,11 @@
+.order_details_block {
+  display: flex;
+  flex-direction: column;  
+  align-items: center;
+}
+
+.image {
+  height: 120px;
+  width: 120px;
+  margin: 9px 0;
+}
