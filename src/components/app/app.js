@@ -18,7 +18,7 @@ export function App() {
   };
 
   return (
-    <div id="react-modals" className="pt-10 pr-10 pb-10 pl-10">
+    <div className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />
       <main className={appStyles.main}>
         <BurgerIngredients ingredientsData={ingredients.data} />

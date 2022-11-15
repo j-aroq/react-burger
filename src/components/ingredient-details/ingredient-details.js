@@ -1,4 +1,5 @@
 import ingredientDetailsStyles from './ingredient-details.module.css';
+import {ingredientType} from '../../utils/type';
 
 function IngredientEnergyValue(props) {
     return (
@@ -23,3 +24,11 @@ export function IngredientDetails(props) {
     </div>  
   )    
 }
+
+IngredientDetails.propTypes = {
+  props: ingredientType,
+  calories: PropTypes.number,
+  proteins: PropTypes.number,
+  fat: PropTypes.number,
+  carbohydrates: PropTypes.number
+}; 
