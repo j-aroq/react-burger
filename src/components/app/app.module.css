@@ -1,0 +1,5 @@
+.main {
+  margin-left: calc((100vw - 1320px)/2);
+  margin-right: calc((100vw - 1320px)/2);
+  display: flex;
+}

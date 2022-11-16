@@ -1,0 +1,23 @@
+.app_header {
+  background-color: var(--color-header);
+  padding-left: calc((100vw - 1320px)/2);
+  padding-right: calc((100vw - 1320px)/2);
+}
+  
+.nav_header {
+  display: flex;  
+  align-items: center;
+  justify-items: center;
+}
+
+.nav_link {
+  display: flex;  
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+}
+
+.logo {
+  margin: 8px 289px 8px 112px;
+  height: 40px;
+}
