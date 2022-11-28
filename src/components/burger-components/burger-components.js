@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import burgerComponentsStyles from './burger-components.module.css';
-import {ingredientType} from '../../utils/type';
-import {Modal} from '../modal/modal';
-import {OrderDetails} from '../order-details/order-details';
-import {DragIcon, Button, CurrencyIcon, ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
+import { ingredientType } from '../../utils/type';
+import { Modal } from '../modal/modal';
+import { OrderDetails } from '../order-details/order-details';
+import { IngredientsDataContext } from '../../services/appContext';
+import { DragIcon, Button, CurrencyIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 
 function IngredientPriceMedium(props) {
   return (
@@ -48,17 +49,18 @@ BurgerComponent.propTypes = {
   isLocked: PropTypes.bool.isRequired,
 }; 
 
-export function BurgerConstructor(props) {
+export function BurgerConstructor() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const ingredientsData = React.useContext(IngredientsDataContext);
 
-  const bun = props.ingredientsData.find(function (element) { 
+  const bun = ingredientsData.find(function (element) { 
     return element.type === "bun";
   });
 
   let totalSum = 0;
 
   function findComponentByID (componentID) {
-    const burgerComponentData = props.ingredientsData.find(function (element) { 
+    const burgerComponentData = ingredientsData.find(function (element) { 
       return element._id === componentID;
     });
     return burgerComponentData;        
@@ -69,7 +71,7 @@ export function BurgerConstructor(props) {
       <section className={`${burgerComponentsStyles.components} mt-25 ml-4`}>
         <BurgerComponent componentData={bun} bunType={"top"} isLocked={true} bunTypeName={" (верх)"} />
         <div className={`${burgerComponentsStyles.components_between_buns} pr-2`}> 
-          {props.ingredientsData.map((element) => { 
+          {ingredientsData.map((element) => { 
             if (element.type !== "bun") {
               totalSum += element.price;
               return (<BurgerComponent componentData={findComponentByID(element._id)} bunType={""} isLocked={false} bunTypeName={""} key={element._id} />);
@@ -89,6 +91,6 @@ export function BurgerConstructor(props) {
   )
 }
 
-BurgerConstructor.propTypes = {
-  ingredientsData: PropTypes.array.isRequired  
-}
+// BurgerConstructor.propTypes = {
+//   ingredientsData: PropTypes.array.isRequired  
+// }
