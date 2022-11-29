@@ -12,9 +12,8 @@ const priceInitialState = { price: 0 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "add":
-      // console.log(state.price);
-      return { price: state.price + action.payload};
+    case "setTotalSum":
+      return { price: action.payload};
     case "delete":
       return { price: state.price - action.payload};
     default:
@@ -36,7 +35,7 @@ IngredientPriceMedium.propTypes = {
 }; 
 
 const BurgerComponent = ({ componentData, bunType, isLocked, bunTypeName}) => {
-  const { priceDispatcher } = React.useContext(PriceContext);
+  const priceDispatcher = React.useContext(PriceContext);
 
   function isDragIcon () {
     if (bunType === "") {
@@ -44,15 +43,14 @@ const BurgerComponent = ({ componentData, bunType, isLocked, bunTypeName}) => {
     }
   }
 
-  const sumPrice = () => {
-    console.log(5);
-    priceDispatcher({type: 'add', payload: componentData.price});
+  function subtractPrice() {
+    priceDispatcher({type: 'delete', payload: componentData.price});
   };
+
 
   return (
     <div className={burgerComponentsStyles.component}>
-      {/* {console.log(componentData.price)} */}
-      {sumPrice}
+      {/* {addPrice()} */}
       {isDragIcon()}
       <div className={burgerComponentsStyles.component_width}>
         <ConstructorElement
@@ -61,6 +59,7 @@ const BurgerComponent = ({ componentData, bunType, isLocked, bunTypeName}) => {
           text={componentData.name + bunTypeName} 
           price={componentData.price}
           thumbnail={componentData.image}
+          handleClose={subtractPrice}
         />
       </div>      
     </div>
@@ -82,7 +81,20 @@ export function BurgerConstructor() {
   const bun = ingredientsData.find(function (element) { 
     return element.type === "bun";
   });
-  const ingredientsID = [bun._id, bun._id];
+  const ingredientsArr = [bun, bun];
+  ingredientsData.map((element) => { 
+    if (element.type !== "bun") {
+      ingredientsArr.push(element);
+    }
+  });
+
+  const totalSum = React.useMemo(() => {
+    let orderSum = 0;
+    ingredientsArr.forEach(element => {
+      orderSum = orderSum + element.price;
+    });        
+    priceDispatcher({type: 'setTotalSum', payload: orderSum});
+  }, [ingredientsData]);
 
   function findComponentByID (componentID) {
     const burgerComponentData = ingredientsData.find(function (element) { 
@@ -92,7 +104,10 @@ export function BurgerConstructor() {
   }
 
   function makeOrder() {
-    sendOrder(ingredientsID)
+    const ingredientsIdArr = ingredientsArr.map((element) => {
+      return element._id;
+    })
+    sendOrder(ingredientsIdArr)
     .then((result) => {
       setOrderNumber(result.order.number);
     })
@@ -103,24 +118,20 @@ export function BurgerConstructor() {
       setIsOpen(true);             
     });
   }
-  // console.log(orderNumber);
+
   return (
     <div>
       <section className={`${burgerComponentsStyles.components} mt-25 ml-4`}>
-        <PriceContext.Provider value={{priceDispatcher}}>
+        <PriceContext.Provider value={priceDispatcher}>
           <BurgerComponent componentData={bun} bunType={"top"} isLocked={true} bunTypeName={" (верх)"} />
-          {/* {priceDispatcher({type: 'add', payload: bun.price})} */}
           <div className={`${burgerComponentsStyles.components_between_buns} pr-2`}> 
-            {ingredientsData.map((element) => { 
+            {ingredientsArr.map((element) => { 
               if (element.type !== "bun") {
-                ingredientsID.push(element._id);
-                // {priceDispatcher({type: 'add', payload: element.price})}
                 return (<BurgerComponent componentData={findComponentByID(element._id)} bunType={""} isLocked={false} bunTypeName={""} key={element._id} />);
               }
             })}
           </div>
           <BurgerComponent componentData={bun} bunType={"bottom"} isLocked={true} bunTypeName={" (низ)"} />
-          {/* {priceDispatcher({type: 'add', payload: bun.price})} */}
         </PriceContext.Provider>
         <div className={`${burgerComponentsStyles.components_total} mt-10`}>
           <IngredientPriceMedium total={priceState.price} />
@@ -135,7 +146,3 @@ export function BurgerConstructor() {
    </div>
   )
 }
-
-// BurgerConstructor.propTypes = {
-//   ingredientsData: PropTypes.array.isRequired  
-// }
