@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import { ingredientType } from "../../utils/type";
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { IngredientsDataContext } from "../../services/appContext";
+import { getIngredients } from "../../services/actions/ingredients";
+//import { IngredientsDataContext } from "../../services/appContext";
 import {
   Counter,
   Tab,
@@ -52,6 +54,7 @@ Ingredient.propTypes = {
 };
 
 function IngredientsCategory(props) {
+  console.log(props);
   return (
     <div>
       <h2 className="text text_type_main-medium mt-10 mb-6">{props.type}</h2>
@@ -70,19 +73,27 @@ IngredientsCategory.propTypes = {
 };
 
 export function BurgerIngredients() {
-  const ingredientsData = React.useContext(IngredientsDataContext);
+  // const ingredientsData = React.useContext(IngredientsDataContext);
+  const items = useSelector((state) => state.ingredients.items);
+  const dispatch = useDispatch();
+
+  // React.useEffect(() => {
+  //   console.log(8);
+  dispatch(getIngredients());
+  // }, []);
+  console.log(items);
 
   const buns = React.useMemo(
-    () => ingredientsData.filter((item) => item.type === "bun"),
-    [ingredientsData]
+    () => items.filter((item) => item.type === "bun"),
+    [items]
   );
   const sauces = React.useMemo(
-    () => ingredientsData.filter((item) => item.type === "sauce"),
-    [ingredientsData]
+    () => items.filter((item) => item.type === "sauce"),
+    [items]
   );
   const mains = React.useMemo(
-    () => ingredientsData.filter((item) => item.type === "main"),
-    [ingredientsData]
+    () => items.filter((item) => item.type === "main"),
+    [items]
   );
 
   return (
