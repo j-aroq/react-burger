@@ -7,32 +7,36 @@ import ReactDOM from "react-dom";
 
 const modalRoot = document.getElementById("modals");
 
-export function Modal({ children, isOpen, handleClose, title }) {
+export function Modal({ children, handleClose, title }) {
   React.useEffect(() => {
-    if (!isOpen) return;
-    const closeByEscape = (e) => (e.key === "Escape" ? handleClose() : null);
-    document.body.addEventListener("keydown", closeByEscape);
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+    document.addEventListener("keydown", closeByEscape);
     return () => {
-      document.body.removeEventListener("keydown", closeByEscape);
+      document.removeEventListener("keydown", closeByEscape);
     };
   }, [handleClose]);
-  if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <ModalOverlay handleClose={handleClose}>
-      <div
-        className={`${modalStyles.modal_window} pt-10 pr-10 pb-15 pl-10`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={`${modalStyles.modal_header} pt-3 pb-3`}>
-          <p className="text text_type_main-large">{title}</p>
-          <button className={modalStyles.close_button} onClick={handleClose}>
-            <CloseIcon type="primary" />
-          </button>
+    <div>
+      <ModalOverlay handleClose={handleClose}>
+        <div
+          className={`${modalStyles.modal_window} pt-10 pr-10 pb-15 pl-10`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className={`${modalStyles.modal_header} pt-3 pb-3`}>
+            <p className="text text_type_main-large">{title}</p>
+            <button className={modalStyles.close_button} onClick={handleClose}>
+              <CloseIcon type="primary" />
+            </button>
+          </div>
+          {children}
         </div>
-        {children}
-      </div>
-    </ModalOverlay>,
+      </ModalOverlay>
+    </div>,
     modalRoot
   );
 }
@@ -40,6 +44,5 @@ export function Modal({ children, isOpen, handleClose, title }) {
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
   title: PropTypes.string,
-  isOpen: PropTypes.bool,
   handleClose: PropTypes.func,
 };

@@ -1,11 +1,13 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { BurgerComponent } from "../burger-components/burger-components";
-import { IngredientsDataContext } from "../../services/appContext";
 import { sendOrder } from "../../utils/api";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/actions/order";
 import {
   Button,
   CurrencyIcon,
@@ -27,49 +29,81 @@ IngredientPriceMedium.propTypes = {
 export function BurgerConstructor() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [orderNumber, setOrderNumber] = React.useState(null);
-  const ingredientsData = React.useContext(IngredientsDataContext);
-  const bun = ingredientsData.find(function (element) {
+
+  const dispatch = useDispatch();
+  const burgerData = useSelector((state) => state.burger.burgerConstructor);
+  const items = useSelector((state) => state.ingredients.items);
+
+  const bun = burgerData.find(function (element) {
     return element.type === "bun";
   });
-  const ingredientsBetweenBuns = React.useMemo(
-    () => ingredientsData.filter((element) => element.type !== "bun"),
-    [ingredientsData]
+  const ingredientsBetweenBuns = burgerData.filter(
+    (element) => element.type !== "bun"
   );
-  const ingredientsIdArr = [
-    bun._id,
-    ...ingredientsBetweenBuns.map((ingredient) => ingredient._id),
-    bun._id,
-  ];
+  // const ingredientsIdArr = [
+  //   bun._id,
+  //   ...ingredientsBetweenBuns.map((ingredient) => ingredient._id),
+  //   bun._id,
+  // ];
+  const onDropIngredient = (ingredient) => {
+    // const ingredient = items.find(function (element) {
+    //   return element._id === ingredientID;
+    // });
+    if (ingredient.type === "bun") {
+      dispatch({
+        type: ADD_BUN,
+        payload: ingredient,
+      });
+    } else {
+      dispatch({
+        type: ADD_INGREDIENT,
+        payload: ingredient,
+      });
+    }
+  };
+
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop: (ingredientData) => onDropIngredient(ingredientData),
+  });
 
   const totalSum = React.useMemo(() => {
-    return (
-      bun.price * 2 +
-      ingredientsBetweenBuns.reduce((sum, item) => sum + item.price, 0)
-    );
+    if (burgerData.length > 0) {
+      return burgerData
+        .map((element) => element.price * (element.type === "bun" ? 2 : 1))
+        .reduce((sum, item) => sum + item.price, 0);
+    } else {
+      return 0;
+    }
   }, [bun, ingredientsBetweenBuns]);
 
   function makeOrder() {
-    sendOrder(ingredientsIdArr)
-      .then((result) => {
-        setOrderNumber(result.order.number);
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
-      .finally(() => {
-        setIsOpen(true);
-      });
+    // sendOrder(ingredientsIdArr)
+    //   .then((result) => {
+    //     setOrderNumber(result.order.number);
+    //   })
+    //   .catch((err) => {
+    //     console.log(`Ошибка: ${err}`);
+    //   })
+    //   .finally(() => {
+    //     setIsOpen(true);
+    //   });
   }
 
   return (
     <div>
-      <section className={`${burgerConstructorStyles.components} mt-25 ml-4`}>
-        <BurgerComponent
-          componentData={bun}
-          bunType={"top"}
-          isLocked={true}
-          bunTypeName={" (верх)"}
-        />
+      <section
+        className={`${burgerConstructorStyles.components} mt-25 ml-4`}
+        ref={dropTarget}
+      >
+        {bun && (
+          <BurgerComponent
+            componentData={bun}
+            bunType={"top"}
+            isLocked={true}
+            bunTypeName={" (верх)"}
+          />
+        )}
         <div
           className={`${burgerConstructorStyles.components_between_buns} pr-2`}
         >
@@ -84,13 +118,20 @@ export function BurgerConstructor() {
               />
             );
           })}
+          {!ingredientsBetweenBuns.length && (
+            <span className="text text_type_main-default mt-30 ml-30">
+              Добавьте ингредиенты для Вашего бургера!
+            </span>
+          )}
         </div>
-        <BurgerComponent
-          componentData={bun}
-          bunType={"bottom"}
-          isLocked={true}
-          bunTypeName={" (низ)"}
-        />
+        {bun && (
+          <BurgerComponent
+            componentData={bun}
+            bunType={"bottom"}
+            isLocked={true}
+            bunTypeName={" (низ)"}
+          />
+        )}
         <div className={`${burgerConstructorStyles.components_total} mt-10`}>
           <IngredientPriceMedium total={totalSum} />
           <Button
@@ -103,11 +144,11 @@ export function BurgerConstructor() {
           </Button>
         </div>
       </section>
-      {/* {isOpen && ( */}
-      <Modal handleClose={() => setIsOpen(false)} isOpen={isOpen} title={""}>
-        <OrderDetails orderNumber={orderNumber} />
-      </Modal>
-      {/* )} */}
+      {isOpen && (
+        <Modal handleClose={() => setIsOpen(false)} title={""}>
+          <OrderDetails orderNumber={orderNumber} />
+        </Modal>
+      )}
     </div>
   );
 }

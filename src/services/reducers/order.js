@@ -1,42 +1,50 @@
 import {
-  GET_INGREDIENTS_REQUEST,
-  GET_INGREDIENTS_REQUEST_SUCCESS,
-  GET_INGREDIENTS_REQUEST_FAILED,
-  OPEN_INGREDIENT_MODAL,
-  CLOSE_INGREDIENT_MODAL,
-} from "../actions/ingredients";
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+  ADD_BUN,
+  POST_ORDER_REQUEST,
+  POST_ORDER_REQUEST_SUCCESS,
+  POST_ORDER_REQUEST_ERROR,
+  RESET_ORDER_REQUEST_NUMBER,
+} from "../actions/order";
 
 const initialState = {
-  ingredients: [],
-  ingredientsRequest: false,
-  ingredientsFailed: false,
-
-  currentIngredient: "",
-
-  openIngredientModal: false,
+  burgerConstructor: [],
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_INGREDIENTS_REQUEST: {
+    case ADD_BUN: {
+      const bunIndex = state.burgerConstructor.findIndex(
+        (elem) => elem.type === "bun"
+      );
+      const bun = action.payload;
+
+      const updatedBasket = [...state.burgerConstructor];
+      if (bunIndex >= 0) {
+        updatedBasket.splice(bunIndex, 1, bun);
+      } else {
+        updatedBasket.push(bun);
+      }
       return {
         ...state,
-        ingredientsRequest: true,
+        burgerConstructor: updatedBasket,
       };
     }
-    case GET_INGREDIENTS_REQUEST_SUCCESS: {
+    case ADD_INGREDIENT:
       return {
         ...state,
-        iteingredientsFailedmsFailed: false,
-        ingredients: action.ingredients,
-        ingredientsRequest: false,
+        burgerConstructor: [...state.burgerConstructor, action.payload],
+      };
+    case REMOVE_INGREDIENT: {
+      return {
+        ...state,
+        burgerConstructor: state.burgerConstructor.filter(
+          (ingredient) => ingredient._id !== action.payload
+        ),
       };
     }
-    case GET_INGREDIENTS_REQUEST_FAILED: {
-      return { ...state, ingredientsFailed: true, ingredientsRequest: false };
-    }
-    default: {
+    default:
       return state;
-    }
   }
 };

@@ -2,18 +2,14 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_REQUEST_SUCCESS,
   GET_INGREDIENTS_REQUEST_FAILED,
-  OPEN_INGREDIENT_MODAL,
-  CLOSE_INGREDIENT_MODAL,
+  OPEN_INGREDIENT_INFO,
+  CLOSE_INGREDIENT_INFO,
 } from "../actions/ingredients";
 
 const initialState = {
   items: [],
   itemsRequest: false,
   itemsFailed: false,
-
-  currentIngredient: "",
-
-  openIngredientModal: false,
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -34,6 +30,33 @@ export const ingredientsReducer = (state = initialState, action) => {
     }
     case GET_INGREDIENTS_REQUEST_FAILED: {
       return { ...state, itemsFailed: true, itemsRequest: false };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+const initialStateIngredient = {
+  ingredientInformation: null,
+};
+
+export const ingredientInfoReducer = (
+  state = initialStateIngredient,
+  action
+) => {
+  switch (action.type) {
+    case OPEN_INGREDIENT_INFO: {
+      return {
+        ...state,
+        ingredientInformation: action.payload,
+      };
+    }
+    case CLOSE_INGREDIENT_INFO: {
+      return {
+        ...state,
+        ingredientInformation: null,
+      };
     }
     default: {
       return state;

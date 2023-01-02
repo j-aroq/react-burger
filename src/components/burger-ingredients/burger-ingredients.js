@@ -1,12 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useDrag } from "react-dnd";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import { ingredientType } from "../../utils/type";
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { getIngredients } from "../../services/actions/ingredients";
-//import { IngredientsDataContext } from "../../services/appContext";
+import {
+  getIngredients,
+  OPEN_INGREDIENT_INFO,
+  CLOSE_INGREDIENT_INFO,
+} from "../../services/actions/ingredients";
+import { ingredientInfoReducer } from "../../services/reducers/ingredients";
 import {
   Counter,
   Tab,
@@ -14,13 +19,31 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function Ingredient({ ingredientData }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  const ingredientInfo = useSelector(
+    (state) => state.ingredientInfo.ingredientInformation
+  );
+  // const id = ingredientData._id;
+
+  const handleOpenIngredientInfoModal = () => {
+    dispatch({ type: OPEN_INGREDIENT_INFO, payload: ingredientData });
+  };
+
+  const handleCloseIngredientInfoModal = () => {
+    dispatch({ type: CLOSE_INGREDIENT_INFO });
+  };
+
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredientData,
+  });
 
   return (
     <div>
       <div
         className={burgerIngredientsStyles.ingredient}
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpenIngredientInfoModal}
+        ref={dragRef}
       >
         <Counter
           className={burgerIngredientsStyles.counter}
@@ -38,13 +61,14 @@ function Ingredient({ ingredientData }) {
           {ingredientData.name}
         </p>
       </div>
-      <Modal
-        handleClose={() => setIsOpen(false)}
-        isOpen={isOpen}
-        title={"Детали ингредиента"}
-      >
-        <IngredientDetails item={ingredientData} />
-      </Modal>
+      {ingredientInfo && (
+        <Modal
+          handleClose={handleCloseIngredientInfoModal}
+          title={"Детали ингредиента"}
+        >
+          <IngredientDetails item={ingredientInfo} />
+        </Modal>
+      )}
     </div>
   );
 }
@@ -54,7 +78,6 @@ Ingredient.propTypes = {
 };
 
 function IngredientsCategory(props) {
-  console.log(props);
   return (
     <div>
       <h2 className="text text_type_main-medium mt-10 mb-6">{props.type}</h2>
@@ -73,15 +96,12 @@ IngredientsCategory.propTypes = {
 };
 
 export function BurgerIngredients() {
-  // const ingredientsData = React.useContext(IngredientsDataContext);
   const items = useSelector((state) => state.ingredients.items);
   const dispatch = useDispatch();
 
-  // React.useEffect(() => {
-  //   console.log(8);
-  dispatch(getIngredients());
-  // }, []);
-  console.log(items);
+  React.useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
 
   const buns = React.useMemo(
     () => items.filter((item) => item.type === "bun"),
