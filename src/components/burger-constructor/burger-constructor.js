@@ -6,8 +6,12 @@ import burgerConstructorStyles from "./burger-constructor.module.css";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { BurgerComponent } from "../burger-components/burger-components";
-import { sendOrder } from "../../utils/api";
-import { ADD_BUN, ADD_INGREDIENT } from "../../services/actions/order";
+import { makeOrder } from "../../services/actions/order";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  DELETE_ORDER,
+} from "../../services/actions/order";
 import {
   Button,
   CurrencyIcon,
@@ -27,11 +31,8 @@ IngredientPriceMedium.propTypes = {
 };
 
 export function BurgerConstructor() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [orderNumber, setOrderNumber] = React.useState(null);
-
   const dispatch = useDispatch();
-  const burgerData = useSelector((state) => state.burger.burgerConstructor);
+  const { burgerData, orderNumber } = useSelector((state) => state.burger);
 
   const bun = burgerData.find(function (element) {
     return element.type === "bun";
@@ -44,6 +45,7 @@ export function BurgerConstructor() {
   //   ...ingredientsBetweenBuns.map((ingredient) => ingredient._id),
   //   bun._id,
   // ];
+
   const onDropIngredient = (ingredient) => {
     if (ingredient.type === "bun") {
       dispatch({
@@ -63,6 +65,13 @@ export function BurgerConstructor() {
     drop: (ingredientData) => onDropIngredient(ingredientData),
   });
 
+  const handleOpenIngredientInfoModal = () => {
+    dispatch(makeOrder(burgerData.map((ingredient) => ingredient._id)));
+  };
+  const handleCloseOrderModal = () => {
+    dispatch({ type: DELETE_ORDER });
+  };
+
   const totalSum = React.useMemo(() => {
     if (burgerData.length > 0) {
       return burgerData
@@ -73,18 +82,18 @@ export function BurgerConstructor() {
     }
   }, [bun, ingredientsBetweenBuns]);
 
-  function makeOrder() {
-    // sendOrder(ingredientsIdArr)
-    //   .then((result) => {
-    //     setOrderNumber(result.order.number);
-    //   })
-    //   .catch((err) => {
-    //     console.log(`Ошибка: ${err}`);
-    //   })
-    //   .finally(() => {
-    //     setIsOpen(true);
-    //   });
-  }
+  // function makeOrder() {
+  // sendOrder(ingredientsIdArr)
+  //   .then((result) => {
+  //     setOrderNumber(result.order.number);
+  //   })
+  //   .catch((err) => {
+  //     console.log(`Ошибка: ${err}`);
+  //   })
+  //   .finally(() => {
+  //     setIsOpen(true);
+  //   });
+  // }
 
   return (
     <div>
@@ -134,14 +143,14 @@ export function BurgerConstructor() {
             type="primary"
             size="large"
             htmlType="button"
-            onClick={makeOrder}
+            onClick={handleOpenIngredientInfoModal}
           >
             Оформить заказ
           </Button>
         </div>
       </section>
-      {isOpen && (
-        <Modal handleClose={() => setIsOpen(false)} title={""}>
+      {orderNumber && (
+        <Modal handleClose={handleCloseOrderModal} title={""}>
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}

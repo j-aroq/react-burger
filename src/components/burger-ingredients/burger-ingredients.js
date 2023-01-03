@@ -22,7 +22,7 @@ function Ingredient({ ingredientData }) {
   const ingredientInfo = useSelector(
     (state) => state.ingredientInfo.ingredientInformation
   );
-  const burgerData = useSelector((state) => state.burger.burgerConstructor);
+  const burgerData = useSelector((state) => state.burger.burgerData);
 
   const countAmount = React.useCallback(
     (ingredientData) => {
