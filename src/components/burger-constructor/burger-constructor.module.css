@@ -9,6 +9,7 @@
     overflow-y: auto;
     display: grid;
     gap: 16px;
+    align-content: flex-start;
   }
   
   .components_between_buns::-webkit-scrollbar {

@@ -5,7 +5,7 @@ import {
   POST_ORDER_REQUEST,
   POST_ORDER_REQUEST_SUCCESS,
   POST_ORDER_REQUEST_ERROR,
-  RESET_ORDER_REQUEST_NUMBER,
+  DELETE_ORDER_REQUEST_NUMBER,
 } from "../actions/order";
 
 const initialState = {
@@ -20,15 +20,15 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       );
       const bun = action.payload;
 
-      const updatedBasket = [...state.burgerConstructor];
+      const burgerIngredients = [...state.burgerConstructor];
       if (bunIndex >= 0) {
-        updatedBasket.splice(bunIndex, 1, bun);
+        burgerIngredients.splice(bunIndex, 1, bun);
       } else {
-        updatedBasket.push(bun);
+        burgerIngredients.push(bun);
       }
       return {
         ...state,
-        burgerConstructor: updatedBasket,
+        burgerConstructor: burgerIngredients,
       };
     }
     case ADD_INGREDIENT:

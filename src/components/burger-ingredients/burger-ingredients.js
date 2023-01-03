@@ -11,7 +11,6 @@ import {
   OPEN_INGREDIENT_INFO,
   CLOSE_INGREDIENT_INFO,
 } from "../../services/actions/ingredients";
-import { ingredientInfoReducer } from "../../services/reducers/ingredients";
 import {
   Counter,
   Tab,
@@ -23,7 +22,18 @@ function Ingredient({ ingredientData }) {
   const ingredientInfo = useSelector(
     (state) => state.ingredientInfo.ingredientInformation
   );
-  // const id = ingredientData._id;
+  const burgerData = useSelector((state) => state.burger.burgerConstructor);
+
+  const countAmount = React.useCallback(
+    (ingredientData) => {
+      const { _id, type } = ingredientData;
+      const ingredientsAmount = burgerData.filter(
+        (element) => element._id === _id
+      ).length;
+      return type === "bun" ? ingredientsAmount * 2 : ingredientsAmount;
+    },
+    [burgerData]
+  );
 
   const handleOpenIngredientInfoModal = () => {
     dispatch({ type: OPEN_INGREDIENT_INFO, payload: ingredientData });
@@ -47,7 +57,7 @@ function Ingredient({ ingredientData }) {
       >
         <Counter
           className={burgerIngredientsStyles.counter}
-          count={1}
+          count={countAmount(ingredientData)}
           size="default"
         />
         <img src={ingredientData.image} alt={ingredientData.name}></img>

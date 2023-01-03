@@ -32,7 +32,6 @@ export function BurgerConstructor() {
 
   const dispatch = useDispatch();
   const burgerData = useSelector((state) => state.burger.burgerConstructor);
-  const items = useSelector((state) => state.ingredients.items);
 
   const bun = burgerData.find(function (element) {
     return element.type === "bun";
@@ -46,9 +45,6 @@ export function BurgerConstructor() {
   //   bun._id,
   // ];
   const onDropIngredient = (ingredient) => {
-    // const ingredient = items.find(function (element) {
-    //   return element._id === ingredientID;
-    // });
     if (ingredient.type === "bun") {
       dispatch({
         type: ADD_BUN,
@@ -71,7 +67,7 @@ export function BurgerConstructor() {
     if (burgerData.length > 0) {
       return burgerData
         .map((element) => element.price * (element.type === "bun" ? 2 : 1))
-        .reduce((sum, item) => sum + item.price, 0);
+        .reduce((sum, price) => sum + price, 0);
     } else {
       return 0;
     }

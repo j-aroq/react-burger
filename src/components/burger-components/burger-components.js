@@ -1,17 +1,27 @@
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import burgerComponentsStyles from "./burger-components.module.css";
 import { ingredientType } from "../../utils/type";
+import { REMOVE_INGREDIENT } from "../../services/actions/order";
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export const BurgerComponent = ({
+export function BurgerComponent({
   componentData,
   bunType,
   isLocked,
   bunTypeName,
-}) => {
+}) {
+  const dispatch = useDispatch();
+  const onDeleteIngredient = (componentDataID) => {
+    dispatch({
+      type: REMOVE_INGREDIENT,
+      payload: componentDataID,
+    });
+  };
+
   return (
     <div className={burgerComponentsStyles.component}>
       {bunType === "" ? <DragIcon type="primary" /> : null}
@@ -22,11 +32,12 @@ export const BurgerComponent = ({
           text={componentData.name + bunTypeName}
           price={componentData.price}
           thumbnail={componentData.image}
+          handleClose={() => onDeleteIngredient(componentData._id)}
         />
       </div>
     </div>
   );
-};
+}
 
 BurgerComponent.propTypes = {
   componentData: ingredientType.isRequired,
