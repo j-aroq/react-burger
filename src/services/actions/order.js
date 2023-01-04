@@ -9,6 +9,8 @@ export const POST_ORDER_REQUEST_SUCCESS = "POST_ORDER_REQUEST_SUCCESS";
 export const POST_ORDER_REQUEST_ERROR = "POST_ORDER_REQUEST_ERROR";
 export const DELETE_ORDER = "DELETE_ORDER";
 
+export const CHANGE_INGREDIENT_POSITION = "CHANGE_INGREDIENT_POSITION";
+
 export const makeOrder = (burgerDataID) => {
   return function (dispatch) {
     dispatch({

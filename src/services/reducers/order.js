@@ -6,6 +6,7 @@ import {
   POST_ORDER_REQUEST_SUCCESS,
   POST_ORDER_REQUEST_ERROR,
   DELETE_ORDER,
+  CHANGE_INGREDIENT_POSITION,
 } from "../actions/order";
 
 const initialState = {
@@ -41,11 +42,19 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         burgerData: [...state.burgerData, action.payload],
       };
     case REMOVE_INGREDIENT: {
+      // const burgerIngredients = [...state.burgerData];
+      // const bunIndex = burgerIngredients.findIndex(
+      //   (elem) => elem._id === action.payload
+      // );
+      // burgerIngredients.splice(bunIndex, 1);
       return {
         ...state,
         burgerData: state.burgerData.filter(
-          (ingredient) => ingredient._id !== action.payload
+          (ingredient) => ingredient._uid !== action.payload
         ),
+        // burgerData: state.burgerData.filter(
+        //   (ingredient) => ingredient._id !== action.payload
+        // ),
       };
     }
     case POST_ORDER_REQUEST: {
@@ -71,6 +80,29 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         orderNumber: null,
         burgerData: [],
       };
+    case CHANGE_INGREDIENT_POSITION: {
+      const { whichIngredientDroppedId, onWhichIngredientDroppedId } =
+        action.payload;
+
+      const burgerData = [...state.burgerData];
+      const draggedItemIndex = burgerData.findIndex(
+        (ingredient) => ingredient._uid === whichIngredientDroppedId
+      );
+      const hoveredItemIndex = burgerData.findIndex(
+        (ingredient) => ingredient._uid === onWhichIngredientDroppedId
+      );
+
+      const draggedItem = burgerData[draggedItemIndex];
+      const hoveredItem = burgerData[hoveredItemIndex];
+
+      burgerData[draggedItemIndex] = hoveredItem;
+      burgerData[hoveredItemIndex] = draggedItem;
+
+      return {
+        ...state,
+        burgerData,
+      };
+    }
     default:
       return state;
   }

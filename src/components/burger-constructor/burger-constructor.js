@@ -16,6 +16,7 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { v4 as uuidv4 } from "uuid";
 
 function IngredientPriceMedium(props) {
   return (
@@ -40,22 +41,17 @@ export function BurgerConstructor() {
   const ingredientsBetweenBuns = burgerData.filter(
     (element) => element.type !== "bun"
   );
-  // const ingredientsIdArr = [
-  //   bun._id,
-  //   ...ingredientsBetweenBuns.map((ingredient) => ingredient._id),
-  //   bun._id,
-  // ];
 
   const onDropIngredient = (ingredient) => {
     if (ingredient.type === "bun") {
       dispatch({
         type: ADD_BUN,
-        payload: ingredient,
+        payload: { _uid: uuidv4(), ...ingredient },
       });
     } else {
       dispatch({
         type: ADD_INGREDIENT,
-        payload: ingredient,
+        payload: { _uid: uuidv4(), ...ingredient },
       });
     }
   };
@@ -82,19 +78,6 @@ export function BurgerConstructor() {
     }
   }, [bun, ingredientsBetweenBuns]);
 
-  // function makeOrder() {
-  // sendOrder(ingredientsIdArr)
-  //   .then((result) => {
-  //     setOrderNumber(result.order.number);
-  //   })
-  //   .catch((err) => {
-  //     console.log(`Ошибка: ${err}`);
-  //   })
-  //   .finally(() => {
-  //     setIsOpen(true);
-  //   });
-  // }
-
   return (
     <div>
       <section
@@ -119,7 +102,7 @@ export function BurgerConstructor() {
                 bunType={""}
                 isLocked={false}
                 bunTypeName={""}
-                key={element._id}
+                key={element._uid}
               />
             );
           })}

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import burgerComponentsStyles from "./burger-components.module.css";
 import { ingredientType } from "../../utils/type";
 import { REMOVE_INGREDIENT } from "../../services/actions/order";
@@ -15,10 +15,12 @@ export function BurgerComponent({
   bunTypeName,
 }) {
   const dispatch = useDispatch();
-  const onDeleteIngredient = (componentDataID) => {
+  const burgerData = useSelector((state) => state.burger.burgerData);
+
+  const onDeleteIngredient = (componentDataUid) => {
     dispatch({
       type: REMOVE_INGREDIENT,
-      payload: componentDataID,
+      payload: componentDataUid,
     });
   };
 
@@ -32,7 +34,7 @@ export function BurgerComponent({
           text={componentData.name + bunTypeName}
           price={componentData.price}
           thumbnail={componentData.image}
-          handleClose={() => onDeleteIngredient(componentData._id)}
+          handleClose={() => onDeleteIngredient(componentData._uid)}
         />
       </div>
     </div>
