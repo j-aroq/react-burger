@@ -1,8 +1,13 @@
+import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { useDrag, useDrop } from "react-dnd";
 import burgerComponentsStyles from "./burger-components.module.css";
 import { ingredientType } from "../../utils/type";
-import { REMOVE_INGREDIENT } from "../../services/actions/order";
+import {
+  REMOVE_INGREDIENT,
+  CHANGE_INGREDIENT_POSITION,
+} from "../../services/actions/order";
 import {
   DragIcon,
   ConstructorElement,
@@ -10,12 +15,13 @@ import {
 
 export function BurgerComponent({
   componentData,
+  index,
   bunType,
   isLocked,
   bunTypeName,
 }) {
   const dispatch = useDispatch();
-  const burgerData = useSelector((state) => state.burger.burgerData);
+  const ref = React.useRef(null);
 
   const onDeleteIngredient = (componentDataUid) => {
     dispatch({
@@ -24,9 +30,60 @@ export function BurgerComponent({
     });
   };
 
+  const [, dropRef] = useDrop({
+    accept: "ingredientInConstructor",
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
+    hover(item, monitor) {
+      if (!ref.current) {
+        return;
+      }
+      if (item.componentData._uid === componentData._uid) {
+        return;
+      }
+
+      const dragIndex = item.index;
+      const hoverIndex = index;
+
+      const hoverBoundingRect = ref.current
+        ? ref.current.getBoundingClientRect()
+        : undefined;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      dispatch({
+        type: CHANGE_INGREDIENT_POSITION,
+        payload: {
+          whichIngredientDroppedId: item.componentData._uid,
+          onWhichIngredientDroppedId: componentData._uid,
+        },
+      });
+    },
+  });
+
+  const [, dragRef] = useDrag({
+    type: "ingredientInConstructor",
+    item: () => ({ componentData, index }),
+  });
+
+  dragRef(dropRef(ref));
+
   return (
-    <div className={burgerComponentsStyles.component}>
-      {bunType === "" ? <DragIcon type="primary" /> : null}
+    <div className={burgerComponentsStyles.component} ref={ref}>
+      <DragIcon type="primary" />
+      {/* {bunType === "" ? <DragIcon type="primary" /> : null} */}
       <div className={burgerComponentsStyles.component_width}>
         <ConstructorElement
           type={bunType}

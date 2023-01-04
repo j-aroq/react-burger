@@ -42,19 +42,11 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         burgerData: [...state.burgerData, action.payload],
       };
     case REMOVE_INGREDIENT: {
-      // const burgerIngredients = [...state.burgerData];
-      // const bunIndex = burgerIngredients.findIndex(
-      //   (elem) => elem._id === action.payload
-      // );
-      // burgerIngredients.splice(bunIndex, 1);
       return {
         ...state,
         burgerData: state.burgerData.filter(
           (ingredient) => ingredient._uid !== action.payload
         ),
-        // burgerData: state.burgerData.filter(
-        //   (ingredient) => ingredient._id !== action.payload
-        // ),
       };
     }
     case POST_ORDER_REQUEST: {

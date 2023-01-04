@@ -15,6 +15,7 @@ import {
 import {
   Button,
   CurrencyIcon,
+  ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 
@@ -84,21 +85,25 @@ export function BurgerConstructor() {
         className={`${burgerConstructorStyles.components} mt-25 ml-4`}
         ref={dropTarget}
       >
-        {bun && (
-          <BurgerComponent
-            componentData={bun}
-            bunType={"top"}
-            isLocked={true}
-            bunTypeName={" (верх)"}
-          />
-        )}
+        <div className="ml-8">
+          {bun && (
+            <ConstructorElement
+              type={"top"}
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          )}
+        </div>
         <div
           className={`${burgerConstructorStyles.components_between_buns} pr-2`}
         >
-          {ingredientsBetweenBuns.map((element) => {
+          {ingredientsBetweenBuns.map((element, index) => {
             return (
               <BurgerComponent
                 componentData={element}
+                index={index}
                 bunType={""}
                 isLocked={false}
                 bunTypeName={""}
@@ -112,14 +117,17 @@ export function BurgerConstructor() {
             </span>
           )}
         </div>
-        {bun && (
-          <BurgerComponent
-            componentData={bun}
-            bunType={"bottom"}
-            isLocked={true}
-            bunTypeName={" (низ)"}
-          />
-        )}
+        <div className="ml-8">
+          {bun && (
+            <ConstructorElement
+              type={"top"}
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          )}
+        </div>
         <div className={`${burgerConstructorStyles.components_total} mt-10`}>
           <IngredientPriceMedium total={totalSum} />
           <Button
