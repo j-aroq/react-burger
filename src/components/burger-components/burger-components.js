@@ -66,8 +66,8 @@ export function BurgerComponent({
       dispatch({
         type: CHANGE_INGREDIENT_POSITION,
         payload: {
-          whichIngredientDroppedId: item.componentData._uid,
-          onWhichIngredientDroppedId: componentData._uid,
+          whichIngredientDroppedUid: item.componentData._uid,
+          onWhichIngredientDroppedUid: componentData._uid,
         },
       });
     },
@@ -83,7 +83,7 @@ export function BurgerComponent({
   return (
     <div className={burgerComponentsStyles.component} ref={ref}>
       <DragIcon type="primary" />
-      {/* {bunType === "" ? <DragIcon type="primary" /> : null} */}
+      {bunType === "" ? <DragIcon type="primary" /> : null}
       <div className={burgerComponentsStyles.component_width}>
         <ConstructorElement
           type={bunType}

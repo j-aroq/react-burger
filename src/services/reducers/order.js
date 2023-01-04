@@ -73,15 +73,15 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         burgerData: [],
       };
     case CHANGE_INGREDIENT_POSITION: {
-      const { whichIngredientDroppedId, onWhichIngredientDroppedId } =
+      const { whichIngredientDroppedUid, onWhichIngredientDroppedUid } =
         action.payload;
 
       const burgerData = [...state.burgerData];
       const draggedItemIndex = burgerData.findIndex(
-        (ingredient) => ingredient._uid === whichIngredientDroppedId
+        (ingredient) => ingredient._uid === whichIngredientDroppedUid
       );
       const hoveredItemIndex = burgerData.findIndex(
-        (ingredient) => ingredient._uid === onWhichIngredientDroppedId
+        (ingredient) => ingredient._uid === onWhichIngredientDroppedUid
       );
 
       const draggedItem = burgerData[draggedItemIndex];

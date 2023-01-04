@@ -108,6 +108,7 @@ IngredientsCategory.propTypes = {
 export function BurgerIngredients() {
   const items = useSelector((state) => state.ingredients.items);
   const dispatch = useDispatch();
+  const [current, setCurrent] = React.useState("bun");
 
   React.useEffect(() => {
     dispatch(getIngredients());
@@ -126,18 +127,42 @@ export function BurgerIngredients() {
     [items]
   );
 
+  const scrollCategories = () => {
+    const containerRecTop = document
+      .getElementById("container")
+      .getBoundingClientRect().top;
+    const saueceRecTop = document
+      .getElementById("sauce")
+      .getBoundingClientRect().top;
+    const bunRecTop = document
+      .getElementById("bun")
+      .getBoundingClientRect().top;
+
+    if (bunRecTop + containerRecTop > containerRecTop) {
+      setCurrent("bun");
+    } else if (saueceRecTop + containerRecTop > 0) {
+      setCurrent("sauce");
+    } else {
+      setCurrent("main");
+    }
+  };
+
   return (
     <section className={`${burgerIngredientsStyles.burger_ingredients} mr-10`}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
       <nav className={burgerIngredientsStyles.flex}>
-        <Tab>Булки</Tab>
-        <Tab>Соусы</Tab>
-        <Tab>Начинки</Tab>
+        <Tab active={current === "bun"}>Булки</Tab>
+        <Tab active={current === "sauce"}>Соусы</Tab>
+        <Tab active={current === "main"}>Начинки</Tab>
       </nav>
-      <div className={burgerIngredientsStyles.burger_ingredients_types}>
-        <IngredientsCategory type={"Булки"} typeArray={buns} />
-        <IngredientsCategory type={"Соусы"} typeArray={sauces} />
-        <IngredientsCategory type={"Начинки"} typeArray={mains} />
+      <div
+        id="container"
+        className={burgerIngredientsStyles.burger_ingredients_types}
+        onScroll={scrollCategories}
+      >
+        <IngredientsCategory id="bun" type={"Булки"} typeArray={buns} />
+        <IngredientsCategory id="sauce" type={"Соусы"} typeArray={sauces} />
+        <IngredientsCategory id="main" type={"Начинки"} typeArray={mains} />
       </div>
     </section>
   );
