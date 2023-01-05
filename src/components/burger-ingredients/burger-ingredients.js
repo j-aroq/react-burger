@@ -89,7 +89,7 @@ Ingredient.propTypes = {
 
 function IngredientsCategory(props) {
   return (
-    <div>
+    <div id={props.id}>
       <h2 className="text text_type_main-medium mt-10 mb-6">{props.type}</h2>
       <div className={burgerIngredientsStyles.ingredient_type_block}>
         {props.typeArray.map((element) => {
@@ -128,19 +128,17 @@ export function BurgerIngredients() {
   );
 
   const scrollCategories = () => {
-    const containerRecTop = document
+    const containerTop = document
       .getElementById("container")
       .getBoundingClientRect().top;
-    const saueceRecTop = document
+    const bunTop = document.getElementById("bun").getBoundingClientRect().top;
+    const sauceTop = document
       .getElementById("sauce")
       .getBoundingClientRect().top;
-    const bunRecTop = document
-      .getElementById("bun")
-      .getBoundingClientRect().top;
 
-    if (bunRecTop + containerRecTop > containerRecTop) {
+    if (bunTop + containerTop > containerTop + 60) {
       setCurrent("bun");
-    } else if (saueceRecTop + containerRecTop > 0) {
+    } else if (sauceTop + containerTop > 110) {
       setCurrent("sauce");
     } else {
       setCurrent("main");
