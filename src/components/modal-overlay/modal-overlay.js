@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import modalOverlayStyles from "./modal-overlay.module.css";
+import styles from "./modal-overlay.module.css";
 
 export function ModalOverlay({ children, handleClose }) {
   return (
-    <div className={modalOverlayStyles.overlay} onClick={handleClose}>
+    <div className={styles.overlay} onClick={handleClose}>
       {children}
     </div>
   );

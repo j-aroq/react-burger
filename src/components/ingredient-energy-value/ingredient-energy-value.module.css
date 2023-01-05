@@ -1,0 +1,5 @@
+.energy_value_element {
+  display: flex;  
+  flex-direction: column;
+  align-items: center;
+}

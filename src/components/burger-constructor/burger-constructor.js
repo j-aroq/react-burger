@@ -1,8 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
-import PropTypes from "prop-types";
-import burgerConstructorStyles from "./burger-constructor.module.css";
+import styles from "./burger-constructor.module.css";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { BurgerComponent } from "../burger-components/burger-components";
@@ -18,19 +17,6 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
-
-function IngredientPriceMedium(props) {
-  return (
-    <div className={burgerConstructorStyles.flex}>
-      <p className="text text_type_digits-medium mr-2">{props.total}</p>
-      <CurrencyIcon type="primary" />
-    </div>
-  );
-}
-
-IngredientPriceMedium.propTypes = {
-  total: PropTypes.number.isRequired,
-};
 
 export function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -80,11 +66,8 @@ export function BurgerConstructor() {
   }, [bun, ingredientsBetweenBuns]);
 
   return (
-    <div>
-      <section
-        className={`${burgerConstructorStyles.components} mt-25 ml-4`}
-        ref={dropTarget}
-      >
+    <>
+      <section className={`${styles.components} mt-25 ml-4`} ref={dropTarget}>
         <div className="ml-8">
           {bun && (
             <ConstructorElement
@@ -96,9 +79,7 @@ export function BurgerConstructor() {
             />
           )}
         </div>
-        <div
-          className={`${burgerConstructorStyles.components_between_buns} pr-2`}
-        >
+        <div className={`${styles.components_between_buns} pr-2`}>
           {ingredientsBetweenBuns.map((element, index) => {
             return (
               <BurgerComponent
@@ -128,8 +109,11 @@ export function BurgerConstructor() {
             />
           )}
         </div>
-        <div className={`${burgerConstructorStyles.components_total} mt-10`}>
-          <IngredientPriceMedium total={totalSum} />
+        <div className={`${styles.components_total} mt-10`}>
+          <div className={styles.flex}>
+            <p className="text text_type_digits-medium mr-2">{totalSum}</p>
+            <CurrencyIcon type="primary" />
+          </div>
           <Button
             type="primary"
             size="large"
@@ -145,6 +129,6 @@ export function BurgerConstructor() {
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}
-    </div>
+    </>
   );
 }

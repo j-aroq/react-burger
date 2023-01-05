@@ -1,16 +1,16 @@
 import PropTypes from "prop-types";
-import orderDetailsStyles from "./order-details.module.css";
+import styles from "./order-details.module.css";
 import orderConfirmationImage from "../../images/graphics.svg";
 
 export function OrderDetails(props) {
   return (
-    <div className={orderDetailsStyles.order_details_block}>
+    <div className={styles.order_details_block}>
       <p className="text text_type_digits-large mt-4 mb-8">
         {props.orderNumber}
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img
-        className={orderDetailsStyles.image}
+        className={styles.image}
         src={orderConfirmationImage}
         alt="галочка подтверждения заказа"
       ></img>

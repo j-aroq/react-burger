@@ -8,23 +8,9 @@
   justify-content: flex-end;
 }
 
-.ingredient_type_block {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .burger_ingredients_types {
   height: calc(100vh - 324px);
   overflow-y: auto;
-}
-
-.ingredient {
-  display: grid;
-  gap: 4px;
-  justify-items: center;
-  max-width: 272px;
-  position: relative;
-  cursor: pointer;
 }
 
 .burger_ingredients_types::-webkit-scrollbar {
@@ -34,10 +20,4 @@
 
 .burger_ingredients_types::-webkit-scrollbar-thumb {
   background-color: var(--color-scrollbar-thumb);
-}
-
-.counter {
-  position: absolute;
-  top: 0;
-  right: 0;
 }

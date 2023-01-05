@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
-import burgerComponentsStyles from "./burger-components.module.css";
+import styles from "./burger-components.module.css";
 import { ingredientType } from "../../utils/type";
 import {
   REMOVE_INGREDIENT,
@@ -81,9 +81,9 @@ export function BurgerComponent({
   dragRef(dropRef(ref));
 
   return (
-    <div className={burgerComponentsStyles.component} ref={ref}>
+    <div className={styles.component} ref={ref}>
       <DragIcon type="primary" />
-      <div className={burgerComponentsStyles.component_width}>
+      <div className={styles.component_width}>
         <ConstructorElement
           type={bunType}
           isLocked={isLocked}

@@ -1,4 +1,4 @@
-import appStyles from "./app.module.css";
+import styles from "./app.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
@@ -9,7 +9,7 @@ export function App() {
   return (
     <div className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />
-      <main className={appStyles.main}>
+      <main className={styles.main}>
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients />
           <BurgerConstructor />

@@ -1,0 +1,20 @@
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.ingredient {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  max-width: 272px;
+  position: relative;
+  cursor: pointer;
+}
+
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
