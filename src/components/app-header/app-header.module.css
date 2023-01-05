@@ -22,3 +22,9 @@
   margin: 8px 289px 8px 112px;
   height: 40px;
 }
+
+@media (max-width: 1500px) {
+  .logo {
+    margin: 8px 180px 8px 88px;
+  }
+}

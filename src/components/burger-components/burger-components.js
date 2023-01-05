@@ -83,7 +83,6 @@ export function BurgerComponent({
   return (
     <div className={burgerComponentsStyles.component} ref={ref}>
       <DragIcon type="primary" />
-      {bunType === "" ? <DragIcon type="primary" /> : null}
       <div className={burgerComponentsStyles.component_width}>
         <ConstructorElement
           type={bunType}
