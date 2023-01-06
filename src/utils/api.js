@@ -1,4 +1,4 @@
-const urlAPI = "https://norma.nomoreparties.space/api/ingredients";
+const urlAPI = "https://norma.nomoreparties.space/api";
 
 const checkResponse = (res) => {
   if (res.ok) {
@@ -6,12 +6,19 @@ const checkResponse = (res) => {
   }
   return Promise.reject(new Error(res.status));
 };
-  
-export function loadIngredients(setIngredients) {
-  return fetch(urlAPI)
-    .then(checkResponse)
-    .then(setIngredients)
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
+
+export function loadIngredients() {
+  return fetch(`${urlAPI}/ingredients`).then(checkResponse);
+}
+
+export function sendOrder(ingredientsID) {
+  return fetch(`${urlAPI}/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ingredients: ingredientsID,
+    }),
+  }).then(checkResponse);
 }

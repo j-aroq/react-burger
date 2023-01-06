@@ -1,0 +1,34 @@
+.components {
+    display: grid;
+    gap: 16px;
+  }
+  
+  .components_between_buns {
+    height: calc(100vh - 604px);
+    max-width: 584px;
+    overflow-y: auto;
+    display: grid;
+    gap: 16px;
+    align-content: flex-start;
+  }
+  
+  .components_between_buns::-webkit-scrollbar {
+    background-color: var(--color-scrollbar);
+    width: 8px;
+  }
+  
+  .components_between_buns::-webkit-scrollbar-thumb {
+    background-color: var(--color-scrollbar-thumb);
+  }
+  
+  .components_total {
+    display: grid;
+    gap: 40px;
+    grid-template-columns: auto auto;
+    justify-content: flex-end;
+  }
+  
+  .flex {
+    display: flex;
+    align-items: center;
+  }

@@ -1,81 +1,66 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import burgerIngredientsStyles from './burger-ingredients.module.css';
-import {ingredientType} from '../../utils/type';
-import {Modal} from '../modal/modal';
-import {IngredientDetails} from '../ingredient-details/ingredient-details';
-import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import styles from "./burger-ingredients.module.css";
+import { getIngredients } from "../../services/actions/ingredients";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IngredientsCategory } from "../ingredients-category/ingredients-category";
 
-function IngredientPrice(props) {
-  return (
-    <div className={burgerIngredientsStyles.flex}>
-      <p className="text text_type_digits-default mr-2">{props.price}</p>
-      <CurrencyIcon type="primary" />
-    </div>
-  )
-}
+export function BurgerIngredients() {
+  const items = useSelector((state) => state.ingredients.items);
+  const dispatch = useDispatch();
+  const [current, setCurrent] = React.useState("bun");
 
-IngredientPrice.propTypes = {
-  price: PropTypes.number.isRequired
-}; 
+  React.useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
 
-function Ingredient({ingredientData}) {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  return (
-    <div>
-      <div className={burgerIngredientsStyles.ingredient} onClick={() => setIsOpen(true)}>
-        <Counter className={burgerIngredientsStyles.counter} count={1} size="default" />
-        <img src={ingredientData.image} alt={ingredientData.name}></img>
-        <IngredientPrice price={ingredientData.price} />
-        <p className="text text_type_main-default mb-6">{ingredientData.name}</p>
-      </div>
-      <Modal handleClose={() => setIsOpen(false)} isOpen={isOpen} title={"Детали ингредиента"}>
-        <IngredientDetails item={ingredientData} />
-      </Modal>
-    </div>
+  const buns = React.useMemo(
+    () => items.filter((item) => item.type === "bun"),
+    [items]
   );
-};  
+  const sauces = React.useMemo(
+    () => items.filter((item) => item.type === "sauce"),
+    [items]
+  );
+  const mains = React.useMemo(
+    () => items.filter((item) => item.type === "main"),
+    [items]
+  );
 
-Ingredient.propTypes = {
-  ingredientData: ingredientType.isRequired
-}; 
+  const scrollCategories = () => {
+    const containerTop = document
+      .getElementById("container")
+      .getBoundingClientRect().top;
+    const bunTop = document.getElementById("bun").getBoundingClientRect().top;
+    const sauceTop = document
+      .getElementById("sauce")
+      .getBoundingClientRect().top;
 
-     
-export function BurgerIngredients(props) {
+    if (bunTop + containerTop > containerTop + 60) {
+      setCurrent("bun");
+    } else if (sauceTop + containerTop > 110) {
+      setCurrent("sauce");
+    } else {
+      setCurrent("main");
+    }
+  };
+
   return (
-    <section className={`${burgerIngredientsStyles.burger_ingredients} mr-10`}> 
+    <section className={`${styles.burger_ingredients} mr-10`}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
-      <nav className={burgerIngredientsStyles.flex}>
-        <Tab>Булки</Tab>
-        <Tab>Соусы</Tab>
-        <Tab>Начинки</Tab>
+      <nav className={styles.flex}>
+        <Tab active={current === "bun"}>Булки</Tab>
+        <Tab active={current === "sauce"}>Соусы</Tab>
+        <Tab active={current === "main"}>Начинки</Tab>
       </nav>
-      <div className={burgerIngredientsStyles.burger_ingredients_types}>
-        <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
-        <div className={burgerIngredientsStyles.ingredient_type_block}>
-          {props.ingredientsData.map((element) => { 
-            if (element.type === "bun") {
-              return (<Ingredient ingredientData={element}  key={element._id} />);
-            }
-          })}
-        </div>
-        <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
-        <div className={burgerIngredientsStyles.ingredient_type_block}>
-          {props.ingredientsData.map((element) => { 
-            if (element.type === "sauce") {
-              return (<Ingredient ingredientData={element}  key={element._id} />);
-            }
-          })}
-        </div>
-        <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
-        <div className={burgerIngredientsStyles.ingredient_type_block}>
-          {props.ingredientsData.map((element) => { 
-            if (element.type === "main") {
-              return (<Ingredient ingredientData={element}  key={element._id} />);
-            }
-          })}
-        </div>
+      <div
+        id="container"
+        className={styles.burger_ingredients_types}
+        onScroll={scrollCategories}
+      >
+        <IngredientsCategory id="bun" type={"Булки"} typeArray={buns} />
+        <IngredientsCategory id="sauce" type={"Соусы"} typeArray={sauces} />
+        <IngredientsCategory id="main" type={"Начинки"} typeArray={mains} />
       </div>
     </section>
   );
