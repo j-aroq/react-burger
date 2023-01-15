@@ -15,6 +15,7 @@
     "react-dnd-html5-backend": "16.0.1",
     "react-dom": "18.2.0",
     "react-redux": "8.0.5",
+    "react-router-dom": "6.6.2",
     "react-scripts": "5.0.1",
     "redux": "4.2.0",
     "redux-thunk": "2.4.2",
@@ -35,7 +36,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"  },
+    "deploy": "gh-pages -d build"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

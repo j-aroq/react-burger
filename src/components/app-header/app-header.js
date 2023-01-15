@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./app-header.module.css";
 import {
   Logo,
@@ -10,6 +9,9 @@ import {
 export function AppHeader() {
   return (
     <header className={`${styles.app_header} pt-4 pb-4 mb-10`}>
+      <a className={styles.logo}>
+        <Logo />
+      </a>
       <nav className={styles.nav_header}>
         <a className={`${styles.nav_link} mb-4 mt-4 mr-7`}>
           <BurgerIcon type="primary" />
@@ -21,10 +23,7 @@ export function AppHeader() {
             Лента заказов
           </p>
         </a>
-        <a className={styles.logo}>
-          <Logo />
-        </a>
-        <a className={`${styles.nav_link} ml-5 mb-4 mt-4`}>
+        <a className={`${styles.nav_link_end} ml-5 mb-4 mt-4`}>
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">
             Личный кабинет

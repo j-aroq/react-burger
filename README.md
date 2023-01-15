@@ -1,4 +1,4 @@
-[Web page] (https://j-aroq.github.io/react-burger/)
+[Web page](https://j-aroq.github.io/react-burger/)
 
 # Getting Started with Create React App
 
