@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -7,10 +8,11 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
-import { useAuth } from "../utils/auth";
+import { registerUser } from "../services/actions/auth";
 
 export function RegistrationPage() {
-  let auth = useAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [form, setValue] = useState({ email: "", password: "", name: "" });
 
@@ -18,23 +20,16 @@ export function RegistrationPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  let login = useCallback(
-    (e) => {
-      e.preventDefault();
-      auth.signIn(form);
-    },
-    [auth, form]
-  );
-
-  if (auth.user) {
-    return <Navigate to={"/"} />;
-  }
+  const submitRegistrationForm = (e) => {
+    e.preventDefault();
+    dispatch(registerUser(form));
+  };
 
   return (
     <div>
       <AppHeader />
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={submitRegistrationForm}>
           <h1 className="text text_type_main-medium">Регистрация</h1>
 
           <Input
@@ -57,21 +52,15 @@ export function RegistrationPage() {
             value={form.password}
             name={"password"}
             icon="ShowIcon"
-            // onIconClick={onIconClick}
           />
-          <Button
-            onClick={login}
-            htmlType="button"
-            type="primary"
-            size="medium"
-          >
+          <Button htmlType="submit" type="primary" size="medium">
             Зарегистрироваться
           </Button>
         </form>
         <p className="text text_type_main-default">
           Уже зарегистрированы?
           <Button
-            onClick={login}
+            onClick={() => navigate("/login")}
             htmlType="button"
             type="secondary"
             size="medium"

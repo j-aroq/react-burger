@@ -1,7 +1,24 @@
 import { useContext, useState, createContext } from "react";
-import { deleteCookie, setCookie } from "./utils";
+import { deleteCookie, setCookie, getCookie } from "./cookie";
 import { loginRequest, getUserRequest, logoutRequest } from "./api";
 
+export const setCookies = (accessToken, refreshToken) => {
+  const expirationAt = new Date(new Date().getTime() + 20 * 60 * 1000);
+
+  setCookie("accessToken", accessToken.split("Bearer ")[1], {
+    expires: expirationAt,
+  });
+  setCookie("refreshToken", refreshToken);
+};
+
+export const authTokens = () => {
+  const accessToken = getCookie("accessToken");
+  const refreshToken = getCookie("refreshToken");
+
+  return { accessToken, refreshToken };
+};
+
+////
 const AuthContext = createContext(undefined);
 
 export function ProvideAuth({ children }) {
@@ -50,7 +67,7 @@ export function useProvideAuth() {
   };
 
   const signOut = async () => {
-    await logoutRequest();
+    await loginRequest();
     setUser(null);
     deleteCookie("token");
   };

@@ -7,29 +7,14 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import { useAuth } from "../utils/auth";
 import { ProfileTabs } from "../components/profile-tabs/profile-tabs";
 
 export function ProfilePage() {
-  let auth = useAuth();
-
   const [form, setValue] = useState({ email: "", password: "", name: "" });
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-
-  let login = useCallback(
-    (e) => {
-      e.preventDefault();
-      auth.signIn(form);
-    },
-    [auth, form]
-  );
-
-  if (auth.user) {
-    return <Navigate to={"/"} />;
-  }
 
   return (
     <div>
@@ -60,7 +45,6 @@ export function ProfilePage() {
               value={form.password}
               name={"password"}
               icon="EditIcon"
-              // onIconClick={onIconClick}
             />
           </form>
         </div>

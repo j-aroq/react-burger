@@ -1,23 +1,16 @@
-import { useAuth } from "../utils/auth";
 import { Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
+import { useSelector } from "react-redux";
+import { authTokens } from "../utils/auth";
 
 export const ProtectedRouteElement = ({ element }) => {
-  let { getUser, ...auth } = useAuth();
-  const [isUserLoaded, setUserLoaded] = useState(false);
+  const user = useSelector((state) => state.auth.user);
+  const { accessToken, refreshToken } = authTokens();
 
-  const init = async () => {
-    await getUser();
-    setUserLoaded(true);
-  };
+  const auth = useCallback(
+    () => (accessToken || refreshToken) && user,
+    [accessToken, refreshToken, user]
+  );
 
-  useEffect(() => {
-    init();
-  }, []);
-
-  if (!isUserLoaded) {
-    return null;
-  }
-
-  return auth.user ? element : <Navigate to="/login" replace />;
+  return auth() ? element : <Navigate to="/login" replace />;
 };

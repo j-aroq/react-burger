@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -7,26 +8,32 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
-import { useAuth } from "../utils/auth";
+import { authTokens } from "../utils/auth";
+import { loginUser } from "../services/actions/auth";
 
 export function ResetPasswordPage() {
-  let auth = useAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [form, setValue] = useState({ email: "", password: "", code: "" });
+  const [form, setValue] = useState({ password: "", token: "" });
+  const user = useSelector((state) => state.auth.user);
+  const { accessToken, refreshToken } = authTokens();
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  let login = useCallback(
-    (e) => {
-      e.preventDefault();
-      auth.signIn(form);
-    },
-    [auth, form]
+  const auth = useCallback(
+    () => (accessToken || refreshToken) && user,
+    [accessToken, refreshToken, user]
   );
 
-  if (auth.user) {
+  const submitResetForm = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(form));
+  };
+
+  if (auth()) {
     return <Navigate to={"/"} />;
   }
 
@@ -34,7 +41,7 @@ export function ResetPasswordPage() {
     <div>
       <AppHeader />
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={submitResetForm}>
           <h1 className="text text_type_main-medium">Восстановление пароля</h1>
 
           <PasswordInput
@@ -44,7 +51,6 @@ export function ResetPasswordPage() {
             value={form.password}
             name={"password"}
             icon="ShowIcon"
-            // onIconClick={onIconClick}
           />
           <Input
             type={"text"}
@@ -53,19 +59,14 @@ export function ResetPasswordPage() {
             value={form.code}
             name={"code"}
           />
-          <Button
-            onClick={login}
-            htmlType="button"
-            type="primary"
-            size="medium"
-          >
+          <Button htmlType="submit" type="primary" size="medium">
             Сохранить
           </Button>
         </form>
         <p className="text text_type_main-default">
           Вспомнили пароль?
           <Button
-            onClick={login}
+            onClick={() => navigate("/login")}
             htmlType="button"
             type="secondary"
             size="medium"

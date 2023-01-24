@@ -1,4 +1,4 @@
-import { getCookie } from "./utils";
+import { getCookie } from "./cookie";
 
 const urlAPI = "https://norma.nomoreparties.space/api";
 
@@ -25,8 +25,38 @@ export function sendOrder(ingredientsID) {
   }).then(checkResponse);
 }
 
-export const loginRequest = async (form) => {
-  return await fetch("https://cosmic.nomoreparties.space/login", {
+export const registrationRequest = async ({ email, password, name }) => {
+  return await fetch(`${urlAPI}/auth/register`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({ email, password, name }),
+  }).then(checkResponse);
+};
+
+export const loginRequest = async ({ email, password }) => {
+  return await fetch(`${urlAPI}/auth/login`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({ email, password }),
+  }).then(checkResponse);
+};
+
+export const tokenRequest = async (form) => {
+  return await fetch(`${urlAPI}/auth/token`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -37,9 +67,10 @@ export const loginRequest = async (form) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  });
+  }).then(checkResponse);
 };
 
+//!!!!
 export const getUserRequest = async () =>
   await fetch("https://cosmic.nomoreparties.space/api/user", {
     method: "GET",
@@ -55,7 +86,7 @@ export const getUserRequest = async () =>
   });
 
 export const logoutRequest = async () => {
-  return await fetch("https://cosmic.nomoreparties.space/logout", {
+  return await fetch(`${urlAPI}/auth/logout`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -65,5 +96,5 @@ export const logoutRequest = async () => {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  });
+  }).then(checkResponse);
 };

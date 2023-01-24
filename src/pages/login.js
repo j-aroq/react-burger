@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -7,26 +8,32 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
-import { useAuth } from "../utils/auth";
+import { loginUser } from "../services/actions/auth";
+import { authTokens } from "../utils/auth";
 
 export function LoginPage() {
-  let auth = useAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [form, setValue] = useState({ email: "", password: "" });
+  const user = useSelector((state) => state.auth.user);
+  const { accessToken, refreshToken } = authTokens();
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  let login = useCallback(
-    (e) => {
-      e.preventDefault();
-      auth.signIn(form);
-    },
-    [auth, form]
+  const auth = useCallback(
+    () => (accessToken || refreshToken) && user,
+    [accessToken, refreshToken, user]
   );
 
-  if (auth.user) {
+  const submitLoginForm = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(form));
+  };
+
+  if (auth()) {
     return <Navigate to={"/"} />;
   }
 
@@ -34,7 +41,7 @@ export function LoginPage() {
     <div>
       <AppHeader />
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={submitLoginForm}>
           <h1 className="text text_type_main-medium">Вход</h1>
 
           <Input
@@ -42,18 +49,17 @@ export function LoginPage() {
             placeholder={"E-mail"}
             onChange={onChange}
             value={form.email}
-            name={"name"}
+            name={"email"}
           />
           <PasswordInput
             onChange={onChange}
             value={form.password}
             name={"password"}
             icon="ShowIcon"
-            // onIconClick={onIconClick}
           />
           <Button
-            onClick={login}
-            htmlType="button"
+            // onClick={login}
+            htmlType="submit"
             type="primary"
             size="medium"
           >
@@ -63,19 +69,19 @@ export function LoginPage() {
         <p className="text text_type_main-default">
           Вы — новый пользователь?
           <Button
-            onClick={login}
+            onClick={() => navigate("/register")}
             htmlType="button"
             type="secondary"
             size="medium"
             extraClass="pt-4 pb-2 pl-1 pr-1"
           >
-            Войти
+            Зарегистрироваться
           </Button>
         </p>
         <p className="text text_type_main-default">
           Забыли пароль?
           <Button
-            onClick={login}
+            onClick={() => navigate("/forgot-password")}
             htmlType="button"
             type="secondary"
             size="medium"
