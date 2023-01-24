@@ -9,14 +9,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
 import { authTokens } from "../utils/auth";
-import { loginUser } from "../services/actions/auth";
+import { changePassword } from "../services/actions/auth";
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [form, setValue] = useState({ password: "", token: "" });
-  const user = useSelector((state) => state.auth.user);
+  const { user, gotResetPasswordCode } = useSelector((state) => state.auth);
   const { accessToken, refreshToken } = authTokens();
 
   const onChange = (e) => {
@@ -28,10 +28,14 @@ export function ResetPasswordPage() {
     [accessToken, refreshToken, user]
   );
 
-  const submitResetForm = (e) => {
+  const submitResetPasswordForm = (e) => {
     e.preventDefault();
-    dispatch(loginUser(form));
+    dispatch(changePassword(form));
   };
+
+  if (!gotResetPasswordCode) {
+    return <Navigate to={"/login"} />;
+  }
 
   if (auth()) {
     return <Navigate to={"/"} />;
@@ -41,7 +45,7 @@ export function ResetPasswordPage() {
     <div>
       <AppHeader />
       <div className={styles.container}>
-        <form className={styles.form} onSubmit={submitResetForm}>
+        <form className={styles.form} onSubmit={submitResetPasswordForm}>
           <h1 className="text text_type_main-medium">Восстановление пароля</h1>
 
           <PasswordInput
@@ -56,8 +60,8 @@ export function ResetPasswordPage() {
             type={"text"}
             placeholder={"Введите код из письма"}
             onChange={onChange}
-            value={form.code}
-            name={"code"}
+            value={form.token}
+            name={"token"}
           />
           <Button htmlType="submit" type="primary" size="medium">
             Сохранить

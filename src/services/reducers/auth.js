@@ -30,7 +30,7 @@ const initialState = {
   request: false,
   requestFailed: false,
   // tokenExpired: null,
-  // resetPasswordCodeRequested: false,
+  gotResetPasswordCode: false,
   // resetPasswordCodeEmail: null,
 };
 
@@ -67,6 +67,43 @@ export const authReducer = (state = initialState, action) => {
         user: action.payload,
       };
     case LOGIN_USER_REQUEST_ERROR:
+      return {
+        ...state,
+        request: false,
+        requestFailed: true,
+      };
+    case PASSWORD_RESET_CODE_REQUEST:
+      return {
+        ...state,
+        request: true,
+      };
+    case PASSWORD_RESET_CODE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        request: false,
+        requestFailed: false,
+        gotResetPasswordCode: true,
+      };
+    case PASSWORD_RESET_CODE_REQUEST_ERROR:
+      return {
+        ...state,
+        request: false,
+        requestFailed: true,
+        gotResetPasswordCode: false,
+      };
+    case PASSWORD_RESET_REQUEST:
+      return {
+        ...state,
+        request: true,
+      };
+    case PASSWORD_RESET_REQUEST_SUCCESS:
+      return {
+        ...state,
+        request: false,
+        requestFailed: false,
+        gotResetPasswordCode: false,
+      };
+    case PASSWORD_RESET_REQUEST_ERROR:
       return {
         ...state,
         request: false,

@@ -8,14 +8,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
 import { authTokens } from "../utils/auth";
-import { loginUser } from "../services/actions/auth";
+import { requestCode } from "../services/actions/auth";
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [form, setValue] = useState({ email: "" });
-  const user = useSelector((state) => state.auth.user);
+  const { user, gotResetPasswordCode } = useSelector((state) => state.auth);
   const { accessToken, refreshToken } = authTokens();
 
   const onChange = (e) => {
@@ -27,10 +27,14 @@ export function ForgotPasswordPage() {
     [accessToken, refreshToken, user]
   );
 
-  const submitForgotForm = (e) => {
+  const submitForgotPasswordForm = (e) => {
     e.preventDefault();
-    dispatch(loginUser(form));
+    dispatch(requestCode(form));
   };
+
+  if (gotResetPasswordCode) {
+    return <Navigate to={"/reset-password"} />;
+  }
 
   if (auth()) {
     return <Navigate to={"/"} />;
@@ -40,7 +44,7 @@ export function ForgotPasswordPage() {
     <div>
       <AppHeader />
       <div className={styles.container}>
-        <form className={styles.form} onSubmit={submitForgotForm}>
+        <form className={styles.form} onSubmit={submitForgotPasswordForm}>
           <h1 className="text text_type_main-medium">Восстановление пароля</h1>
           <Input
             type={"email"}

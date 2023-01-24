@@ -3,6 +3,8 @@ import {
   logoutRequest,
   loginRequest,
   registrationRequest,
+  codeRequest,
+  changePasswordRequest,
 } from "../../utils/api";
 import { setCookies } from "../../utils/auth";
 
@@ -77,6 +79,44 @@ export const loginUser = ({ email, password }) => {
       } else {
         dispatch({
           type: LOGIN_USER_REQUEST_ERROR,
+        });
+      }
+    });
+  };
+};
+
+export const requestCode = (email) => {
+  return function (dispatch) {
+    dispatch({
+      type: PASSWORD_RESET_CODE_REQUEST,
+    });
+    codeRequest(email).then((res) => {
+      if (res && res.success) {
+        dispatch({
+          type: PASSWORD_RESET_CODE_REQUEST_SUCCESS,
+        });
+      } else {
+        dispatch({
+          type: PASSWORD_RESET_CODE_REQUEST_ERROR,
+        });
+      }
+    });
+  };
+};
+
+export const changePassword = ({ password, token }) => {
+  return function (dispatch) {
+    dispatch({
+      type: PASSWORD_RESET_REQUEST,
+    });
+    changePasswordRequest({ password, token }).then((res) => {
+      if (res && res.success) {
+        dispatch({
+          type: PASSWORD_RESET_REQUEST_SUCCESS,
+        });
+      } else {
+        dispatch({
+          type: PASSWORD_RESET_REQUEST_ERROR,
         });
       }
     });

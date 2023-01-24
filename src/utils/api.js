@@ -1,5 +1,3 @@
-import { getCookie } from "./cookie";
-
 const urlAPI = "https://norma.nomoreparties.space/api";
 
 const checkResponse = (res) => {
@@ -55,6 +53,37 @@ export const loginRequest = async ({ email, password }) => {
   }).then(checkResponse);
 };
 
+export const codeRequest = async (email) => {
+  return await fetch(`${urlAPI}/password-reset`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify(email),
+  }).then(checkResponse);
+};
+
+export const changePasswordRequest = async ({ password, token }) => {
+  return await fetch(`${urlAPI}/password-reset/reset`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({ password, token }),
+  }).then(checkResponse);
+};
+
+//
 export const tokenRequest = async (form) => {
   return await fetch(`${urlAPI}/auth/token`, {
     method: "POST",
@@ -69,21 +98,6 @@ export const tokenRequest = async (form) => {
     body: JSON.stringify(form),
   }).then(checkResponse);
 };
-
-//!!!!
-export const getUserRequest = async () =>
-  await fetch("https://cosmic.nomoreparties.space/api/user", {
-    method: "GET",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
-    },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-  });
 
 export const logoutRequest = async () => {
   return await fetch(`${urlAPI}/auth/logout`, {
