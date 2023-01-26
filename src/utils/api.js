@@ -83,7 +83,6 @@ export const changePasswordRequest = async ({ password, token }) => {
   }).then(checkResponse);
 };
 
-//
 export const tokenRequest = async (form) => {
   return await fetch(`${urlAPI}/auth/token`, {
     method: "POST",
@@ -99,7 +98,7 @@ export const tokenRequest = async (form) => {
   }).then(checkResponse);
 };
 
-export const logoutRequest = async () => {
+export const logoutRequest = async (refreshToken) => {
   return await fetch(`${urlAPI}/auth/logout`, {
     method: "POST",
     mode: "cors",
@@ -110,5 +109,6 @@ export const logoutRequest = async () => {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
+    body: JSON.stringify({ token: refreshToken }),
   }).then(checkResponse);
 };

@@ -25,9 +25,17 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         {/* <Route path="/profile" element={<ProfilePage />} /> */}
+        <Route
+          path="/profile"
+          element={<ProtectedRouteElement element={<ProfilePage />} />}
+        />
         {/* <Route
-            path="/profile"
-            element={<ProtectedRouteElement element={<ProfilePage />} />}
+            path="/profile/orders"
+            element={<ProtectedRouteElement element={<IngredientPage />} />}
+          /> */}
+        {/* <Route
+            path="/profile/orders/:id"
+            element={<ProtectedRouteElement element={<IngredientPage />} />}
           /> */}
         {/* <Route
             path="/ingredients/:id"

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -17,7 +17,7 @@ export function ProfilePage() {
   };
 
   return (
-    <div>
+    <>
       <AppHeader />
       <div className={styles.container}>
         <ProfileTabs />
@@ -46,9 +46,29 @@ export function ProfilePage() {
               name={"password"}
               icon="EditIcon"
             />
+            {/* {isDataChanged && ( */}
+            <div className={styles.button_container}>
+              <Button
+                type="secondary"
+                size="medium"
+                htmlType="button"
+                // onClick={onCancelForm}
+              >
+                Отмена
+              </Button>
+              <Button
+                type="primary"
+                size="medium"
+                htmlType="submit"
+                // onClick={onSubmitForm}
+              >
+                Сохранить
+              </Button>
+            </div>
+            {/* )} */}
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }

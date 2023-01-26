@@ -122,3 +122,22 @@ export const changePassword = ({ password, token }) => {
     });
   };
 };
+
+export const logoutUser = (refreshToken) => {
+  return function (dispatch) {
+    dispatch({
+      type: LOGOUT_USER_REQUEST,
+    });
+    logoutRequest(refreshToken).then((res) => {
+      if (res && res.success) {
+        dispatch({
+          type: LOGOUT_USER_REQUEST_SUCCESS,
+        });
+      } else {
+        dispatch({
+          type: LOGOUT_USER_REQUEST_ERROR,
+        });
+      }
+    });
+  };
+};

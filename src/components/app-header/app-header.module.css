@@ -13,10 +13,10 @@
 
 .nav_link {
   display: flex;  
+  cursor: pointer;
 }
 
-.nav_link_end {
-  display: flex;  
+.justify_end {
   justify-self: end;  
 }
 

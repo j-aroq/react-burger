@@ -109,6 +109,24 @@ export const authReducer = (state = initialState, action) => {
         request: false,
         requestFailed: true,
       };
+    case LOGOUT_USER_REQUEST:
+      return {
+        ...state,
+        request: true,
+      };
+    case LOGOUT_USER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        request: false,
+        requestFailed: false,
+        user: null,
+      };
+    case LOGOUT_USER_REQUEST_ERROR:
+      return {
+        ...state,
+        request: false,
+        requestFailed: true,
+      };
     default:
       return state;
   }
