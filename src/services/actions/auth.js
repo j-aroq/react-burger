@@ -5,6 +5,9 @@ import {
   registrationRequest,
   codeRequest,
   changePasswordRequest,
+  getUserInfoRequest,
+  patchUserInfoRequest,
+  accessTokenRequest,
 } from "../../utils/api";
 import { setCookies } from "../../utils/auth";
 
@@ -85,6 +88,26 @@ export const loginUser = ({ email, password }) => {
   };
 };
 
+export const getAccessToken = (refreshToken) => {
+  return function (dispatch) {
+    dispatch({
+      type: REFRESH_TOKEN_REQUEST,
+    });
+    accessTokenRequest(refreshToken).then((res) => {
+      if (res && res.success) {
+        setCookies(res.accessToken, res.refreshToken);
+        dispatch({
+          type: REFRESH_TOKEN_REQUEST_SUCCESS,
+        });
+      } else {
+        dispatch({
+          type: REFRESH_TOKEN_REQUEST_ERROR,
+        });
+      }
+    });
+  };
+};
+
 export const requestCode = (email) => {
   return function (dispatch) {
     dispatch({
@@ -136,6 +159,46 @@ export const logoutUser = (refreshToken) => {
       } else {
         dispatch({
           type: LOGOUT_USER_REQUEST_ERROR,
+        });
+      }
+    });
+  };
+};
+
+export const getUserInfo = () => {
+  return function (dispatch) {
+    dispatch({
+      type: GET_USER_INFO_REQUEST,
+    });
+    getUserInfoRequest().then((res) => {
+      if (res && res.success) {
+        dispatch({
+          type: GET_USER_INFO_REQUEST_SUCCESS,
+          payload: res.user,
+        });
+      } else {
+        dispatch({
+          type: GET_USER_INFO_REQUEST_ERROR,
+        });
+      }
+    });
+  };
+};
+
+export const patchUserInfo = ({ email, password, name }) => {
+  return function (dispatch) {
+    dispatch({
+      type: PATCH_USER_INFO_REQUEST,
+    });
+    patchUserInfoRequest({ email, password, name }).then((res) => {
+      if (res && res.success) {
+        dispatch({
+          type: PATCH_USER_INFO_REQUEST_SUCCESS,
+          payload: res.user,
+        });
+      } else {
+        dispatch({
+          type: PATCH_USER_INFO_REQUEST_ERROR,
         });
       }
     });

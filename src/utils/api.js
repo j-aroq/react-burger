@@ -1,3 +1,5 @@
+import { authTokens } from "./auth";
+import { deleteCookie } from "./cookie";
 const urlAPI = "https://norma.nomoreparties.space/api";
 
 const checkResponse = (res) => {
@@ -83,7 +85,7 @@ export const changePasswordRequest = async ({ password, token }) => {
   }).then(checkResponse);
 };
 
-export const tokenRequest = async (form) => {
+export const accessTokenRequest = async (refreshToken) => {
   return await fetch(`${urlAPI}/auth/token`, {
     method: "POST",
     mode: "cors",
@@ -94,7 +96,7 @@ export const tokenRequest = async (form) => {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body: JSON.stringify(form),
+    body: JSON.stringify({ token: refreshToken }),
   }).then(checkResponse);
 };
 
@@ -110,5 +112,38 @@ export const logoutRequest = async (refreshToken) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify({ token: refreshToken }),
+  }).then(checkResponse);
+};
+
+export const getUserInfoRequest = async () => {
+  const { accessToken } = authTokens();
+  return await fetch(`${urlAPI}/auth/user`, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken,
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  }).then(checkResponse);
+};
+
+export const patchUserInfoRequest = async ({ email, password, name }) => {
+  const { accessToken } = authTokens();
+  return await fetch(`${urlAPI}/auth/user`, {
+    method: "PATCH",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken,
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({ email, password, name }),
   }).then(checkResponse);
 };

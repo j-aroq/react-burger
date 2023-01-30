@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
@@ -8,7 +8,6 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
-import { authTokens } from "../utils/auth";
 import { changePassword } from "../services/actions/auth";
 
 export function ResetPasswordPage() {
@@ -16,17 +15,13 @@ export function ResetPasswordPage() {
   const dispatch = useDispatch();
 
   const [form, setValue] = useState({ password: "", token: "" });
-  const { user, gotResetPasswordCode } = useSelector((state) => state.auth);
-  const { accessToken, refreshToken } = authTokens();
+  const { gotResetPasswordCode } = useSelector(
+    (state) => state.auth.gotResetPasswordCode
+  );
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-
-  const auth = useCallback(
-    () => (accessToken || refreshToken) && user,
-    [accessToken, refreshToken, user]
-  );
 
   const submitResetPasswordForm = (e) => {
     e.preventDefault();
@@ -34,11 +29,7 @@ export function ResetPasswordPage() {
   };
 
   if (!gotResetPasswordCode) {
-    return <Navigate to={"/login"} />;
-  }
-
-  if (auth()) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/forgot-password"} />;
   }
 
   return (

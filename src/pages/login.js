@@ -34,7 +34,7 @@ export function LoginPage() {
   };
 
   if (auth()) {
-    return <Navigate to={"/"} />;
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -57,12 +57,7 @@ export function LoginPage() {
             name={"password"}
             icon="ShowIcon"
           />
-          <Button
-            // onClick={login}
-            htmlType="submit"
-            type="primary"
-            size="medium"
-          >
+          <Button htmlType="submit" type="primary" size="medium">
             Войти
           </Button>
         </form>

@@ -127,6 +127,59 @@ export const authReducer = (state = initialState, action) => {
         request: false,
         requestFailed: true,
       };
+    case GET_USER_INFO_REQUEST:
+      return {
+        ...state,
+        request: true,
+      };
+    case GET_USER_INFO_REQUEST_SUCCESS:
+      return {
+        ...state,
+        request: false,
+        requestFailed: false,
+        user: action.payload,
+      };
+    case GET_USER_INFO_REQUEST_ERROR:
+      return {
+        ...state,
+        request: false,
+        requestFailed: true,
+      };
+    case PATCH_USER_INFO_REQUEST:
+      return {
+        ...state,
+        request: true,
+      };
+    case PATCH_USER_INFO_REQUEST_SUCCESS:
+      return {
+        ...state,
+        request: false,
+        requestFailed: false,
+        user: action.payload,
+      };
+    case PATCH_USER_INFO_REQUEST_ERROR:
+      return {
+        ...state,
+        request: false,
+        requestFailed: true,
+      };
+    case REFRESH_TOKEN_REQUEST:
+      return {
+        ...state,
+        request: true,
+      };
+    case REFRESH_TOKEN_REQUEST_SUCCESS:
+      return {
+        ...state,
+        request: false,
+        requestFailed: false,
+      };
+    case REFRESH_TOKEN_REQUEST_ERROR:
+      return {
+        ...state,
+        request: false,
+        requestFailed: true,
+      };
     default:
       return state;
   }

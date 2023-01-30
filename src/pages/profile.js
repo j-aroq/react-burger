@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -8,12 +8,43 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
 import { ProfileTabs } from "../components/profile-tabs/profile-tabs";
+import { patchUserInfo } from "../services/actions/auth";
 
 export function ProfilePage() {
-  const [form, setValue] = useState({ email: "", password: "", name: "" });
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const passwordFormValue = "******";
+  const [form, setForm] = useState({
+    email: user.email,
+    password: passwordFormValue,
+    name: user.name,
+  });
+  const [isDataChanged, setIsDataChanged] = useState(false);
 
   const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setIsDataChanged(true);
+  };
+
+  const submitForm = () => {
+    dispatch(
+      patchUserInfo({
+        email: form.email,
+        name: form.name,
+        password:
+          form.password !== passwordFormValue ? form.password : "Qwerty",
+      })
+    );
+    setIsDataChanged(false);
+  };
+
+  const cancelForm = () => {
+    setForm({
+      email: user.email,
+      name: user.name,
+      password: passwordFormValue,
+    });
+    setIsDataChanged(false);
   };
 
   return (
@@ -46,26 +77,26 @@ export function ProfilePage() {
               name={"password"}
               icon="EditIcon"
             />
-            {/* {isDataChanged && ( */}
-            <div className={styles.button_container}>
-              <Button
-                type="secondary"
-                size="medium"
-                htmlType="button"
-                // onClick={onCancelForm}
-              >
-                Отмена
-              </Button>
-              <Button
-                type="primary"
-                size="medium"
-                htmlType="submit"
-                // onClick={onSubmitForm}
-              >
-                Сохранить
-              </Button>
-            </div>
-            {/* )} */}
+            {isDataChanged && (
+              <div className={styles.button_container}>
+                <Button
+                  type="secondary"
+                  size="medium"
+                  htmlType="button"
+                  onClick={cancelForm}
+                >
+                  Отмена
+                </Button>
+                <Button
+                  type="primary"
+                  size="medium"
+                  htmlType="submit"
+                  onClick={submitForm}
+                >
+                  Сохранить
+                </Button>
+              </div>
+            )}
           </form>
         </div>
       </div>

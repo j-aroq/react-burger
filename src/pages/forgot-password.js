@@ -7,7 +7,6 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
-import { authTokens } from "../utils/auth";
 import { requestCode } from "../services/actions/auth";
 
 export function ForgotPasswordPage() {
@@ -15,17 +14,11 @@ export function ForgotPasswordPage() {
   const dispatch = useDispatch();
 
   const [form, setValue] = useState({ email: "" });
-  const { user, gotResetPasswordCode } = useSelector((state) => state.auth);
-  const { accessToken, refreshToken } = authTokens();
+  const { gotResetPasswordCode } = useSelector((state) => state.auth);
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-
-  const auth = useCallback(
-    () => (accessToken || refreshToken) && user,
-    [accessToken, refreshToken, user]
-  );
 
   const submitForgotPasswordForm = (e) => {
     e.preventDefault();
@@ -33,11 +26,7 @@ export function ForgotPasswordPage() {
   };
 
   if (gotResetPasswordCode) {
-    return <Navigate to={"/reset-password"} />;
-  }
-
-  if (auth()) {
-    return <Navigate to={"/"} />;
+    return <Navigate to="/reset-password" />;
   }
 
   return (

@@ -1,13 +1,11 @@
 import styles from "./profile-tabs.module.css";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { authTokens } from "../../utils/auth";
 import { logoutUser } from "../../services/actions/auth";
 import { deleteCookie } from "../../utils/cookie";
 
 export function ProfileTabs() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { refreshToken } = authTokens();
 
@@ -19,6 +17,7 @@ export function ProfileTabs() {
     e.preventDefault();
     dispatch(logoutUser(refreshToken));
     deleteCookie("refreshToken");
+    deleteCookie("accessToken");
   };
 
   return (
