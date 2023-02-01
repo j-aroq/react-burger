@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, NavLink, matchPath } from "react-router-dom";
 import styles from "./app-header.module.css";
 import {
   Logo,
@@ -8,35 +8,51 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export function AppHeader() {
-  const navigate = useNavigate();
+  const location = useLocation();
+
+  const activeMain = matchPath(location.pathname, "/");
+  const activeFeed = matchPath(location.pathname, "/feed");
+  const activeProfile = matchPath(location.pathname, "/profile");
+  const activeProfileOrders = matchPath(location.pathname, "/profile/orders");
+
+  let activeStyle = {
+    color: "#F2F2F3",
+  };
+
   return (
     <header className={`${styles.app_header} pt-4 pb-4 mb-10`}>
       <a className={styles.logo}>
         <Logo />
       </a>
       <nav className={styles.nav_header}>
-        <a
+        <NavLink
+          to="/"
           className={`${styles.nav_link} mb-4 mt-4 mr-7`}
-          onClick={() => navigate("/")}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
-          <BurgerIcon type="primary" />
+          <BurgerIcon type={activeMain ? "primary" : "secondary"} />
           <p className="text text_type_main-default ml-2">Конструктор</p>
-        </a>
-        <a className={`${styles.nav_link} ml-5 mr-5 mb-4 mt-4`}>
-          <ListIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive ml-2">
-            Лента заказов
-          </p>
-        </a>
-        <a
-          className={`${styles.nav_link} ${styles.justify_end} ml-5 mb-4 mt-4`}
-          onClick={() => navigate("/profile")}
+        </NavLink>
+        <NavLink
+          to="/feed"
+          className={`${styles.nav_link} ml-5 mr-5 mb-4 mt-4`}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
-          <ProfileIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive ml-2">
-            Личный кабинет
-          </p>
-        </a>
+          <ListIcon type={activeFeed ? "primary" : "secondary"} />
+          <p className="text text_type_main-default ml-2">Лента заказов</p>
+        </NavLink>
+        <NavLink
+          to="/profile"
+          className={`${styles.nav_link} ${styles.justify_end} ml-5 mb-4 mt-4`}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <ProfileIcon
+            type={
+              activeProfile || activeProfileOrders ? "primary" : "secondary"
+            }
+          />
+          <p className="text text_type_main-default ml-2">Личный кабинет</p>
+        </NavLink>
       </nav>
     </header>
   );

@@ -8,6 +8,8 @@ import {
   HomePage,
   IngredientPage,
   NotFoundPage,
+  OrdersPage,
+  OrdersFeedPage,
 } from "./pages";
 import { ProtectedRouteElement } from "./components/protected-route";
 import { IngredientDetails } from "./components/ingredient-details/ingredient-details";
@@ -65,6 +67,16 @@ export default function App() {
           />
         }
       />
+      <Route
+        path="/profile/orders"
+        element={
+          <ProtectedRouteElement
+            element={<OrdersPage />}
+            accessType="authorized"
+          />
+        }
+      />
+      <Route path="/feed" element={<OrdersFeedPage />} />
       {homeLocation && (
         <Route
           path="/ingredients/:id"
@@ -76,15 +88,7 @@ export default function App() {
         />
       )}
       <Route path="/ingredients/:id" element={<IngredientPage />} />
-      {/* <Route
-            path="/profile/orders"
-            element={<ProtectedRouteElement element={<IngredientPage />} accessType="authorized" />}
-          /> */}
-      {/* <Route
-            path="/profile/orders/:id"
-            element={<ProtectedRouteElement element={<IngredientPage />} accessType="authorized" />}
-          /> */}
-      {/* <Route path="*" element={<NotFoundPage />} /> */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

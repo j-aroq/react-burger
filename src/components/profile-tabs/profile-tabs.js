@@ -1,11 +1,12 @@
 import styles from "./profile-tabs.module.css";
 import { useDispatch } from "react-redux";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { authTokens } from "../../utils/auth";
 import { logoutUser } from "../../services/actions/auth";
 import { deleteCookie } from "../../utils/cookie";
+import PropTypes from "prop-types";
 
-export function ProfileTabs() {
+export function ProfileTabs({ text }) {
   const dispatch = useDispatch();
   const { refreshToken } = authTokens();
 
@@ -25,6 +26,7 @@ export function ProfileTabs() {
       <nav className={`${styles.flex} mb-20`}>
         <NavLink
           to="/profile"
+          end
           className={`${styles.link} text text_type_main-medium text_color_inactive pt-4 pb-4`}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -46,9 +48,11 @@ export function ProfileTabs() {
           Выход
         </NavLink>
       </nav>
-      <p className="text text_type_main-default text_color_inactive">
-        В этом разделе вы можете изменить свои персональные данные
-      </p>
+      <p className="text text_type_main-default text_color_inactive">{text}</p>
     </div>
   );
 }
+
+ProfileTabs.propTypes = {
+  text: PropTypes.string.isRequired,
+};

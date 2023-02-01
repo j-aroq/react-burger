@@ -17,10 +17,13 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router";
 
 export function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { burgerData, orderNumber } = useSelector((state) => state.burger);
+  const user = useSelector((state) => state.auth.user);
 
   const bun = burgerData.find(function (element) {
     return element.type === "bun";
@@ -49,8 +52,13 @@ export function BurgerConstructor() {
   });
 
   const handleOpenIngredientInfoModal = () => {
-    dispatch(makeOrder(burgerData.map((ingredient) => ingredient._id)));
+    if (user) {
+      dispatch(makeOrder(burgerData.map((ingredient) => ingredient._id)));
+    } else {
+      navigate("/login");
+    }
   };
+
   const handleCloseOrderModal = () => {
     dispatch({ type: DELETE_ORDER });
   };

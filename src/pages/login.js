@@ -38,7 +38,7 @@ export function LoginPage() {
   }
 
   return (
-    <div>
+    <div className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />
       <div className={styles.container}>
         <form className={styles.form} onSubmit={submitLoginForm}>

@@ -48,10 +48,12 @@ export function ProfilePage() {
   };
 
   return (
-    <>
+    <div className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />
       <div className={styles.container}>
-        <ProfileTabs />
+        <ProfileTabs
+          text={"В этом разделе вы можете изменить свои персональные данные"}
+        />
         <div className="ml-15">
           <form className={styles.form}>
             <Input
@@ -100,6 +102,6 @@ export function ProfilePage() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }
