@@ -16,18 +16,12 @@ export const ProtectedRouteElement = ({ element, accessType }) => {
 
   useEffect(() => {
     if ((accessToken || refreshToken) && !user) {
+      if (!accessToken) {
+        dispatch(getAccessToken(refreshToken));
+      }
       dispatch(getUserInfo());
     }
   }, [accessToken, dispatch, refreshToken]);
-
-  // useEffect(() => {
-  //   if ((accessToken || refreshToken) && !user) {
-  //     // if (!accessToken) {
-  //     //   dispatch(getAccessToken(refreshToken));
-  //     // }
-  //     dispatch(getUserInfo());
-  //   }
-  // }, [accessToken, dispatch, refreshToken]);
 
   const render = () => {
     let elementToRender = element;

@@ -29,9 +29,7 @@ const initialState = {
   user: null,
   request: false,
   requestFailed: false,
-  // tokenExpired: null,
   gotResetPasswordCode: false,
-  // resetPasswordCodeEmail: null,
 };
 
 export const authReducer = (state = initialState, action) => {

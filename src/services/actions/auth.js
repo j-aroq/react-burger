@@ -1,5 +1,4 @@
 import {
-  tokenRequest,
   logoutRequest,
   loginRequest,
   registrationRequest,
