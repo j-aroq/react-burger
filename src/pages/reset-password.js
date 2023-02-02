@@ -15,9 +15,7 @@ export function ResetPasswordPage() {
   const dispatch = useDispatch();
 
   const [form, setValue] = useState({ password: "", token: "" });
-  const { gotResetPasswordCode } = useSelector(
-    (state) => state.auth.gotResetPasswordCode
-  );
+  const { gotResetPasswordCode } = useSelector((state) => state.auth);
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -26,6 +24,7 @@ export function ResetPasswordPage() {
   const submitResetPasswordForm = (e) => {
     e.preventDefault();
     dispatch(changePassword(form));
+    navigate("/login");
   };
 
   if (!gotResetPasswordCode) {

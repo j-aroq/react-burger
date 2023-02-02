@@ -1,11 +1,14 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authTokens } from "../utils/auth";
 import { getUserInfo, getAccessToken } from "../services/actions/auth";
+import PropTypes from "prop-types";
 
 export const ProtectedRouteElement = ({ element, accessType }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { state: locationState } = useLocation();
   const user = useSelector((state) => state.auth.user);
   const { accessToken, refreshToken } = authTokens();
 
@@ -28,13 +31,25 @@ export const ProtectedRouteElement = ({ element, accessType }) => {
     switch (accessType) {
       case "authorized":
         if (!auth()) {
-          elementToRender = <Navigate to="/login" replace />;
+          elementToRender = (
+            <Navigate to="/login" replace state={{ redirectTo: location }} />
+          );
         }
-
         break;
       case "unauthorized":
         if (auth()) {
-          elementToRender = <Navigate to="/" replace />;
+          if (locationState) {
+            const { redirectTo } = locationState;
+            elementToRender = (
+              <Navigate
+                to={`${redirectTo.pathname}`}
+                replace
+                state={{ redirectTo: location }}
+              />
+            );
+          } else {
+            <Navigate to="/" replace state={{ redirectTo: location }} />;
+          }
         }
         break;
       default:
@@ -43,4 +58,9 @@ export const ProtectedRouteElement = ({ element, accessType }) => {
     return elementToRender;
   };
   return render();
+};
+
+ProtectedRouteElement.propTypes = {
+  element: PropTypes.element.isRequired,
+  accessType: PropTypes.string,
 };

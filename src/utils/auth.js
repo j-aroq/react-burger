@@ -1,6 +1,4 @@
-import { useContext, useState, createContext } from "react";
-import { useSelector } from "react-redux";
-import { deleteCookie, setCookie, getCookie } from "./cookie";
+import { setCookie, getCookie } from "./cookie";
 
 export const setCookies = (accessToken, refreshToken) => {
   const expirationAt = new Date(new Date().getTime() + 20 * 60 * 1000);

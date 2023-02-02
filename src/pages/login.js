@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -18,6 +18,7 @@ export function LoginPage() {
   const [form, setValue] = useState({ email: "", password: "" });
   const user = useSelector((state) => state.auth.user);
   const { accessToken, refreshToken } = authTokens();
+  const { state: locationState } = useLocation();
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -34,7 +35,12 @@ export function LoginPage() {
   };
 
   if (auth()) {
-    return <Navigate to="/" replace />;
+    if (locationState) {
+      const { redirectTo } = locationState;
+      navigate(`${redirectTo.pathname}`);
+    } else {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return (

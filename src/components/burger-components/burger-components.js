@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./burger-components.module.css";
 import { ingredientType } from "../../utils/type";

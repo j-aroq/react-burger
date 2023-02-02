@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,

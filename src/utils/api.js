@@ -1,5 +1,4 @@
 import { authTokens } from "./auth";
-import { deleteCookie } from "./cookie";
 const urlAPI = "https://norma.nomoreparties.space/api";
 
 const checkResponse = (res) => {
