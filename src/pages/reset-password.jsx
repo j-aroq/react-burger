@@ -35,7 +35,6 @@ export function ResetPasswordPage() {
           <h1 className="text text_type_main-medium">Восстановление пароля</h1>
 
           <PasswordInput
-            // type={"password"}
             placeholder={"Введите новый пароль"}
             onChange={handleChange}
             value={values.password}
