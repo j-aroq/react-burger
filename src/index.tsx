@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
-import {App} from './components/app/app';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { rootReducer } from './services/reducers';
 import { enhancer } from './utils/store';
+import { BrowserRouter } from "react-router-dom";
 
 const store = createStore(rootReducer, enhancer); 
 
@@ -17,7 +18,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

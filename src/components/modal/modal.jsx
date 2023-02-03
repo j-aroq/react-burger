@@ -28,7 +28,9 @@ export function Modal({ children, handleClose, title }) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className={`${styles.modal_header} pt-3 pb-3`}>
-            <p className="text text_type_main-large">{title}</p>
+            <p className={`${styles.modal_title} text text_type_main-large`}>
+              {title}
+            </p>
             <button className={styles.close_button} onClick={handleClose}>
               <CloseIcon type="primary" />
             </button>

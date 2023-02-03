@@ -18,3 +18,9 @@
   background-color: transparent;
   border: none;
 }
+
+.modal_title {
+  display: flex;
+  justify-content: center;
+  width: 604px;
+}

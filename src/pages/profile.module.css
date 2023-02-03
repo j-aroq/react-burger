@@ -1,0 +1,18 @@
+.form {
+  display: grid;
+  justify-items: center;
+  row-gap: 24px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 120px;
+  padding-left: calc((100vw - 1320px)/2);
+  padding-right: calc((100vw - 1320px)/2);
+}
+
+.button_container {
+  display: flex;
+  justify-self: end;
+}

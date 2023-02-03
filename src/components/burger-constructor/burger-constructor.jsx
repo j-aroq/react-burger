@@ -17,16 +17,26 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router";
 
 export function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { burgerData, orderNumber } = useSelector((state) => state.burger);
+  const user = useSelector((state) => state.auth.user);
 
   const bun = burgerData.find(function (element) {
     return element.type === "bun";
   });
   const ingredientsBetweenBuns = burgerData.filter(
     (element) => element.type !== "bun"
+  );
+
+  const isOrderReady = useSelector(
+    (state) =>
+      state.burger.burgerData.find(
+        (ingredient) => ingredient.type === "bun"
+      ) && state.burger.burgerData.length > 1
   );
 
   const onDropIngredient = (ingredient) => {
@@ -49,8 +59,13 @@ export function BurgerConstructor() {
   });
 
   const handleOpenIngredientInfoModal = () => {
-    dispatch(makeOrder(burgerData.map((ingredient) => ingredient._id)));
+    if (user) {
+      dispatch(makeOrder(burgerData.map((ingredient) => ingredient._id)));
+    } else {
+      navigate("/login");
+    }
   };
+
   const handleCloseOrderModal = () => {
     dispatch({ type: DELETE_ORDER });
   };
@@ -63,7 +78,7 @@ export function BurgerConstructor() {
     } else {
       return 0;
     }
-  }, [bun, ingredientsBetweenBuns]);
+  }, [burgerData]);
 
   return (
     <>
@@ -119,6 +134,7 @@ export function BurgerConstructor() {
             size="large"
             htmlType="button"
             onClick={handleOpenIngredientInfoModal}
+            disabled={!isOrderReady}
           >
             Оформить заказ
           </Button>

@@ -12,7 +12,7 @@ export function BurgerIngredients() {
 
   React.useEffect(() => {
     dispatch(getIngredients());
-  }, []);
+  }, [dispatch]);
 
   const buns = React.useMemo(
     () => items.filter((item) => item.type === "bun"),
