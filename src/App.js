@@ -19,7 +19,7 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const homeLocation = location.state && location.state.ingredientModal;
+  const isHomeLocation = location.state && location.state.ingredientModal;
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -36,7 +36,8 @@ export default function App() {
         path="/register"
         element={
           <ProtectedRouteElement
-            element={<RegistrationPage accessType="unauthorized" />}
+            element={<RegistrationPage />}
+            accessType="unauthorized"
           />
         }
       />
@@ -77,7 +78,7 @@ export default function App() {
         }
       />
       <Route path="/feed" element={<OrdersFeedPage />} />
-      {homeLocation && (
+      {isHomeLocation && (
         <Route
           path="/ingredients/:id"
           element={

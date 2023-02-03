@@ -32,6 +32,13 @@ export function BurgerConstructor() {
     (element) => element.type !== "bun"
   );
 
+  const isOrderReady = useSelector(
+    (state) =>
+      state.burger.burgerData.find(
+        (ingredient) => ingredient.type === "bun"
+      ) && state.burger.burgerData.length > 1
+  );
+
   const onDropIngredient = (ingredient) => {
     if (ingredient.type === "bun") {
       dispatch({
@@ -71,7 +78,7 @@ export function BurgerConstructor() {
     } else {
       return 0;
     }
-  }, [bun, ingredientsBetweenBuns]);
+  }, [burgerData]);
 
   return (
     <>
@@ -127,6 +134,7 @@ export function BurgerConstructor() {
             size="large"
             htmlType="button"
             onClick={handleOpenIngredientInfoModal}
+            disabled={!isOrderReady}
           >
             Оформить заказ
           </Button>

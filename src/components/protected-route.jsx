@@ -24,7 +24,7 @@ export const ProtectedRouteElement = ({ element, accessType }) => {
       }
       dispatch(getUserInfo());
     }
-  }, [accessToken, dispatch, refreshToken]);
+  }, [accessToken, dispatch, refreshToken, user]);
 
   const render = () => {
     let elementToRender = element;
@@ -48,7 +48,7 @@ export const ProtectedRouteElement = ({ element, accessType }) => {
               />
             );
           } else {
-            <Navigate to="/" replace state={{ redirectTo: location }} />;
+            elementToRender = (<Navigate to="/" replace state={{ redirectTo: location }} />);
           }
         }
         break;

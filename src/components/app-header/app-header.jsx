@@ -21,9 +21,9 @@ export function AppHeader() {
 
   return (
     <header className={`${styles.app_header} pt-4 pb-4 mb-10`}>
-      <a className={styles.logo}>
+      <div className={styles.logo}>
         <Logo />
-      </a>
+      </div>
       <nav className={styles.nav_header}>
         <NavLink
           to="/"

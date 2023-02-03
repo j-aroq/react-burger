@@ -24,11 +24,7 @@ export function IngredientDetails() {
     } else {
       dispatch(getIngredients());
     }
-  }, [id, items]);
-
-  React.useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
+  }, [id, items, dispatch, navigate]);
 
   if (item) {
     return (

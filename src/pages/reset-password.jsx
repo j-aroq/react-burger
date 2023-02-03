@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
@@ -9,21 +8,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
 import { changePassword } from "../services/actions/auth";
+import { useForm } from "../hooks/useForm";
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [form, setValue] = useState({ password: "", token: "" });
   const { gotResetPasswordCode } = useSelector((state) => state.auth);
-
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange,  } = useForm({ password: "", token: "" });
 
   const submitResetPasswordForm = (e) => {
     e.preventDefault();
-    dispatch(changePassword(form));
+    dispatch(changePassword(values));
     navigate("/login");
   };
 
@@ -39,18 +35,18 @@ export function ResetPasswordPage() {
           <h1 className="text text_type_main-medium">Восстановление пароля</h1>
 
           <PasswordInput
-            type={"password"}
+            // type={"password"}
             placeholder={"Введите новый пароль"}
-            onChange={onChange}
-            value={form.password}
+            onChange={handleChange}
+            value={values.password}
             name={"password"}
             icon="ShowIcon"
           />
           <Input
             type={"text"}
             placeholder={"Введите код из письма"}
-            onChange={onChange}
-            value={form.token}
+            onChange={handleChange}
+            value={values.token}
             name={"token"}
           />
           <Button htmlType="submit" type="primary" size="medium">

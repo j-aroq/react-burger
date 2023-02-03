@@ -29,7 +29,7 @@ export function Ingredient({ ingredientData }) {
     navigate(`/ingredients/${ingredientData._id}`, {
       state: { ingredientModal: location },
     });
-  }, [navigate, location]);
+  }, [navigate, location, ingredientData._id]);
 
   const [, dragRef] = useDrag({
     type: "ingredient",

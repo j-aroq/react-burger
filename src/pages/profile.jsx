@@ -9,12 +9,13 @@ import {
 import styles from "./profile.module.css";
 import { ProfileTabs } from "../components/profile-tabs/profile-tabs";
 import { patchUserInfo } from "../services/actions/auth";
+import { useForm } from "../hooks/useForm";
 
 export function ProfilePage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const passwordFormValue = "******";
-  const [form, setForm] = useState({
+  const { values, setValues } = useForm({
     email: user.email,
     password: passwordFormValue,
     name: user.name,
@@ -22,24 +23,24 @@ export function ProfilePage() {
   const [isDataChanged, setIsDataChanged] = useState(false);
 
   const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value });
     setIsDataChanged(true);
   };
 
   const submitForm = () => {
     dispatch(
       patchUserInfo({
-        email: form.email,
-        name: form.name,
+        email: values.email,
+        name: values.name,
         password:
-          form.password !== passwordFormValue ? form.password : "Qwerty",
+        values.password !== passwordFormValue ? values.password : "Qwerty",
       })
     );
     setIsDataChanged(false);
   };
 
   const cancelForm = () => {
-    setForm({
+    setValues({
       email: user.email,
       name: user.name,
       password: passwordFormValue,
@@ -60,7 +61,7 @@ export function ProfilePage() {
               type={"text"}
               placeholder={"Имя"}
               onChange={onChange}
-              value={form.name}
+              value={values.name}
               name={"name"}
               icon="EditIcon"
             />
@@ -68,14 +69,14 @@ export function ProfilePage() {
               type={"email"}
               placeholder={"Логин"}
               onChange={onChange}
-              value={form.email}
+              value={values.email}
               name={"email"}
               icon="EditIcon"
             />
             <PasswordInput
               type={"password"}
               onChange={onChange}
-              value={form.password}
+              value={values.password}
               name={"password"}
               icon="EditIcon"
             />

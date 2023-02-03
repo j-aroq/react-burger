@@ -9,6 +9,7 @@ import {
   accessTokenRequest,
 } from "../../utils/api";
 import { setCookies } from "../../utils/auth";
+import { deleteCookie } from "../../utils/cookie";
 
 export const REGISTER_USER_REQUEST = "REGISTER_USER_REQUEST";
 export const REGISTER_USER_REQUEST_SUCCESS = "REGISTER_USER_REQUEST_SUCCESS";
@@ -155,6 +156,8 @@ export const logoutUser = (refreshToken) => {
         dispatch({
           type: LOGOUT_USER_REQUEST_SUCCESS,
         });
+        deleteCookie("refreshToken");
+        deleteCookie("accessToken");
       } else {
         dispatch({
           type: LOGOUT_USER_REQUEST_ERROR,

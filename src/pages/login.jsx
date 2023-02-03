@@ -1,6 +1,5 @@
-import { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -9,39 +8,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
 import { loginUser } from "../services/actions/auth";
-import { authTokens } from "../utils/auth";
+import { useForm } from "../hooks/useForm";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [form, setValue] = useState({ email: "", password: "" });
-  const user = useSelector((state) => state.auth.user);
-  const { accessToken, refreshToken } = authTokens();
-  const { state: locationState } = useLocation();
-
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const auth = useCallback(
-    () => (accessToken || refreshToken) && user,
-    [accessToken, refreshToken, user]
-  );
+  const { values, handleChange } = useForm({ email: "", password: "" });
 
   const submitLoginForm = (e) => {
     e.preventDefault();
-    dispatch(loginUser(form));
+    dispatch(loginUser(values));
   };
-
-  if (auth()) {
-    if (locationState) {
-      const { redirectTo } = locationState;
-      navigate(`${redirectTo.pathname}`);
-    } else {
-      return <Navigate to="/" replace />;
-    }
-  }
 
   return (
     <div className="pt-10 pr-10 pb-10 pl-10">
@@ -53,13 +31,13 @@ export function LoginPage() {
           <Input
             type={"email"}
             placeholder={"E-mail"}
-            onChange={onChange}
-            value={form.email}
+            onChange={handleChange}
+            value={values.email}
             name={"email"}
           />
           <PasswordInput
-            onChange={onChange}
-            value={form.password}
+            onChange={handleChange}
+            value={values.password}
             name={"password"}
             icon="ShowIcon"
           />

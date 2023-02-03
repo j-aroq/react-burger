@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppHeader } from "../components/app-header/app-header";
@@ -9,20 +8,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
 import { registerUser } from "../services/actions/auth";
+import { useForm } from "../hooks/useForm";
 
 export function RegistrationPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [form, setValue] = useState({ email: "", password: "", name: "" });
-
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange,  } = useForm({ email: "", password: "", name: "" });
 
   const submitRegistrationForm = (e) => {
     e.preventDefault();
-    dispatch(registerUser(form));
+    dispatch(registerUser(values));
   };
 
   return (
@@ -35,21 +31,21 @@ export function RegistrationPage() {
           <Input
             type={"text"}
             placeholder={"Имя"}
-            onChange={onChange}
-            value={form.name}
+            onChange={handleChange}
+            value={values.name}
             name={"name"}
           />
           <Input
             type={"email"}
             placeholder={"E-mail"}
-            onChange={onChange}
-            value={form.email}
+            onChange={handleChange}
+            value={values.email}
             name={"email"}
           />
           <PasswordInput
             type={"password"}
-            onChange={onChange}
-            value={form.password}
+            onChange={handleChange}
+            value={values.password}
             name={"password"}
             icon="ShowIcon"
           />

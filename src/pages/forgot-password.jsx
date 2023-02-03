@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
@@ -8,21 +7,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
 import { requestCode } from "../services/actions/auth";
+import { useForm } from "../hooks/useForm";
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [form, setValue] = useState({ email: "" });
   const { gotResetPasswordCode } = useSelector((state) => state.auth);
-
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange } = useForm({ email: "" });
 
   const submitForgotPasswordForm = (e) => {
     e.preventDefault();
-    dispatch(requestCode(form));
+    dispatch(requestCode(values));
   };
 
   if (gotResetPasswordCode) {
@@ -38,8 +34,8 @@ export function ForgotPasswordPage() {
           <Input
             type={"email"}
             placeholder={"Укажите e-mail"}
-            onChange={onChange}
-            value={form.email}
+            onChange={handleChange}
+            value={values.email}
             name={"email"}
           />
           <Button htmlType="submit" type="primary" size="medium">

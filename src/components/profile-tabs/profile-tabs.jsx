@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { authTokens } from "../../utils/auth";
 import { logoutUser } from "../../services/actions/auth";
-import { deleteCookie } from "../../utils/cookie";
 import PropTypes from "prop-types";
 
 export function ProfileTabs({ text }) {
@@ -17,8 +16,6 @@ export function ProfileTabs({ text }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(logoutUser(refreshToken));
-    deleteCookie("refreshToken");
-    deleteCookie("accessToken");
   };
 
   return (

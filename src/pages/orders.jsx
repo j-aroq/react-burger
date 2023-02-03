@@ -1,11 +1,4 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { AppHeader } from "../components/app-header/app-header";
-import {
-  Button,
-  Input,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
 import { ProfileTabs } from "../components/profile-tabs/profile-tabs";
 

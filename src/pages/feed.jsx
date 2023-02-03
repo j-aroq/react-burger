@@ -1,9 +1,4 @@
 import { AppHeader } from "../components/app-header/app-header";
-import {
-  Button,
-  Input,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
 
 export function OrdersFeedPage() {

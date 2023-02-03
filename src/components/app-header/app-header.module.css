@@ -22,6 +22,11 @@
   color: #F2F2F3,
 }
 
+.nav_text{
+  text-decoration: none;
+  color: #8585AD;
+}
+
 .justify_end {
   justify-self: end;  
 }
