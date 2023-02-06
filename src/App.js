@@ -9,11 +9,13 @@ import {
   IngredientPage,
   NotFoundPage,
   OrdersPage,
-  OrdersFeedPage,
+  FeedPage,
+  OrderPage,
 } from "./pages";
 import { ProtectedRouteElement } from "./components/protected-route";
 import { IngredientDetails } from "./components/ingredient-details/ingredient-details";
 import { Modal } from "./components/modal/modal";
+import { Order } from "./components/order/order";
 
 export default function App() {
   const navigate = useNavigate();
@@ -77,13 +79,45 @@ export default function App() {
           />
         }
       />
-      <Route path="/feed" element={<OrdersFeedPage />} />
+      <Route
+        path="/profile/orders/order"
+        // path="/profile/orders/:id"
+        element={
+          <ProtectedRouteElement
+            element={<OrderPage />}
+            accessType="authorized"
+          />
+        }
+      />
+      <Route path="/feed" element={<FeedPage />} />
+      {/* <Route path="/feed/:id" element={<OrderPage />} /> */}
+      <Route path="/feed/order" element={<OrderPage />} />
       {isHomeLocation && (
         <Route
           path="/ingredients/:id"
           element={
             <Modal handleClose={() => navigate(-1)} title="Детали ингредиента">
               <IngredientDetails />
+            </Modal>
+          }
+        />
+      )}
+      {isHomeLocation && (
+        <Route
+          path="/profile/orders/:id"
+          element={
+            <Modal handleClose={() => navigate(-1)} title="">
+              <Order />
+            </Modal>
+          }
+        />
+      )}
+      {isHomeLocation && (
+        <Route
+          path="/feed/:id"
+          element={
+            <Modal handleClose={() => navigate(-1)} title="">
+              <Order />
             </Modal>
           }
         />
