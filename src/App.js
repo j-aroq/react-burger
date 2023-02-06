@@ -22,6 +22,8 @@ export default function App() {
   const location = useLocation();
 
   const isHomeLocation = location.state && location.state.ingredientModal;
+  const isFeedLocation = location.state && location.state.feedOrderModal;
+  const isProfileLocation = location.state && location.state.profileOrdertModal;
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -79,6 +81,17 @@ export default function App() {
           />
         }
       />
+      {isProfileLocation && (
+        <Route
+          path="/profile/orders/order"
+          // path="/profile/orders/:id"
+          element={
+            <Modal handleClose={() => navigate(-1)} title="">
+              <Order />
+            </Modal>
+          }
+        />
+      )}
       <Route
         path="/profile/orders/order"
         // path="/profile/orders/:id"
@@ -89,9 +102,6 @@ export default function App() {
           />
         }
       />
-      <Route path="/feed" element={<FeedPage />} />
-      {/* <Route path="/feed/:id" element={<OrderPage />} /> */}
-      <Route path="/feed/order" element={<OrderPage />} />
       {isHomeLocation && (
         <Route
           path="/ingredients/:id"
@@ -102,27 +112,21 @@ export default function App() {
           }
         />
       )}
-      {isHomeLocation && (
-        <Route
-          path="/profile/orders/:id"
-          element={
-            <Modal handleClose={() => navigate(-1)} title="">
-              <Order />
-            </Modal>
-          }
-        />
-      )}
-      {isHomeLocation && (
-        <Route
-          path="/feed/:id"
-          element={
-            <Modal handleClose={() => navigate(-1)} title="">
-              <Order />
-            </Modal>
-          }
-        />
-      )}
       <Route path="/ingredients/:id" element={<IngredientPage />} />
+      {isFeedLocation && (
+        <Route
+          path="/feed/order"
+          // path="/feed/:id"
+          element={
+            <Modal handleClose={() => navigate(-1)} title="">
+              <Order />
+            </Modal>
+          }
+        />
+      )}
+      <Route path="/feed" element={<FeedPage />} />
+      {/* <Route path="/feed/:id" element={<OrderPage />} /> */}
+      <Route path="/feed/order" element={<OrderPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
