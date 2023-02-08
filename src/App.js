@@ -83,18 +83,16 @@ export default function App() {
       />
       {isProfileLocation && (
         <Route
-          path="/profile/orders/order"
-          // path="/profile/orders/:id"
+          path="/profile/orders/:id"
           element={
-            <Modal handleClose={() => navigate(-1)} title="">
+            <Modal handleClose={() => navigate(-1)} title="order_number">
               <Order />
             </Modal>
           }
         />
       )}
       <Route
-        path="/profile/orders/order"
-        // path="/profile/orders/:id"
+        path="/profile/orders/:id"
         element={
           <ProtectedRouteElement
             element={<OrderPage />}
@@ -115,18 +113,16 @@ export default function App() {
       <Route path="/ingredients/:id" element={<IngredientPage />} />
       {isFeedLocation && (
         <Route
-          path="/feed/order"
-          // path="/feed/:id"
+          path="/feed/:id"
           element={
-            <Modal handleClose={() => navigate(-1)} title="">
+            <Modal handleClose={() => navigate(-1)} title="order_number">
               <Order />
             </Modal>
           }
         />
       )}
       <Route path="/feed" element={<FeedPage />} />
-      {/* <Route path="/feed/:id" element={<OrderPage />} /> */}
-      <Route path="/feed/order" element={<OrderPage />} />
+      <Route path="/feed/:id" element={<OrderPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

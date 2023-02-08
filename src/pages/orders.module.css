@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  padding-left: calc((100vw - 1320px)/2);
+  padding-right: calc((100vw - 1320px)/2);
+}
+
+.order_container {
+  display: grid;
+  row-gap: 24px; 
+  overflow-y: scroll;
+  max-height: calc(100vh - 128px);
+}
+
+.order_container::-webkit-scrollbar {
+  background-color: var(--color-scrollbar);
+  width: 8px;
+}
+  
+.order_container::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb);
+}

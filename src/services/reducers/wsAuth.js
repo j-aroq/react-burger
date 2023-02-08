@@ -1,8 +1,8 @@
 import {
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE,
+  WS_CONNECTION_SUCCESS_AUTH,
+  WS_CONNECTION_ERROR_AUTH,
+  WS_CONNECTION_CLOSED_AUTH,
+  WS_GET_MESSAGE_AUTH,
 } from "../actions/ws";
 
 const initialState = {
@@ -13,28 +13,28 @@ const initialState = {
   totalToday: null,
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducerAuth = (state = initialState, action) => {
   switch (action.type) {
-    case WS_CONNECTION_SUCCESS:
+    case WS_CONNECTION_SUCCESS_AUTH:
       return {
         ...state,
         wsConnected: true,
       };
 
-    case WS_CONNECTION_ERROR:
+    case WS_CONNECTION_ERROR_AUTH:
       return {
         ...state,
         error: action.payload,
         wsConnected: false,
       };
 
-    case WS_CONNECTION_CLOSED:
+    case WS_CONNECTION_CLOSED_AUTH:
       return {
         ...state,
         wsConnected: false,
       };
 
-    case WS_GET_MESSAGE:
+    case WS_GET_MESSAGE_AUTH:
       return {
         ...state,
         orders: action.payload.orders,

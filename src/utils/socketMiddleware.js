@@ -2,7 +2,7 @@ import { authTokens } from "./auth";
 
 export const socketMiddleware = (wsUrl, wsActions, auth) => (store) => {
   let socket = null;
-  let connected = false;
+  // let connected = false;
   return (next) => (action) => {
     const { dispatch } = store;
     const { type, payload } = action;
@@ -19,11 +19,11 @@ export const socketMiddleware = (wsUrl, wsActions, auth) => (store) => {
     const token = auth ? accessToken : null;
     if (type === wsInit) {
       socket = token
-        ? new WebSocket(`${wsUrl}?token=${token.split(" ")[1]}`)
+        ? new WebSocket(`${wsUrl}?token=${token}`)
         : new WebSocket(`${wsUrl}`);
     }
     if (socket) {
-      connected = true;
+      // connected = true;
       socket.onopen = (event) => {
         dispatch({ type: onOpen, payload: event });
       };
@@ -42,17 +42,17 @@ export const socketMiddleware = (wsUrl, wsActions, auth) => (store) => {
       socket.onclose = (event) => {
         dispatch({ type: onClose, payload: event });
         console.log("socket closed with code: ", event.code);
-        if (!connected) {
-          setTimeout(() => {
-            dispatch({ type: wsInit });
-          }, 1000);
-        }
+        // if (!connected) {
+        //   setTimeout(() => {
+        //     dispatch({ type: wsInit });
+        //   }, 1000);
+        // }
       };
 
-      if (wsClose && type === wsClose && socket) {
-        socket.close(1000, "socket closed");
-        connected = false;
-      }
+      // if (wsClose && type === wsClose && socket) {
+      //   socket.close(1000, "socket closed");
+      //   connected = false;
+      // }
 
       if (wsSendMessage && type === wsSendMessage && socket) {
         const message = token ? { ...payload, token } : { ...payload };

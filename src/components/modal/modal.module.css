@@ -24,3 +24,8 @@
   justify-content: center;
   width: 604px;
 }
+
+.modal_title_number {
+  display: flex;
+  width: 604px;
+}
