@@ -11,13 +11,21 @@ import {
   WS_CONNECTION_CLOSE,
 } from "../../services/actions/ws";
 import { getIngredients } from "../../services/actions/ingredients";
+import { getItems, getOrdersAuth, getOrders } from "../../utils/state";
+import { useLocation } from "react-router";
 
 export function Order() {
   const { id } = useParams("");
-  const { items } = useSelector((state) => state.ingredients);
-  const { orders } = useSelector((state) => state.ws);
+  const items = useSelector(getItems);
   const [orderIngredients, setOrderIngredients] = React.useState([]);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const ordersArr = useSelector(getOrders);
+  const ordersAuthArr = useSelector(getOrdersAuth);
+
+  const orders = location.pathname.startsWith("/feed")
+    ? ordersArr
+    : ordersAuthArr;
 
   React.useEffect(() => {
     dispatch({ type: WS_CONNECTION_START });

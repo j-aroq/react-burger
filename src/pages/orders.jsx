@@ -8,9 +8,10 @@ import {
   WS_CONNECTION_START_AUTH,
   WS_CONNECTION_CLOSE_AUTH,
 } from "../services/actions/ws";
+import { getOrdersAuth } from "../utils/state";
 
 export function OrdersPage() {
-  const { orders } = useSelector((store) => store.wsAuth);
+  const orders = useSelector(getOrdersAuth);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

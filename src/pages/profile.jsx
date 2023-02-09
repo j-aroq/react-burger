@@ -10,10 +10,11 @@ import styles from "./profile.module.css";
 import { ProfileTabs } from "../components/profile-tabs/profile-tabs";
 import { patchUserInfo } from "../services/actions/auth";
 import { useForm } from "../hooks/useForm";
+import { getUser } from "../utils/state";
 
 export function ProfilePage() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(getUser);
   const passwordFormValue = "******";
   const { values, setValues } = useForm({
     email: user.email,
@@ -33,7 +34,7 @@ export function ProfilePage() {
         email: values.email,
         name: values.name,
         password:
-        values.password !== passwordFormValue ? values.password : "Qwerty",
+          values.password !== passwordFormValue ? values.password : "Qwerty",
       })
     );
     setIsDataChanged(false);

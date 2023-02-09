@@ -7,9 +7,11 @@ import {
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSE,
 } from "../services/actions/ws";
+import { getOrders } from "../utils/state";
 
 export function FeedPage() {
-  const { orders, total, totalToday } = useSelector((store) => store.ws);
+  const { total, totalToday } = useSelector((store) => store.ws);
+  const orders = useSelector(getOrders);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

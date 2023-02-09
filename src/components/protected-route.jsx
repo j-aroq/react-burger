@@ -4,12 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { authTokens } from "../utils/auth";
 import { getUserInfo, getAccessToken } from "../services/actions/auth";
 import PropTypes from "prop-types";
+import { getUser } from "../utils/state";
 
 export const ProtectedRouteElement = ({ element, accessType }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { state: locationState } = useLocation();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(getUser);
   const { accessToken, refreshToken } = authTokens();
 
   const auth = useCallback(
@@ -48,7 +49,9 @@ export const ProtectedRouteElement = ({ element, accessType }) => {
               />
             );
           } else {
-            elementToRender = (<Navigate to="/" replace state={{ redirectTo: location }} />);
+            elementToRender = (
+              <Navigate to="/" replace state={{ redirectTo: location }} />
+            );
           }
         }
         break;

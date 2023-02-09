@@ -4,9 +4,10 @@ import styles from "./burger-ingredients.module.css";
 import { getIngredients } from "../../services/actions/ingredients";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
+import { getItems } from "../../utils/state";
 
 export function BurgerIngredients() {
-  const items = useSelector((state) => state.ingredients.items);
+  const items = useSelector(getItems);
   const dispatch = useDispatch();
   const [current, setCurrent] = React.useState("bun");
 

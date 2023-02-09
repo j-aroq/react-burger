@@ -4,13 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import styles from "./ingredient-details.module.css";
 import { IngredientEnergyValue } from "../ingredient-energy-value/ingredient-energy-value";
 import { getIngredients } from "../../services/actions/ingredients";
+import { getItems } from "../../utils/state";
 
 export function IngredientDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [item, setItem] = React.useState(null);
-  const { items } = useSelector((state) => state.ingredients);
+  const items = useSelector(getItems);
 
   React.useEffect(() => {
     if (items.length > 0) {

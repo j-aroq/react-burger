@@ -6,13 +6,21 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getOrders, getOrdersAuth } from "../../utils/state";
+import { useLocation } from "react-router";
 
 const modalRoot = document.getElementById("modals");
 
 export function Modal({ children, handleClose, title }) {
   const { id } = useParams("");
-  const { orders } = useSelector((state) => state.ws);
   let isOrderModal = false;
+  const location = useLocation();
+  const ordersArr = useSelector(getOrders);
+  const ordersAuthArr = useSelector(getOrdersAuth);
+
+  const orders = location.pathname.startsWith("/feed")
+    ? ordersArr
+    : ordersAuthArr;
 
   const order = React.useMemo(
     () => orders.find((order) => order._id === id) || null,

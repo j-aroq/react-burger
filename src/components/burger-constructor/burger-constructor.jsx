@@ -18,12 +18,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router";
+import { getUser, getBurgerData } from "../../utils/state";
 
 export function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { burgerData, orderNumber } = useSelector((state) => state.burger);
-  const user = useSelector((state) => state.auth.user);
+  const { orderNumber } = useSelector((state) => state.burger);
+  const burgerData = useSelector(getBurgerData);
+  const user = useSelector(getUser);
 
   const bun = burgerData.find(function (element) {
     return element.type === "bun";

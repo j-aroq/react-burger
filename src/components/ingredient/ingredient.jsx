@@ -8,11 +8,12 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { getBurgerData } from "../../utils/state";
 
 export function Ingredient({ ingredientData }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const burgerData = useSelector((state) => state.burger.burgerData);
+  const burgerData = useSelector(getBurgerData);
 
   const countAmount = React.useCallback(
     (ingredientData) => {

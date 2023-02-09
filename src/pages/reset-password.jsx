@@ -9,13 +9,14 @@ import {
 import styles from "./styles-form.module.css";
 import { changePassword } from "../services/actions/auth";
 import { useForm } from "../hooks/useForm";
+import { getResetCode } from "../utils/state";
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { gotResetPasswordCode } = useSelector((state) => state.auth);
-  const { values, handleChange,  } = useForm({ password: "", token: "" });
+  const gotResetPasswordCode = useSelector(getResetCode);
+  const { values, handleChange } = useForm({ password: "", token: "" });
 
   const submitResetPasswordForm = (e) => {
     e.preventDefault();
