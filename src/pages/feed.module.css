@@ -11,7 +11,7 @@
   display: grid;
   row-gap: 16px; 
   overflow-y: scroll;
-  max-height: calc(100vh - 168px);
+  max-height: calc(100vh - 268px);
 }
 
 .order_container::-webkit-scrollbar {

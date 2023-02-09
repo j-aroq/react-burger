@@ -9,7 +9,7 @@
   display: grid;
   row-gap: 24px; 
   overflow-y: scroll;
-  max-height: calc(100vh - 128px);
+  max-height: calc(100vh - 208px);
 }
 
 .order_container::-webkit-scrollbar {

@@ -7,11 +7,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed-order.module.css";
 import { v4 as uuidv4 } from "uuid";
+import { getItems } from "../../utils/state";
 
 export function FeedOrder({ order, showOrderStatus }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const items = useSelector((state) => state.ingredients.items);
+  const items = useSelector(getItems);
   const [orderIngredients, setOrderIngredients] = React.useState([]);
   const ingredientNumber = 6;
 
