@@ -1,12 +1,14 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed-order.module.css";
-import { getDate } from "../../utils/date";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-export function FeedOrder({order}) {
+export function FeedOrder({ order, showOrderStatus }) {
   const navigate = useNavigate();
   const location = useLocation();
   const items = useSelector((state) => state.ingredients.items);
@@ -23,68 +25,100 @@ export function FeedOrder({order}) {
     }
   }, [orderIngredients]);
 
+  const doneOrderStyle = order
+    ? order.status === "done"
+      ? {
+          color: "#00CCCC",
+        }
+      : undefined
+    : undefined;
+
+  const getOrderStatus = () => {
+    if (order.status === "created") {
+      return "Создан";
+    } else if (order.status === "pending") {
+      return "Готовится";
+    } else if (order.status === "done") {
+      return "Выполнен";
+    }
+  };
+
   const handleOpenOrderModal = React.useCallback(() => {
-    navigate(`/feed/${order._id}`, {
-    state: { feedOrderModal: location },
-    });
+    if (location.pathname === "/feed") {
+      navigate(`/feed/${order._id}`, {
+        state: { feedOrderModal: location },
+      });
+    } else if (location.pathname === "/profile/orders") {
+      navigate(`/profile/orders/${order._id}`, {
+        state: { profileOrderModal: location },
+      });
+    }
   }, [navigate, location, order._id]);
-  
-  // const orderStatus = React.useMemo(() => {
-  //   const { status } = order;
-  //   return getOrderStatus(status);
-  // }, [order]);
 
   React.useEffect(() => {
     const { ingredients: orderIngredients } = order;
     setOrderIngredients(
       orderIngredients
-        .map((orderIngredient) => items
-          .find((item) => item._id === orderIngredient))
-        .filter((item) => item !== undefined),
+        .map((orderIngredient) =>
+          items.find((item) => item._id === orderIngredient)
+        )
+        .filter((item) => item !== undefined)
     );
   }, [items, order]);
-  
+
   return (
     <div
-    className={`${styles.order_container} mr-2`}
-    onClick={handleOpenOrderModal}
+      className={`${styles.order_container} mr-2`}
+      onClick={handleOpenOrderModal}
     >
-    <div className={styles.header}>
-      <p className="text text_type_digits-default">
-        {`#${order.number}`}
+      <div className={styles.header}>
+        <p className="text text_type_digits-default">{`#${order.number}`}</p>
+        <FormattedDate
+          date={new Date(order.createdAt)}
+          className="text text_type_main-default text_color_inactive"
+        />
+      </div>
+      <p className={`${styles.order_name} text text_type_main-medium mt-6`}>
+        {order.name}
       </p>
-      <p className={`${styles.order_date}  text text_type_main-default text_color_inactive`}>
-      {getDate(order.createdAt)}
-      </p>
-    </div>
-    <p className={`${styles.order_name} text text_type_main-medium mt-6`}>{order.name}</p>
-    <div className={`${styles.footer} mt-6`}>
-      <ul className={styles.ingredients}>
-      {orderIngredients.slice(0, ingredientNumber).map((ingredient, index) => {
+      {showOrderStatus && (
+        <p className="text text_type_main-default mt-2" style={doneOrderStyle}>
+          {getOrderStatus()}
+        </p>
+      )}
+      <div className={`${styles.footer} mt-6`}>
+        <ul className={styles.ingredients}>
+          {orderIngredients
+            .slice(0, ingredientNumber)
+            .map((ingredient, index) => {
               const isLast = index === ingredientNumber - 1;
               return (
-                <li className={styles.ingredient_image_container} key={uuidv4()}>
+                <li
+                  className={styles.ingredient_image_container}
+                  key={uuidv4()}
+                >
                   <div
-                    className={`${styles.ingredient_image} ${isLast ? styles.ingredient_image_opacity : ''}`}
+                    className={`${styles.ingredient_image} ${
+                      isLast ? styles.ingredient_image_opacity : ""
+                    }`}
                     style={{ backgroundImage: `url(${ingredient.image})` }}
                   />
-                  {isLast && orderIngredients.length > ingredientNumber -1  && (
-                  <span className={`${styles.ingredient_image_overflow} text text_type_main-default`}>
-                    {`+${orderIngredients.length - ingredientNumber + 1}`}
-                  </span>
+                  {isLast && orderIngredients.length > ingredientNumber - 1 && (
+                    <span
+                      className={`${styles.ingredient_image_overflow} text text_type_main-default`}
+                    >
+                      {`+${orderIngredients.length - ingredientNumber + 1}`}
+                    </span>
                   )}
                 </li>
               );
             })}
-      </ul>
-      <div className={`${styles.order_total} ml-6`}>
-        <p className="text text_type_digits-default mr-2">
-          {totalSum}
-        </p>
-        <CurrencyIcon type="primary" />
+        </ul>
+        <div className={`${styles.order_total} ml-6`}>
+          <p className="text text_type_digits-default mr-2">{totalSum}</p>
+          <CurrencyIcon type="primary" />
+        </div>
       </div>
     </div>
-  </div>
-
   );
 }

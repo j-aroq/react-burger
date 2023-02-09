@@ -3,7 +3,6 @@ import styles from "./styles-form.module.css";
 import { AppHeader } from "../components/app-header/app-header";
 
 export function IngredientPage() {
-
   return (
     <div className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />

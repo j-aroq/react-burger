@@ -4,7 +4,6 @@
     0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 40px;
   padding: 24px;
-  width: 536px;
 }
 
 .order_container:hover {
@@ -13,10 +12,7 @@
 
 .header {
   display: flex;
-}
-
-.order_date {
-  margin-left: auto;
+  justify-content: space-between;
 }
 
 .order_name {
@@ -34,7 +30,6 @@
   position: relative;
   box-sizing: border-box;
   max-width: 436px;
-  width: 436px;
   list-style: none;
   padding: 0;
   margin: 0;

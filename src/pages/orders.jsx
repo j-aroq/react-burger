@@ -4,18 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./orders.module.css";
 import { ProfileTabs } from "../components/profile-tabs/profile-tabs";
 import { FeedOrder } from "../components/feed-order/feed-order";
-import { WS_CONNECTION_START_AUTH } from "../services/actions/ws";
+import {
+  WS_CONNECTION_START_AUTH,
+  WS_CONNECTION_CLOSE_AUTH,
+} from "../services/actions/ws";
 
 export function OrdersPage() {
-  const { orders } = useSelector((store) => store.ws);
+  const { orders } = useSelector((store) => store.wsAuth);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch({ type: WS_CONNECTION_START_AUTH });
-    // return () => {
-    //   dispatch({ type: WS_CONNECTION_CLOSE_AUTH });
-    //   return;
-    // };
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSE_AUTH });
+      return;
+    };
   }, [dispatch]);
 
   const profileOrders = React.useMemo(
@@ -30,15 +33,13 @@ export function OrdersPage() {
         <ProfileTabs
           text={"В этом разделе вы можете просмотреть свою историю заказов"}
         />
-        <section className={styles.order_container}>
+        <section className={`${styles.order_container} ml-15`}>
           {orders &&
-            profileOrders.map((order) => (
-              <FeedOrder
-                order={order}
-                key={order._id}
-                // showOrderStatus={showOrderStatus}
-              />
-            ))}
+            profileOrders
+              .reverse()
+              .map((order) => (
+                <FeedOrder order={order} key={order._id} showOrderStatus />
+              ))}
         </section>
       </div>
     </div>

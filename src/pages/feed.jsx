@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppHeader } from "../components/app-header/app-header";
 import styles from "./feed.module.css";
 import { FeedOrder } from "../components/feed-order/feed-order";
-import { WS_CONNECTION_START } from "../services/actions/ws";
+import {
+  WS_CONNECTION_START,
+  WS_CONNECTION_CLOSE,
+} from "../services/actions/ws";
 
 export function FeedPage() {
   const { orders, total, totalToday } = useSelector((store) => store.ws);
@@ -11,9 +14,10 @@ export function FeedPage() {
 
   React.useEffect(() => {
     dispatch({ type: WS_CONNECTION_START });
-    // return () => {
-    //     dispatch({ type: WS_CONNECTION_CLOSE })
-    // }
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSE });
+      return;
+    };
   }, [dispatch]);
 
   const feedOrders = React.useMemo(
@@ -50,7 +54,7 @@ export function FeedPage() {
                 <FeedOrder
                   order={order}
                   key={order._id}
-                  // showOrderStatus={showOrderStatus}
+                  showOrderStatus={false}
                 />
               ))}
           </section>

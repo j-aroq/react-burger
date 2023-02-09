@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order.module.css";
-import { getDate } from "../../utils/date";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSE,
@@ -20,9 +22,10 @@ export function Order() {
   React.useEffect(() => {
     dispatch({ type: WS_CONNECTION_START });
     dispatch(getIngredients());
-    // return () => {
-    //   dispatch({ type: WS_CONNECTION_CLOSE });
-    // };
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSE });
+      return;
+    };
   }, [dispatch]);
 
   const order = React.useMemo(
@@ -30,7 +33,7 @@ export function Order() {
     [orders, id]
   );
 
-  let doneOrderStyle = order
+  const doneOrderStyle = order
     ? order.status === "done"
       ? {
           color: "#00CCCC",
@@ -116,11 +119,10 @@ export function Order() {
             ))}
           </div>
           <div className={`${styles.footer} mt-10`}>
-            <div
-              className={`${styles.orderStamp} text text_type_main-default text_color_inactive`}
-            >
-              {getDate(order.createdAt)}
-            </div>
+            <FormattedDate
+              date={new Date(order.createdAt)}
+              className="text text_type_main-default text_color_inactive"
+            />
             <div className={styles.order_price}>
               <p className="text text_type_digits-default mr-2">{totalSum}</p>
               <CurrencyIcon type="primary" />

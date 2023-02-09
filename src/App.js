@@ -23,7 +23,7 @@ export default function App() {
 
   const isHomeLocation = location.state && location.state.ingredientModal;
   const isFeedLocation = location.state && location.state.feedOrderModal;
-  const isProfileLocation = location.state && location.state.profileOrdertModal;
+  const isProfileLocation = location.state && location.state.profileOrderModal;
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
