@@ -2,7 +2,7 @@ import { authTokens } from "./auth";
 
 export const socketMiddleware = (wsUrl, wsActions, auth) => (store) => {
   let socket = null;
-  let connected = false;
+  let connected = false; // eslint-disable-line
   return (next) => (action) => {
     const { dispatch } = store;
     const { type, payload } = action;

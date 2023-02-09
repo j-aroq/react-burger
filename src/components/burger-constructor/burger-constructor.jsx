@@ -8,7 +8,6 @@ import { BurgerComponent } from "../burger-components/burger-components";
 import {
   makeOrder,
   ADD_BUN,
-  REMOVE_INGREDIENT,
   ADD_INGREDIENT,
   DELETE_ORDER,
 } from "../../services/actions/order";

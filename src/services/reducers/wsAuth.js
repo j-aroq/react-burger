@@ -3,7 +3,6 @@ import {
   WS_CONNECTION_ERROR_AUTH,
   WS_CONNECTION_CLOSED_AUTH,
   WS_GET_MESSAGE_AUTH,
-  WS_CONNECTION_CLOSE,
 } from "../actions/ws";
 
 const initialState = {
