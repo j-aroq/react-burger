@@ -7,7 +7,8 @@ import { HomePage } from "./home";
 import { IngredientPage } from "./ingredient";
 import { NotFoundPage } from "./not-found";
 import { OrdersPage } from "./orders";
-import { OrdersFeedPage } from "./feed";
+import { FeedPage } from "./feed";
+import { OrderPage } from "./order";
 
 export {
   LoginPage,
@@ -19,5 +20,6 @@ export {
   IngredientPage,
   NotFoundPage,
   OrdersPage,
-  OrdersFeedPage,
+  FeedPage,
+  OrderPage,
 };

@@ -8,12 +8,13 @@ import {
 import styles from "./styles-form.module.css";
 import { requestCode } from "../services/actions/auth";
 import { useForm } from "../hooks/useForm";
+import { getResetCode } from "../utils/state";
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { gotResetPasswordCode } = useSelector((state) => state.auth);
+  const gotResetPasswordCode = useSelector(getResetCode);
   const { values, handleChange } = useForm({ email: "" });
 
   const submitForgotPasswordForm = (e) => {

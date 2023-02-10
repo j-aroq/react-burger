@@ -13,10 +13,12 @@ export function loadIngredients() {
 }
 
 export function sendOrder(ingredientsID) {
+  const { accessToken } = authTokens();
   return fetch(`${urlAPI}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken,
     },
     body: JSON.stringify({
       ingredients: ingredientsID,

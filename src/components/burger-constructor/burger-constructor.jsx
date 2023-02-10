@@ -5,8 +5,8 @@ import styles from "./burger-constructor.module.css";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { BurgerComponent } from "../burger-components/burger-components";
-import { makeOrder } from "../../services/actions/order";
 import {
+  makeOrder,
   ADD_BUN,
   ADD_INGREDIENT,
   DELETE_ORDER,
@@ -18,12 +18,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router";
+import { getUser, getBurgerData } from "../../utils/state";
 
 export function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { burgerData, orderNumber } = useSelector((state) => state.burger);
-  const user = useSelector((state) => state.auth.user);
+  const { orderNumber } = useSelector((state) => state.burger);
+  const burgerData = useSelector(getBurgerData);
+  const user = useSelector(getUser);
 
   const bun = burgerData.find(function (element) {
     return element.type === "bun";
@@ -34,9 +36,8 @@ export function BurgerConstructor() {
 
   const isOrderReady = useSelector(
     (state) =>
-      state.burger.burgerData.find(
-        (ingredient) => ingredient.type === "bun"
-      ) && state.burger.burgerData.length > 1
+      state.burger.burgerData.find((ingredient) => ingredient.type === "bun") &&
+      state.burger.burgerData.length > 1
   );
 
   const onDropIngredient = (ingredient) => {
@@ -58,7 +59,7 @@ export function BurgerConstructor() {
     drop: (ingredientData) => onDropIngredient(ingredientData),
   });
 
-  const handleOpenIngredientInfoModal = () => {
+  const createOrder = () => {
     if (user) {
       dispatch(makeOrder(burgerData.map((ingredient) => ingredient._id)));
     } else {
@@ -116,9 +117,9 @@ export function BurgerConstructor() {
         <div className="ml-8">
           {bun && (
             <ConstructorElement
-              type={"top"}
+              type={"bottom"}
               isLocked={true}
-              text={`${bun.name} (верх)`}
+              text={`${bun.name} (низ)`}
               price={bun.price}
               thumbnail={bun.image}
             />
@@ -133,7 +134,7 @@ export function BurgerConstructor() {
             type="primary"
             size="large"
             htmlType="button"
-            onClick={handleOpenIngredientInfoModal}
+            onClick={createOrder}
             disabled={!isOrderReady}
           >
             Оформить заказ

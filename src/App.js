@@ -9,17 +9,21 @@ import {
   IngredientPage,
   NotFoundPage,
   OrdersPage,
-  OrdersFeedPage,
+  FeedPage,
+  OrderPage,
 } from "./pages";
 import { ProtectedRouteElement } from "./components/protected-route";
 import { IngredientDetails } from "./components/ingredient-details/ingredient-details";
 import { Modal } from "./components/modal/modal";
+import { Order } from "./components/order/order";
 
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const isHomeLocation = location.state && location.state.ingredientModal;
+  const isFeedLocation = location.state && location.state.feedOrderModal;
+  const isProfileLocation = location.state && location.state.profileOrderModal;
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -77,7 +81,25 @@ export default function App() {
           />
         }
       />
-      <Route path="/feed" element={<OrdersFeedPage />} />
+      {isProfileLocation && (
+        <Route
+          path="/profile/orders/:id"
+          element={
+            <Modal handleClose={() => navigate(-1)} title="order_number">
+              <Order />
+            </Modal>
+          }
+        />
+      )}
+      <Route
+        path="/profile/orders/:id"
+        element={
+          <ProtectedRouteElement
+            element={<OrderPage />}
+            accessType="authorized"
+          />
+        }
+      />
       {isHomeLocation && (
         <Route
           path="/ingredients/:id"
@@ -89,6 +111,18 @@ export default function App() {
         />
       )}
       <Route path="/ingredients/:id" element={<IngredientPage />} />
+      {isFeedLocation && (
+        <Route
+          path="/feed/:id"
+          element={
+            <Modal handleClose={() => navigate(-1)} title="order_number">
+              <Order />
+            </Modal>
+          }
+        />
+      )}
+      <Route path="/feed" element={<FeedPage />} />
+      <Route path="/feed/:id" element={<OrderPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
