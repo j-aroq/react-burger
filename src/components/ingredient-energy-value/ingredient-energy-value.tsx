@@ -1,20 +1,20 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
 import styles from "./ingredient-energy-value.module.css";
 
-export function IngredientEnergyValue(props) {
+interface IEnergyValueProps {
+  amount: number;
+  type: string;
+}
+
+export const IngredientEnergyValue: FC<IEnergyValueProps> = ({ amount, type }) => {
   return (
     <div className={styles.energy_value_element}>
       <p className="text text_type_main-default text_color_inactive mb-2">
-        {props.type}
+        {type}
       </p>
       <p className="text text_type_digits-default text_color_inactive">
-        {props.amount}
+        {amount}
       </p>
     </div>
   );
 }
-
-IngredientEnergyValue.propTypes = {
-  type: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
-};

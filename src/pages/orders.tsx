@@ -23,7 +23,7 @@ export function OrdersPage() {
   }, [dispatch]);
 
   const profileOrders = React.useMemo(
-    () => orders.filter((order) => order),
+    () => orders.filter((order:any) => order),
     [orders]
   );
 
@@ -38,7 +38,7 @@ export function OrdersPage() {
           {orders &&
             profileOrders
               .reverse()
-              .map((order) => (
+              .map((order:any) => (
                 <FeedOrder order={order} key={order._id} showOrderStatus />
               ))}
         </section>

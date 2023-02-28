@@ -13,7 +13,7 @@ import {
 
 export function OrderPage() {
   const dispatch = useDispatch();
-  const { id } = useParams("");
+  const { id } = useParams();
   const location = useLocation();
   const ordersArr = useSelector(getOrders);
   const ordersAuthArr = useSelector(getOrdersAuth);
@@ -31,7 +31,7 @@ export function OrderPage() {
   }, [dispatch]);
 
   const order = React.useMemo(
-    () => orders.find((order) => order._id === id) || null,
+    () => orders.find((order: any) => order._id === id) || null,
     [orders, id]
   );
   return (

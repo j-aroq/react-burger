@@ -1,24 +1,30 @@
-import PropTypes from "prop-types";
 import styles from "./modal.module.css";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, { FC, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOrders, getOrdersAuth } from "../../utils/state";
 import { useLocation } from "react-router";
+import { TOrder } from "../../types/data";
 
 const modalRoot = document.getElementById("modals");
 
-export function Modal({ children, handleClose, title }) {
-  const { id } = useParams("");
+interface IModalProps {
+  children: ReactNode,
+  title: string,
+  handleClose: () => void,
+}
+
+export const Modal: FC<IModalProps> = ({children, handleClose, title }) => {
+  const { id } = useParams();
   let isOrderModal = false;
   const location = useLocation();
   const ordersArr = useSelector(getOrders);
   const ordersAuthArr = useSelector(getOrdersAuth);
 
-  const orders = location.pathname.startsWith("/feed")
+  const orders: TOrder[] = location.pathname.startsWith("/feed")
     ? ordersArr
     : ordersAuthArr;
 
@@ -31,7 +37,7 @@ export function Modal({ children, handleClose, title }) {
     isOrderModal = true;
   }
   React.useEffect(() => {
-    const closeByEscape = (e) => {
+    const closeByEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         handleClose();
       }
@@ -42,8 +48,8 @@ export function Modal({ children, handleClose, title }) {
     };
   }, [handleClose]);
 
-  return ReactDOM.createPortal(
-    <>
+  return modalRoot && ReactDOM.createPortal(
+    (<>
       <ModalOverlay handleClose={handleClose}>
         <div
           className={`${styles.modal_window} pt-10 pr-10 pb-15 pl-10`}
@@ -68,13 +74,7 @@ export function Modal({ children, handleClose, title }) {
           {children}
         </div>
       </ModalOverlay>
-    </>,
+    </>),
     modalRoot
   );
 }
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  title: PropTypes.string,
-  handleClose: PropTypes.func,
-};

@@ -1,12 +1,16 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
 import styles from "./order-details.module.css";
 import orderConfirmationImage from "../../images/graphics.svg";
 
-export function OrderDetails(props) {
+interface IOrderDetailsProps {
+  orderNumber: number;
+}
+
+export const OrderDetails: FC<IOrderDetailsProps> = ({orderNumber}) => {
   return (
     <div className={styles.order_details_block}>
       <p className="text text_type_digits-large mt-4 mb-8">
-        {props.orderNumber}
+        {orderNumber}
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img
@@ -23,7 +27,3 @@ export function OrderDetails(props) {
     </div>
   );
 }
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number,
-};

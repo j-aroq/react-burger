@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -7,66 +7,62 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles-form.module.css";
-import { loginUser } from "../services/actions/auth";
+import { registerUser } from "../services/actions/auth";
 import { useForm } from "../hooks/useForm";
 
-export function LoginPage() {
+export function RegistrationPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
-  const { values, handleChange } = useForm({ email: "", password: "" });
+  const { values, handleChange,  } = useForm({ email: "", password: "", name: "" });
 
-  const submitLoginForm = (e) => {
+  const submitRegistrationForm = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUser(values));
+    dispatch(registerUser(values.email, values.password, values.name));
   };
 
   return (
     <div className="pt-10 pr-10 pb-10 pl-10">
       <AppHeader />
       <div className={styles.container}>
-        <form className={styles.form} onSubmit={submitLoginForm}>
-          <h1 className="text text_type_main-medium">Вход</h1>
+        <form className={styles.form} onSubmit={submitRegistrationForm}>
+          <h1 className="text text_type_main-medium">Регистрация</h1>
 
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={handleChange}
+            value={values.name !== undefined ? values.name : ""}
+            name={"name"}
+          />
           <Input
             type={"email"}
             placeholder={"E-mail"}
             onChange={handleChange}
-            value={values.email}
+            value={values.email !== undefined ? values.email : ""}
             name={"email"}
           />
           <PasswordInput
+           // type={"password"}
             onChange={handleChange}
-            value={values.password}
+            value={values.password !== undefined ? values.password : ""}
             name={"password"}
             icon="ShowIcon"
           />
           <Button htmlType="submit" type="primary" size="medium">
-            Войти
+            Зарегистрироваться
           </Button>
         </form>
         <p className="text text_type_main-default">
-          Вы — новый пользователь?
+          Уже зарегистрированы?
           <Button
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/login")}
             htmlType="button"
             type="secondary"
             size="medium"
             extraClass="pt-4 pb-2 pl-1 pr-1"
           >
-            Зарегистрироваться
-          </Button>
-        </p>
-        <p className="text text_type_main-default">
-          Забыли пароль?
-          <Button
-            onClick={() => navigate("/forgot-password")}
-            htmlType="button"
-            type="secondary"
-            size="medium"
-            extraClass="pt-2 pb-1 pl-1 pr-1"
-          >
-            Восстановить пароль
+            Войти
           </Button>
         </p>
       </div>

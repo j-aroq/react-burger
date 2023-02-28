@@ -1,9 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, {FC} from "react";
 import { useDispatch } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, XYCoord } from "react-dnd";
 import styles from "./burger-components.module.css";
-import { ingredientType } from "../../utils/type";
 import {
   REMOVE_INGREDIENT,
   CHANGE_INGREDIENT_POSITION,
@@ -12,18 +10,27 @@ import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TIngredient } from "../../types/data";
 
-export function BurgerComponent({
+interface IBurgerComponentProps {
+  componentData: TIngredient;
+  index: number;
+  bunType?: "top"|"bottom";
+  isLocked: boolean;
+  bunTypeName: string;
+}
+
+export const BurgerComponent: FC<IBurgerComponentProps> = ({
   componentData,
   index,
   bunType,
   isLocked,
   bunTypeName,
-}) {
-  const dispatch = useDispatch();
-  const ref = React.useRef(null);
+}) => {
+  const dispatch: any = useDispatch();
+  const ref = React.useRef<any>(null);
 
-  const onDeleteIngredient = (componentDataUid) => {
+  const onDeleteIngredient = (componentDataUid: string) => {
     dispatch({
       type: REMOVE_INGREDIENT,
       payload: componentDataUid,
@@ -37,7 +44,7 @@ export function BurgerComponent({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
@@ -51,10 +58,13 @@ export function BurgerComponent({
       const hoverBoundingRect = ref.current
         ? ref.current.getBoundingClientRect()
         : undefined;
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = hoverBoundingRect
+        ? (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+        : 0;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset?.y && hoverBoundingRect
+        ? clientOffset.y - hoverBoundingRect.top
+        : 0;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -96,10 +106,3 @@ export function BurgerComponent({
     </div>
   );
 }
-
-BurgerComponent.propTypes = {
-  componentData: ingredientType.isRequired,
-  bunType: PropTypes.string.isRequired,
-  bunTypeName: PropTypes.string.isRequired,
-  isLocked: PropTypes.bool.isRequired,
-};

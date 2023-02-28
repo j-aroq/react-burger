@@ -46,7 +46,7 @@ export const PATCH_USER_INFO_REQUEST_SUCCESS =
   "PATCH_USER_INFO_REQUEST_SUCCESS";
 export const PATCH_USER_INFO_REQUEST_ERROR = "PATCH_USER_INFO_REQUEST_ERROR";
 
-export const registerUser = ({ email, password, name }) => {
+export const registerUser = (email, password, name) => {
   return function (dispatch) {
     dispatch({
       type: REGISTER_USER_REQUEST,
@@ -67,7 +67,7 @@ export const registerUser = ({ email, password, name }) => {
   };
 };
 
-export const loginUser = ({ email, password }) => {
+export const loginUser = (email, password) => {
   return function (dispatch) {
     dispatch({
       type: LOGIN_USER_REQUEST,
@@ -127,7 +127,7 @@ export const requestCode = (email) => {
   };
 };
 
-export const changePassword = ({ password, token }) => {
+export const changePassword = (password, token) => {
   return function (dispatch) {
     dispatch({
       type: PASSWORD_RESET_REQUEST,

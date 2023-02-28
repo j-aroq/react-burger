@@ -12,12 +12,12 @@ import { getResetCode } from "../utils/state";
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
   const gotResetPasswordCode = useSelector(getResetCode);
   const { values, handleChange } = useForm({ email: "" });
 
-  const submitForgotPasswordForm = (e) => {
+  const submitForgotPasswordForm = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(requestCode(values));
   };
@@ -36,7 +36,7 @@ export function ForgotPasswordPage() {
             type={"email"}
             placeholder={"Укажите e-mail"}
             onChange={handleChange}
-            value={values.email}
+            value={values.email !== undefined ? values.email : ""}
             name={"email"}
           />
           <Button htmlType="submit" type="primary" size="medium">

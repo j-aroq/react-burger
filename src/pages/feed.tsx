@@ -8,10 +8,11 @@ import {
   WS_CONNECTION_CLOSE,
 } from "../services/actions/ws";
 import { getOrders } from "../utils/state";
+import { TOrder } from "../types/data";
 
 export function FeedPage() {
-  const { total, totalToday } = useSelector((store) => store.ws);
-  const orders = useSelector(getOrders);
+  const { total, totalToday } = useSelector((store:any) => store.ws);
+  const orders: TOrder[] = useSelector(getOrders);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

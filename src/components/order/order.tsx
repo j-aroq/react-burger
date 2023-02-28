@@ -13,17 +13,18 @@ import {
 import { getIngredients } from "../../services/actions/ingredients";
 import { getItems, getOrdersAuth, getOrders } from "../../utils/state";
 import { useLocation } from "react-router";
+import { TOrder, TIngredient } from "../../types/data";
 
 export function Order() {
-  const { id } = useParams("");
-  const items = useSelector(getItems);
-  const [orderIngredients, setOrderIngredients] = React.useState([]);
-  const dispatch = useDispatch();
+  const { id } = useParams();
+  const items:TIngredient[] = useSelector(getItems);
+  const [orderIngredients, setOrderIngredients] = React.useState<TIngredient[]>();
+  const dispatch: any = useDispatch();
   const location = useLocation();
   const ordersArr = useSelector(getOrders);
   const ordersAuthArr = useSelector(getOrdersAuth);
 
-  const orders = location.pathname.startsWith("/feed")
+  const orders: TOrder[] = location.pathname.startsWith("/feed")
     ? ordersArr
     : ordersAuthArr;
 
@@ -56,7 +57,7 @@ export function Order() {
 
       setOrderIngredients(
         ingredientsArr
-          .map((orderIngredient) => {
+          .map((orderIngredient: string) => {
             const ingredient = items.find(
               (item) => item._id === orderIngredient
             );
@@ -70,23 +71,25 @@ export function Order() {
                   ).length,
                 };
           })
-          .filter((ingredient) => ingredient !== undefined)
+          .filter((ingredient) => ingredient !== undefined) as TIngredient[]
       );
     }
   }, [items, order]);
 
   const getOrderStatus = () => {
-    if (order.status === "created") {
-      return "Создан";
-    } else if (order.status === "pending") {
-      return "Готовится";
-    } else if (order.status === "done") {
-      return "Выполнен";
+    if (order !== null) {
+      if (order.status === "created") {
+        return "Создан";
+      } else if (order.status === "pending") {
+        return "Готовится";
+      } else if (order.status === "done") {
+        return "Выполнен";
+      }
     }
   };
 
   const totalSum = React.useMemo(() => {
-    if (orderIngredients.length > 0) {
+    if (orderIngredients !== undefined && orderIngredients.length > 0) {
       return orderIngredients
         .map((element) => element.price)
         .reduce((sum, price) => sum + price, 0);
@@ -108,7 +111,7 @@ export function Order() {
           </p>
           <p className="text text_type_main-medium mt-15">Состав:</p>
           <div className={`${styles.ingredients} mt-6 pr-6`}>
-            {orderIngredients.map((ingredient) => (
+            {orderIngredients !== undefined && orderIngredients.map((ingredient) => (
               <div className={styles.ingredient} key={ingredient._id}>
                 <div className={`${styles.ingredient_image_container} mr-4`}>
                   <div

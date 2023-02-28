@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
@@ -8,12 +8,18 @@ import {
 import styles from "./feed-order.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { getItems } from "../../utils/state";
+import { TOrder, TIngredient } from "../../types/data";
 
-export function FeedOrder({ order, showOrderStatus }) {
+interface IFeedOrderProps {
+  order: TOrder;
+  showOrderStatus: boolean;
+}
+
+export const FeedOrder: FC<IFeedOrderProps> = ({ order, showOrderStatus }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const items = useSelector(getItems);
-  const [orderIngredients, setOrderIngredients] = React.useState([]);
+  const [orderIngredients, setOrderIngredients] = React.useState<TIngredient[]>([]);
   const ingredientNumber = 6;
 
   const totalSum = React.useMemo(() => {
@@ -61,7 +67,7 @@ export function FeedOrder({ order, showOrderStatus }) {
     setOrderIngredients(
       orderIngredients
         .map((orderIngredient) =>
-          items.find((item) => item._id === orderIngredient)
+          items.find((item: TIngredient) => item._id === orderIngredient)
         )
         .filter((item) => item !== undefined)
     );

@@ -1,23 +1,25 @@
-import React from "react";
+import React, { FunctionComponent} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./ingredient-details.module.css";
 import { IngredientEnergyValue } from "../ingredient-energy-value/ingredient-energy-value";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getItems } from "../../utils/state";
+import { TIngredient } from "../../types/data";
 
+// export const IngredientDetails:FunctionComponent = () => {
 export function IngredientDetails() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const { id } = useParams();
-  const [item, setItem] = React.useState(null);
+  const [item, setItem] = React.useState<TIngredient>();
   const items = useSelector(getItems);
 
   React.useEffect(() => {
     if (items.length > 0) {
-      const ingredient = items.find((elem) => elem._id === id);
+      const ingredient = items.find((elem:TIngredient) => elem._id === id);
       if (!ingredient) {
-        setItem(null);
+        setItem(undefined);
         navigate("/", { replace: true });
       } else {
         setItem(ingredient);
@@ -48,6 +50,12 @@ export function IngredientDetails() {
             amount={item.carbohydrates}
           />
         </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className={styles.ingredient_info}>
+        <p className="text text_type_main-small">Не найдена информация об ингредиенте.</p>
       </div>
     );
   }

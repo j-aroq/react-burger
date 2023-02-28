@@ -3,17 +3,21 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { authTokens } from "../../utils/auth";
 import { logoutUser } from "../../services/actions/auth";
-import PropTypes from "prop-types";
+import React, { FC } from "react";
 
-export function ProfileTabs({ text }) {
-  const dispatch = useDispatch();
+interface IProfileTabsProps {
+  text: string;
+}
+
+export const ProfileTabs: FC<IProfileTabsProps> = ({ text }) => {
+  const dispatch: any = useDispatch();
   const { refreshToken } = authTokens();
 
   let activeStyle = {
     color: "#F2F2F3",
   };
 
-  const logout = (e) => {
+  const logout = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(logoutUser(refreshToken));
   };
@@ -49,7 +53,3 @@ export function ProfileTabs({ text }) {
     </div>
   );
 }
-
-ProfileTabs.propTypes = {
-  text: PropTypes.string.isRequired,
-};

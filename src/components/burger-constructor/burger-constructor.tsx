@@ -19,12 +19,13 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router";
 import { getUser, getBurgerData } from "../../utils/state";
+import { TIngredient } from "../../types/data";
 
 export function BurgerConstructor() {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
-  const { orderNumber } = useSelector((state) => state.burger);
-  const burgerData = useSelector(getBurgerData);
+  const { orderNumber } = useSelector((state:any) => state.burger);
+  const burgerData: TIngredient[] = useSelector(getBurgerData);
   const user = useSelector(getUser);
 
   const bun = burgerData.find(function (element) {
@@ -35,28 +36,28 @@ export function BurgerConstructor() {
   );
 
   const isOrderReady = useSelector(
-    (state) =>
-      state.burger.burgerData.find((ingredient) => ingredient.type === "bun") &&
+    (state: any) =>
+      state.burger.burgerData.find((ingredient: TIngredient) => ingredient.type === "bun") &&
       state.burger.burgerData.length > 1
   );
 
-  const onDropIngredient = (ingredient) => {
+  const onDropIngredient = (ingredient: TIngredient) => {
     if (ingredient.type === "bun") {
       dispatch({
         type: ADD_BUN,
-        payload: { _uid: uuidv4(), ...ingredient },
+        payload: {  ...ingredient, _uid: uuidv4() },
       });
     } else {
       dispatch({
         type: ADD_INGREDIENT,
-        payload: { _uid: uuidv4(), ...ingredient },
+        payload: { ...ingredient, _uid: uuidv4() },
       });
     }
   };
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop: (ingredientData) => onDropIngredient(ingredientData),
+    drop: (ingredientData:TIngredient) => onDropIngredient(ingredientData),
   });
 
   const createOrder = () => {
@@ -101,7 +102,6 @@ export function BurgerConstructor() {
               <BurgerComponent
                 componentData={element}
                 index={index}
-                bunType={""}
                 isLocked={false}
                 bunTypeName={""}
                 key={element._uid}

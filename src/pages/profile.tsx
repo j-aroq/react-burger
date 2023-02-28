@@ -13,7 +13,7 @@ import { useForm } from "../hooks/useForm";
 import { getUser } from "../utils/state";
 
 export function ProfilePage() {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const user = useSelector(getUser);
   const passwordFormValue = "******";
   const { values, setValues } = useForm({
@@ -23,7 +23,7 @@ export function ProfilePage() {
   });
   const [isDataChanged, setIsDataChanged] = useState(false);
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
     setIsDataChanged(true);
   };
@@ -62,7 +62,7 @@ export function ProfilePage() {
               type={"text"}
               placeholder={"Имя"}
               onChange={onChange}
-              value={values.name}
+              value={values.name !== undefined ? values.name : ""}
               name={"name"}
               icon="EditIcon"
             />
@@ -70,14 +70,14 @@ export function ProfilePage() {
               type={"email"}
               placeholder={"Логин"}
               onChange={onChange}
-              value={values.email}
+              value={values.email !== undefined ? values.email : ""}
               name={"email"}
               icon="EditIcon"
             />
             <PasswordInput
-              type={"password"}
+              //type={"password"}
               onChange={onChange}
-              value={values.password}
+              value={values.password !== undefined ? values.password : ""}
               name={"password"}
               icon="EditIcon"
             />

@@ -1,13 +1,17 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, FC, ReactElement, ReactNode } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authTokens } from "../utils/auth";
 import { getUserInfo, getAccessToken } from "../services/actions/auth";
-import PropTypes from "prop-types";
 import { getUser } from "../utils/state";
 
-export const ProtectedRouteElement = ({ element, accessType }) => {
-  const dispatch = useDispatch();
+interface IProtectedRouteProps {
+  element: ReactElement;
+  accessType: string;
+}
+
+export const ProtectedRouteElement: FC<IProtectedRouteProps> = ({ element, accessType }) => {
+  const dispatch: any = useDispatch();
   const location = useLocation();
   const { state: locationState } = useLocation();
   const user = useSelector(getUser);
@@ -61,9 +65,4 @@ export const ProtectedRouteElement = ({ element, accessType }) => {
     return elementToRender;
   };
   return render();
-};
-
-ProtectedRouteElement.propTypes = {
-  element: PropTypes.element.isRequired,
-  accessType: PropTypes.string,
 };

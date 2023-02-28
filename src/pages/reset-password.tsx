@@ -13,14 +13,14 @@ import { getResetCode } from "../utils/state";
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
 
   const gotResetPasswordCode = useSelector(getResetCode);
   const { values, handleChange } = useForm({ password: "", token: "" });
 
-  const submitResetPasswordForm = (e) => {
+  const submitResetPasswordForm = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(changePassword(values));
+    dispatch(changePassword(values.password, values.token));
     navigate("/login");
   };
 
@@ -38,7 +38,7 @@ export function ResetPasswordPage() {
           <PasswordInput
             placeholder={"Введите новый пароль"}
             onChange={handleChange}
-            value={values.password}
+            value={values.password !== undefined ? values.password : ""}
             name={"password"}
             icon="ShowIcon"
           />
@@ -46,7 +46,7 @@ export function ResetPasswordPage() {
             type={"text"}
             placeholder={"Введите код из письма"}
             onChange={handleChange}
-            value={values.token}
+            value={values.token !== undefined ? values.token : ""}
             name={"token"}
           />
           <Button htmlType="submit" type="primary" size="medium">

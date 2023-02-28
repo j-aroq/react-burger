@@ -1,22 +1,26 @@
-import React from "react";
+import React, { FC } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import styles from "./ingredient.module.css";
-import { ingredientType } from "../../utils/type";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getBurgerData } from "../../utils/state";
+import { TIngredient } from "../../types/data";
 
-export function Ingredient({ ingredientData }) {
+interface IIngredientProps {
+  ingredientData: TIngredient;
+}
+
+export const Ingredient: FC<IIngredientProps> = ({ingredientData }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const burgerData = useSelector(getBurgerData);
+  const burgerData: TIngredient[] = useSelector(getBurgerData);
 
   const countAmount = React.useCallback(
-    (ingredientData) => {
+    (ingredientData: TIngredient) => {
       const { _id, type } = ingredientData;
       const ingredientsAmount = burgerData.filter(
         (element) => element._id === _id
@@ -44,7 +48,7 @@ export function Ingredient({ ingredientData }) {
       ref={dragRef}
     >
       <Counter
-        className={styles.counter}
+        extraClass={styles.counter}
         count={countAmount(ingredientData)}
         size="default"
       />
@@ -59,7 +63,3 @@ export function Ingredient({ ingredientData }) {
     </div>
   );
 }
-
-Ingredient.propTypes = {
-  ingredientData: ingredientType.isRequired,
-};
