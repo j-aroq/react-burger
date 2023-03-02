@@ -43,7 +43,6 @@ export function RegistrationPage() {
             name={"email"}
           />
           <PasswordInput
-           // type={"password"}
             onChange={handleChange}
             value={values.password !== undefined ? values.password : ""}
             name={"password"}

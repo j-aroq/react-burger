@@ -76,7 +76,6 @@ export function ProfilePage() {
               icon="EditIcon"
             />
             <PasswordInput
-              //type={"password"}
               onChange={onChange}
               value={values.password !== undefined ? values.password : ""}
               name={"password"}

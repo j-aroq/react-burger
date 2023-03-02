@@ -62,16 +62,6 @@ export const FeedOrder: FC<IFeedOrderProps> = ({ order, showOrderStatus }) => {
     }
   }, [navigate, location, order._id]);
 
-  // React.useEffect(() => {
-  //   const { ingredients: orderIngredients } = order;
-  //   setOrderIngredients(
-  //     orderIngredients
-  //       .map((orderIngredient:string) =>
-  //         items.find((item) => item._id === orderIngredient)
-  //       )
-  //       .filter((item) => item !== undefined)
-  //   );
-  // }, [items, order]);
   React.useEffect(() => {
     if (order) {
       const { ingredients: orderIngredients } = order;
