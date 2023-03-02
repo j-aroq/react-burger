@@ -39,7 +39,10 @@ export interface IDeleteOrder {
 }
 export interface IChangeIngredientPosition {
   readonly type: typeof CHANGE_INGREDIENT_POSITION;
-  payload: any;
+  readonly payload: {
+    whichIngredientDroppedUid: string;
+    onWhichIngredientDroppedUid: string;
+  }
 }
 
 export type TOrderActions =

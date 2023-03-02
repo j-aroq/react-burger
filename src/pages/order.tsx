@@ -10,6 +10,7 @@ import {
   WS_CONNECTION_START_AUTH,
   WS_CONNECTION_CLOSE_AUTH,
 } from "../services/constants/index";
+import { TOrder } from "../services/types/data";
 
 export function OrderPage() {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export function OrderPage() {
   }, [dispatch]);
 
   const order = React.useMemo(
-    () => orders.find((order: any) => order._id === id) || null,
+    () => orders.find((order: TOrder) => order._id === id) || null,
     [orders, id]
   );
   return (

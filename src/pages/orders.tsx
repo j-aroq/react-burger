@@ -9,6 +9,7 @@ import {
   WS_CONNECTION_CLOSE_AUTH,
 } from "../services/constants/index";
 import { getOrdersAuth } from "../utils/state";
+import { TOrder } from "../services/types/data";
 
 export function OrdersPage() {
   const orders = useSelector(getOrdersAuth);
@@ -23,7 +24,7 @@ export function OrdersPage() {
   }, [dispatch]);
 
   const profileOrders = React.useMemo(
-    () => orders.filter((order:any) => order),
+    () => orders.filter((order:TOrder) => order),
     [orders]
   );
 
@@ -38,7 +39,7 @@ export function OrdersPage() {
           {orders &&
             profileOrders
               .reverse()
-              .map((order:any) => (
+              .map((order:TOrder) => (
                 <FeedOrder order={order} key={order._id} showOrderStatus />
               ))}
         </section>

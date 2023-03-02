@@ -28,7 +28,7 @@ export const BurgerComponent: FC<IBurgerComponentProps> = ({
   bunTypeName,
 }) => {
   const dispatch = useDispatch();
-  const ref = React.useRef<any>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   const onDeleteIngredient = (componentDataUid: string) => {
     dispatch({
@@ -44,15 +44,21 @@ export const BurgerComponent: FC<IBurgerComponentProps> = ({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: any, monitor) {
+    hover(item, monitor) {
       if (!ref.current) {
         return;
       }
-      if (item.componentData._uid === componentData._uid) {
+      let definedItem;
+      if (typeof item === 'object') {
+        definedItem = item as { index: number, componentData: (TIngredient & { _uid: string }) };
+        
+      } else {return; }
+
+      if (definedItem.componentData._uid === componentData._uid) {
         return;
       }
 
-      const dragIndex = item.index;
+      const dragIndex = definedItem.index;
       const hoverIndex = index;
 
       const hoverBoundingRect = ref.current
@@ -76,7 +82,7 @@ export const BurgerComponent: FC<IBurgerComponentProps> = ({
       dispatch({
         type: CHANGE_INGREDIENT_POSITION,
         payload: {
-          whichIngredientDroppedUid: item.componentData._uid,
+          whichIngredientDroppedUid: definedItem.componentData._uid,
           onWhichIngredientDroppedUid: componentData._uid,
         },
       });
