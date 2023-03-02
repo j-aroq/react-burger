@@ -1,13 +1,13 @@
 import React from "react";
 import { AppHeader } from "../components/app-header/app-header";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "../hooks";
 import styles from "./orders.module.css";
 import { ProfileTabs } from "../components/profile-tabs/profile-tabs";
 import { FeedOrder } from "../components/feed-order/feed-order";
 import {
   WS_CONNECTION_START_AUTH,
   WS_CONNECTION_CLOSE_AUTH,
-} from "../services/actions/ws";
+} from "../services/constants/index";
 import { getOrdersAuth } from "../utils/state";
 
 export function OrdersPage() {

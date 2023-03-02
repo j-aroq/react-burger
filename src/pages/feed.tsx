@@ -1,17 +1,17 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../hooks";
 import { AppHeader } from "../components/app-header/app-header";
 import styles from "./feed.module.css";
 import { FeedOrder } from "../components/feed-order/feed-order";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSE,
-} from "../services/actions/ws";
+} from "../services/constants/index";
 import { getOrders } from "../utils/state";
-import { TOrder } from "../types/data";
+import { TOrder } from "../services/types/data";
 
 export function FeedPage() {
-  const { total, totalToday } = useSelector((store:any) => store.ws);
+  const { total, totalToday } = useSelector((store) => store.ws);
   const orders: TOrder[] = useSelector(getOrders);
   const dispatch = useDispatch();
 

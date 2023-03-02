@@ -26,7 +26,7 @@ export default function App() {
   const isProfileLocation = location.state && location.state.profileOrderModal;
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<HomePage />} /> 
       <Route
         path="/login"
         element={

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../hooks";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -13,13 +13,14 @@ import { useForm } from "../hooks/useForm";
 import { getUser } from "../utils/state";
 
 export function ProfilePage() {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const user = useSelector(getUser);
   const passwordFormValue = "******";
+  
   const { values, setValues } = useForm({
-    email: user.email,
+    email: user?.email,
     password: passwordFormValue,
-    name: user.name,
+    name: user?.name,
   });
   const [isDataChanged, setIsDataChanged] = useState(false);
 
@@ -42,8 +43,8 @@ export function ProfilePage() {
 
   const cancelForm = () => {
     setValues({
-      email: user.email,
-      name: user.name,
+      email: user?.email,
+      name: user?.name,
       password: passwordFormValue,
     });
     setIsDataChanged(false);

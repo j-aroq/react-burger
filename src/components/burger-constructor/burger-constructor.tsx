@@ -1,16 +1,16 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks";
 import { useDrop } from "react-dnd";
 import styles from "./burger-constructor.module.css";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { BurgerComponent } from "../burger-components/burger-components";
 import {
-  makeOrder,
   ADD_BUN,
   ADD_INGREDIENT,
   DELETE_ORDER,
-} from "../../services/actions/order";
+} from "../../services/constants/index";
+import { makeOrder } from "../../services/actions/order";
 import {
   Button,
   CurrencyIcon,
@@ -19,12 +19,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router";
 import { getUser, getBurgerData } from "../../utils/state";
-import { TIngredient } from "../../types/data";
+import { TIngredient } from "../../services/types/data";
 
 export function BurgerConstructor() {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderNumber } = useSelector((state:any) => state.burger);
+  const { orderNumber } = useSelector((state) => state.burger);
   const burgerData: TIngredient[] = useSelector(getBurgerData);
   const user = useSelector(getUser);
 
@@ -36,7 +36,7 @@ export function BurgerConstructor() {
   );
 
   const isOrderReady = useSelector(
-    (state: any) =>
+    (state) =>
       state.burger.burgerData.find((ingredient: TIngredient) => ingredient.type === "bun") &&
       state.burger.burgerData.length > 1
   );

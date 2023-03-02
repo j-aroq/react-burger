@@ -1,15 +1,15 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector  } from "../../hooks";
 import styles from "./burger-ingredients.module.css";
 import { getIngredients } from "../../services/actions/ingredients";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
 import { getItems } from "../../utils/state";
-import { TIngredient } from "../../types/data";
+import { TIngredient } from "../../services/types/data";
 
 export function BurgerIngredients() {
   const items: TIngredient[] = useSelector(getItems);
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const [current, setCurrent] = React.useState("bun");
 
   React.useEffect(() => {

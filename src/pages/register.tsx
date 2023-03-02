@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../hooks";
 import { AppHeader } from "../components/app-header/app-header";
 import {
   Button,
@@ -12,13 +12,13 @@ import { useForm } from "../hooks/useForm";
 
 export function RegistrationPage() {
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const { values, handleChange,  } = useForm({ email: "", password: "", name: "" });
 
   const submitRegistrationForm = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(registerUser(values.email, values.password, values.name));
+    dispatch(registerUser(values));
   };
 
   return (

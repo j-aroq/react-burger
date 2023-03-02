@@ -1,18 +1,19 @@
+import { TFormValues } from "../services/types/data";
 import { authTokens } from "./auth";
 const urlAPI = "https://norma.nomoreparties.space/api";
 
-const checkResponse = (res) => {
+const checkResponse = (res:Response) => {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(new Error(res.status));
+  return Promise.reject(`Ошибка: ${res.status}`);
 };
 
 export function loadIngredients() {
   return fetch(`${urlAPI}/ingredients`).then(checkResponse);
 }
 
-export function sendOrder(ingredientsID) {
+export function sendOrder(ingredientsID: string[]) {
   const { accessToken } = authTokens();
   return fetch(`${urlAPI}/orders`, {
     method: "POST",
@@ -26,7 +27,7 @@ export function sendOrder(ingredientsID) {
   }).then(checkResponse);
 }
 
-export const registrationRequest = async ({ email, password, name }) => {
+export const registrationRequest = async ({ email, password, name }:TFormValues) => {
   return await fetch(`${urlAPI}/auth/register`, {
     method: "POST",
     mode: "cors",
@@ -41,7 +42,7 @@ export const registrationRequest = async ({ email, password, name }) => {
   }).then(checkResponse);
 };
 
-export const loginRequest = async ({ email, password }) => {
+export const loginRequest = async ({ email, password }:TFormValues) => {
   return await fetch(`${urlAPI}/auth/login`, {
     method: "POST",
     mode: "cors",
@@ -56,7 +57,7 @@ export const loginRequest = async ({ email, password }) => {
   }).then(checkResponse);
 };
 
-export const codeRequest = async (email) => {
+export const codeRequest = async ({email}:TFormValues) => {
   return await fetch(`${urlAPI}/password-reset`, {
     method: "POST",
     mode: "cors",
@@ -71,7 +72,7 @@ export const codeRequest = async (email) => {
   }).then(checkResponse);
 };
 
-export const changePasswordRequest = async ({ password, token }) => {
+export const changePasswordRequest = async ({ password, token }:TFormValues) => {
   return await fetch(`${urlAPI}/password-reset/reset`, {
     method: "POST",
     mode: "cors",
@@ -86,7 +87,7 @@ export const changePasswordRequest = async ({ password, token }) => {
   }).then(checkResponse);
 };
 
-export const accessTokenRequest = async (refreshToken) => {
+export const accessTokenRequest = async (refreshToken:string|undefined) => {
   return await fetch(`${urlAPI}/auth/token`, {
     method: "POST",
     mode: "cors",
@@ -101,7 +102,7 @@ export const accessTokenRequest = async (refreshToken) => {
   }).then(checkResponse);
 };
 
-export const logoutRequest = async (refreshToken) => {
+export const logoutRequest = async (refreshToken:string|undefined) => {
   return await fetch(`${urlAPI}/auth/logout`, {
     method: "POST",
     mode: "cors",
@@ -132,7 +133,7 @@ export const getUserInfoRequest = async () => {
   }).then(checkResponse);
 };
 
-export const patchUserInfoRequest = async ({ email, password, name }) => {
+export const patchUserInfoRequest = async ({ email, password, name }:TFormValues) => {
   const { accessToken } = authTokens();
   return await fetch(`${urlAPI}/auth/user`, {
     method: "PATCH",

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./ingredients-category.module.css";
 import { Ingredient } from "../ingredient/ingredient";
-import { TIngredient } from "../../types/data";
+import { TIngredient } from "../../services/types/data";
 
 interface IIngredientsCategoryProps {
   id: string;

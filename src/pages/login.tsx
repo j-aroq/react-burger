@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
@@ -12,13 +12,13 @@ import { useForm } from "../hooks/useForm";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const { values, handleChange } = useForm({ email: "", password: "" });
 
   const submitLoginForm = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUser(values.email, values.password));
+    dispatch(loginUser(values));
   };
 
   return (

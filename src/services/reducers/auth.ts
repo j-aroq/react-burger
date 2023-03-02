@@ -23,16 +23,25 @@ import {
   PATCH_USER_INFO_REQUEST,
   PATCH_USER_INFO_REQUEST_SUCCESS,
   PATCH_USER_INFO_REQUEST_ERROR,
-} from "../actions/auth";
+} from "../constants/index";
+import { TAuthActions } from "../actions/auth";
+import { TUser } from "../types/data";
 
-const initialState = {
+type TAuthState = {
+  user: TUser|null,
+  request: boolean,
+  requestFailed: boolean,
+  gotResetPasswordCode: boolean,
+};
+
+const authInitialState: TAuthState = {
   user: null,
   request: false,
   requestFailed: false,
   gotResetPasswordCode: false,
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = authInitialState, action: TAuthActions): TAuthState => {
   switch (action.type) {
     case REGISTER_USER_REQUEST:
       return {
@@ -44,7 +53,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         request: false,
         requestFailed: false,
-        user: action.payload,
+        user: action.user,
       };
     case REGISTER_USER_REQUEST_ERROR:
       return {
@@ -62,7 +71,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         request: false,
         requestFailed: false,
-        user: action.payload,
+        user: action.user,
       };
     case LOGIN_USER_REQUEST_ERROR:
       return {
@@ -135,7 +144,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         request: false,
         requestFailed: false,
-        user: action.payload,
+        user: action.user,
       };
     case GET_USER_INFO_REQUEST_ERROR:
       return {
@@ -153,7 +162,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         request: false,
         requestFailed: false,
-        user: action.payload,
+        user: action.user,
       };
     case PATCH_USER_INFO_REQUEST_ERROR:
       return {

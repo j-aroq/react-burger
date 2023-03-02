@@ -1,16 +1,15 @@
-import React, { FunctionComponent} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "../../hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./ingredient-details.module.css";
 import { IngredientEnergyValue } from "../ingredient-energy-value/ingredient-energy-value";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getItems } from "../../utils/state";
-import { TIngredient } from "../../types/data";
+import { TIngredient } from "../../services/types/data";
 
-// export const IngredientDetails:FunctionComponent = () => {
 export function IngredientDetails() {
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [item, setItem] = React.useState<TIngredient>();
   const items = useSelector(getItems);

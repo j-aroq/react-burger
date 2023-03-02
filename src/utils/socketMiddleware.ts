@@ -1,9 +1,11 @@
 import { authTokens } from "./auth";
+import { AnyAction, MiddlewareAPI } from "redux";
+import { TWsAction } from "../services/types/data";
 
-export const socketMiddleware = (wsUrl, wsActions, auth) => (store) => {
-  let socket = null;
+export const socketMiddleware = (wsUrl: string, wsActions: TWsAction, auth: boolean) => (store: MiddlewareAPI) => {
+  let socket: WebSocket | undefined;
   let connected = false; // eslint-disable-line
-  return (next) => (action) => {
+  return (next: (i: AnyAction) => void) => (action: AnyAction) => {
     const { dispatch } = store;
     const { type, payload } = action;
     const {

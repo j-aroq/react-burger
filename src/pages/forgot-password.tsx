@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../hooks";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
@@ -12,7 +12,7 @@ import { getResetCode } from "../utils/state";
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const gotResetPasswordCode = useSelector(getResetCode);
   const { values, handleChange } = useForm({ email: "" });

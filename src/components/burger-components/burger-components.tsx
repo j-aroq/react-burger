@@ -1,16 +1,16 @@
 import React, {FC} from "react";
-import { useDispatch } from "react-redux";
-import { useDrag, useDrop, XYCoord } from "react-dnd";
+import { useDispatch } from "../../hooks";
+import { useDrag, useDrop } from "react-dnd";
 import styles from "./burger-components.module.css";
 import {
   REMOVE_INGREDIENT,
   CHANGE_INGREDIENT_POSITION,
-} from "../../services/actions/order";
+} from "../../services/constants/index";
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TIngredient } from "../../types/data";
+import { TIngredient } from "../../services/types/data";
 
 interface IBurgerComponentProps {
   componentData: TIngredient;
@@ -27,7 +27,7 @@ export const BurgerComponent: FC<IBurgerComponentProps> = ({
   isLocked,
   bunTypeName,
 }) => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const ref = React.useRef<any>(null);
 
   const onDeleteIngredient = (componentDataUid: string) => {

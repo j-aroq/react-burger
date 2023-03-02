@@ -7,9 +7,19 @@ import {
   POST_ORDER_REQUEST_ERROR,
   DELETE_ORDER,
   CHANGE_INGREDIENT_POSITION,
-} from "../actions/order";
+} from "../constants/index";
+import { TOrderActions } from "../actions/order";
+import { TIngredient } from "../types/data";
 
-const initialState = {
+type TOrderState = {
+  burgerData: TIngredient[],
+
+  orderNumber: number|null,
+  orderRequest: boolean,
+  orderRequestFailed: boolean,
+};
+
+const orderInitialState: TOrderState = {
   burgerData: [],
 
   orderNumber: null,
@@ -17,7 +27,7 @@ const initialState = {
   orderRequestFailed: false,
 };
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = orderInitialState, action: TOrderActions): TOrderState => {
   switch (action.type) {
     case ADD_BUN: {
       const bunIndex = state.burgerData.findIndex(

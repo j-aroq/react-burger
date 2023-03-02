@@ -3,11 +3,11 @@ import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { FC, ReactNode } from "react";
 import ReactDOM from "react-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks";
 import { useParams } from "react-router-dom";
 import { getOrders, getOrdersAuth } from "../../utils/state";
 import { useLocation } from "react-router";
-import { TOrder } from "../../types/data";
+import { TOrder } from "../../services/types/data";
 
 const modalRoot = document.getElementById("modals");
 

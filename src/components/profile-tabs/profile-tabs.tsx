@@ -1,5 +1,5 @@
 import styles from "./profile-tabs.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../hooks";
 import { NavLink } from "react-router-dom";
 import { authTokens } from "../../utils/auth";
 import { logoutUser } from "../../services/actions/auth";
@@ -10,7 +10,7 @@ interface IProfileTabsProps {
 }
 
 export const ProfileTabs: FC<IProfileTabsProps> = ({ text }) => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const { refreshToken } = authTokens();
 
   let activeStyle = {

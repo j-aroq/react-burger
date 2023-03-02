@@ -2,14 +2,14 @@ import { AppHeader } from "../components/app-header/app-header";
 import styles from "./order.module.css";
 import { Order } from "../components/order/order";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../hooks";
 import { useParams } from "react-router-dom";
 import { getOrders, getOrdersAuth } from "../utils/state";
 import { useLocation } from "react-router";
 import {
   WS_CONNECTION_START_AUTH,
   WS_CONNECTION_CLOSE_AUTH,
-} from "../services/actions/ws";
+} from "../services/constants/index";
 
 export function OrderPage() {
   const dispatch = useDispatch();

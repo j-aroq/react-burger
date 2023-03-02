@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks";
 import {
   CurrencyIcon,
   FormattedDate,
@@ -8,7 +8,7 @@ import {
 import styles from "./feed-order.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { getItems } from "../../utils/state";
-import { TOrder, TIngredient } from "../../types/data";
+import { TOrder, TIngredient } from "../../services/types/data";
 
 interface IFeedOrderProps {
   order: TOrder;
@@ -62,15 +62,35 @@ export const FeedOrder: FC<IFeedOrderProps> = ({ order, showOrderStatus }) => {
     }
   }, [navigate, location, order._id]);
 
+  // React.useEffect(() => {
+  //   const { ingredients: orderIngredients } = order;
+  //   setOrderIngredients(
+  //     orderIngredients
+  //       .map((orderIngredient:string) =>
+  //         items.find((item) => item._id === orderIngredient)
+  //       )
+  //       .filter((item) => item !== undefined)
+  //   );
+  // }, [items, order]);
   React.useEffect(() => {
-    const { ingredients: orderIngredients } = order;
-    setOrderIngredients(
-      orderIngredients
-        .map((orderIngredient) =>
-          items.find((item: TIngredient) => item._id === orderIngredient)
-        )
-        .filter((item) => item !== undefined)
-    );
+    if (order) {
+      const { ingredients: orderIngredients } = order;
+      const ingredientsArr = Array.from(new Set(orderIngredients));
+
+      setOrderIngredients(
+        ingredientsArr
+          .map((orderIngredient: string) => {
+            const ingredient = items.find(
+              (item) => item._id === orderIngredient
+            );
+
+            return ingredient === undefined
+              ? undefined
+              : ingredient;
+          })
+          .filter((ingredient) => ingredient !== undefined) as TIngredient[]
+      );
+    }
   }, [items, order]);
 
   return (

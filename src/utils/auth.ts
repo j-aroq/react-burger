@@ -1,6 +1,12 @@
 import { setCookie, getCookie } from "./cookie";
 
-export const setCookies = (accessToken, refreshToken) => {
+export const setCookies = ({
+  accessToken,
+  refreshToken,
+} : {
+  accessToken: string;
+  refreshToken: string;
+}) => {
   const expirationAt = new Date(new Date().getTime() + 20 * 60 * 1000);
 
   setCookie("accessToken", accessToken.split("Bearer ")[1], {

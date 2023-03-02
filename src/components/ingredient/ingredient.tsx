@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks";
 import { useDrag } from "react-dnd";
 import styles from "./ingredient.module.css";
 import {
@@ -8,7 +8,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getBurgerData } from "../../utils/state";
-import { TIngredient } from "../../types/data";
+import { TIngredient } from "../../services/types/data";
 
 interface IIngredientProps {
   ingredientData: TIngredient;

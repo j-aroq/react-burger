@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from "react";
-import { TFormValues } from "../types/data";
+import { TFormValues } from "../services/types/data";
 
 export function useForm(inputValues: TFormValues) {
   const [values, setValues] = useState<TFormValues>(inputValues);

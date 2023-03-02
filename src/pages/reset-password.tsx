@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../hooks";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AppHeader } from "../components/app-header/app-header";
 import {
@@ -13,14 +13,14 @@ import { getResetCode } from "../utils/state";
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const gotResetPasswordCode = useSelector(getResetCode);
   const { values, handleChange } = useForm({ password: "", token: "" });
 
   const submitResetPasswordForm = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(changePassword(values.password, values.token));
+    dispatch(changePassword(values));
     navigate("/login");
   };
 

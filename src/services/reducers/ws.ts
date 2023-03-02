@@ -3,9 +3,20 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
-} from "../actions/ws";
+} from "../constants/index";
+import { TWsActions } from "../actions/ws";
+import { TOrder } from "../types/data";
+import { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+type TWsState = {
+  wsConnected: boolean,
+  error: PayloadAction | null,
+  orders: TOrder[]
+  total: number|null,
+  totalToday: number|null,
+};
+
+const wsInitialState: TWsState = {
   wsConnected: false,
   error: null,
   orders: [],
@@ -13,7 +24,7 @@ const initialState = {
   totalToday: null,
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (state = wsInitialState, action: TWsActions): TWsState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {

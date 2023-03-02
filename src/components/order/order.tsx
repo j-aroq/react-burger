@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks";
 import { useParams } from "react-router-dom";
 import {
   CurrencyIcon,
@@ -9,17 +9,17 @@ import styles from "./order.module.css";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSE,
-} from "../../services/actions/ws";
+} from "../../services/constants/index";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getItems, getOrdersAuth, getOrders } from "../../utils/state";
 import { useLocation } from "react-router";
-import { TOrder, TIngredient } from "../../types/data";
+import { TOrder, TIngredient } from "../../services/types/data";
 
 export function Order() {
   const { id } = useParams();
   const items:TIngredient[] = useSelector(getItems);
-  const [orderIngredients, setOrderIngredients] = React.useState<TIngredient[]>();
-  const dispatch: any = useDispatch();
+  const [orderIngredients, setOrderIngredients] = React.useState<TIngredient[]>([]);
+  const dispatch = useDispatch();
   const location = useLocation();
   const ordersArr = useSelector(getOrders);
   const ordersAuthArr = useSelector(getOrdersAuth);

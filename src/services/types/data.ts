@@ -1,3 +1,11 @@
+import { wsActions, wsActionsAuth } from "../../utils/store"
+
+export type TUser = {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export type TFormValues = {
   email?: string;
   password?: string;
@@ -27,3 +35,11 @@ export type TOrder = {
   createdAt: Date;
   ingredients: string[];
 }
+
+export type TWsAction = typeof wsActions | typeof wsActionsAuth;
+
+export type TWsMessage = {
+  orders: TOrder[];
+  total: number|null;
+  totalToday: number|null;
+};

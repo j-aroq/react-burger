@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useCallback, useEffect, FC, ReactElement, ReactNode } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useEffect, FC, ReactElement } from "react";
+import { useDispatch, useSelector } from "../hooks";
 import { authTokens } from "../utils/auth";
 import { getUserInfo, getAccessToken } from "../services/actions/auth";
 import { getUser } from "../utils/state";
@@ -11,7 +11,7 @@ interface IProtectedRouteProps {
 }
 
 export const ProtectedRouteElement: FC<IProtectedRouteProps> = ({ element, accessType }) => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const location = useLocation();
   const { state: locationState } = useLocation();
   const user = useSelector(getUser);
