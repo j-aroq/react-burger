@@ -1,6 +1,6 @@
 import { TFormValues } from "../services/types/data";
 import { authTokens } from "./auth";
-import { TAuthResponse, TCodeResponse, TIngredientResponse, TOrderResponse, TResponse, TTokenResponse, TUserResponse } from "../services/types/api";
+import { TAuthResponse, TIngredientResponse, TOrderResponse, TResponse, TTokenResponse, TUserResponse } from "../services/types/api";
 
 const urlAPI = "https://norma.nomoreparties.space/api";
 
@@ -70,7 +70,6 @@ export const codeRequest = async ({email}:TFormValues) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(email),
-  // }).then((res) => checkResponse<TCodeResponse>(res));
   }).then(checkResponse);
 };
 

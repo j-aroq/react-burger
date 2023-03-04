@@ -22,7 +22,3 @@ export type TUserResponse = {
 };
 
 export type TAuthResponse = TTokenResponse & TUserResponse;
-
-export type TCodeResponse = {
-  data: any;
-};
