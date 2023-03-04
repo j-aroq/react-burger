@@ -1,16 +1,17 @@
 import { TFormValues } from "../services/types/data";
 import { authTokens } from "./auth";
+import { TAuthResponse, TCodeResponse, TIngredientResponse, TOrderResponse, TResponse, TTokenResponse, TUserResponse } from "../services/types/api";
+
 const urlAPI = "https://norma.nomoreparties.space/api";
 
-const checkResponse = (res:Response) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
+const checkResponse = <T>(res: Response) => {
+  return res.ok 
+    ? res.json().then((data) => data as TResponse<T>) 
+    : Promise.reject(res.status);
 };
 
 export function loadIngredients() {
-  return fetch(`${urlAPI}/ingredients`).then(checkResponse);
+  return fetch(`${urlAPI}/ingredients`).then((res) => checkResponse<TIngredientResponse>(res));
 }
 
 export function sendOrder(ingredientsID: string[]) {
@@ -24,7 +25,7 @@ export function sendOrder(ingredientsID: string[]) {
     body: JSON.stringify({
       ingredients: ingredientsID,
     }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TOrderResponse>(res));
 }
 
 export const registrationRequest = async ({ email, password, name }:TFormValues) => {
@@ -39,7 +40,7 @@ export const registrationRequest = async ({ email, password, name }:TFormValues)
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify({ email, password, name }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TAuthResponse>(res));
 };
 
 export const loginRequest = async ({ email, password }:TFormValues) => {
@@ -54,7 +55,7 @@ export const loginRequest = async ({ email, password }:TFormValues) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify({ email, password }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TAuthResponse>(res));
 };
 
 export const codeRequest = async ({email}:TFormValues) => {
@@ -69,6 +70,7 @@ export const codeRequest = async ({email}:TFormValues) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(email),
+  // }).then((res) => checkResponse<TCodeResponse>(res));
   }).then(checkResponse);
 };
 
@@ -99,7 +101,7 @@ export const accessTokenRequest = async (refreshToken:string|undefined) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify({ token: refreshToken }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TTokenResponse>(res));
 };
 
 export const logoutRequest = async (refreshToken:string|undefined) => {
@@ -130,7 +132,7 @@ export const getUserInfoRequest = async () => {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TUserResponse>(res));
 };
 
 export const patchUserInfoRequest = async ({ email, password, name }:TFormValues) => {
@@ -147,5 +149,5 @@ export const patchUserInfoRequest = async ({ email, password, name }:TFormValues
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify({ email, password, name }),
-  }).then(checkResponse);
+  }).then((res) => checkResponse<TUserResponse>(res));
 };

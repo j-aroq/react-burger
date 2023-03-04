@@ -6,6 +6,7 @@ import {
 import { loadIngredients } from "../../utils/api";
 import { TIngredient } from "../types/data";
 import { AppDispatch } from "../types";
+import { TIngredientResponse, TResponse } from "../types/api";
 
 export interface IGetIngredients {
   readonly type: typeof GET_INGREDIENTS_REQUEST;
@@ -35,7 +36,8 @@ export const getIngredients = () => {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });
-    loadIngredients().then((res) => {
+    loadIngredients()
+    .then((res) => {
       if (res && res.success) {
         dispatch(getIngredientsSuccess(res.data));
       } else {
