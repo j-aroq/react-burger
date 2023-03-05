@@ -25,10 +25,11 @@
     "web-vitals": "2.1.4"
   },
   "devDependencies": {
-    "@types/jest": "27.5.2",
-    "@types/node": "16.11.65",
-    "@types/react": "18.0.21",
-    "@types/react-dom": "18.0.6",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.65",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@types/uuid": "^9.0.1",
     "gh-pages": "4.0.0"
   },
   "scripts": {
