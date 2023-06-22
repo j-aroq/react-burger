@@ -1,6 +1,6 @@
 # Проект "Stellar Burger"
 
-[Ссылка на проект](https://j-aroq.github.io/)
+[Ссылка на проект](https://j-aroq.github.io/react-burger/)
 -------------------------
 
 **STACK**
